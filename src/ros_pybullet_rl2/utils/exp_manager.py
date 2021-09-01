@@ -117,8 +117,8 @@ class ExperimentManager(object):
         if self.trained_agent != "":
             self.trained_agent = self.ros_pybullet_rl2_dir + '/' + self.trained_agent
             # self.best_model_zip = self.trained_agent + '/best_model.zip'
-            assert args.trained_agent.endswith(".zip") and os.path.isfile(
-                args.trained_agent
+            assert self.trained_agent.endswith(".zip") and os.path.isfile(
+                self.trained_agent
                 ), "The trained_agent must be a valid path to a .zip file"
         self.continue_training = self.trained_agent.endswith(".zip") and os.path.isfile(self.trained_agent)
         self.truncate_last_trajectory = truncate_last_trajectory
