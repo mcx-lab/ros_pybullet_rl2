@@ -11,15 +11,14 @@
     <arg name="config_file_env" default="$(find ros_pybullet_rl2)/config/$(arg env_config)" />
     <arg name="ros_pybullet_rl2_dir" default="$(find ros_pybullet_rl2)/src/ros_pybullet_rl2" />
     <arg name="main_dir" default="$(find ros_pybullet_rl2)"/>
-    <!--arg name="environment" default="$(find mbot_simulation_environments)/worlds/isr-testbed.world" /-->
-    <!--arg name="env_obj_path" default="$(find ros_pybullet_rl2)/common/test/obj" /-->
+
     <arg name="robot_urdf_path" default="$(find omnirobot_v3)/urdf/omnirobot_v3.urdf" />
 
     <!-- upload urdf model to ROS param server from its xacro file, remove if directly using .urdf robot model -->
     <param name="robot_description"
            command="$(find xacro)/xacro --inorder $(arg robot_urdf_path)" /> 
 
-    <!--train.py node-->
+    <!--validate.py node-->
     <node pkg="ros_pybullet_rl2" type="ros_pybullet_validate_node" name="validation" output="screen" required="true">
         <rosparam file="$(arg config_file_validate)" command="load" />
         <rosparam file="$(arg config_file_pybullet)" command="load" />

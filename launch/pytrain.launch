@@ -9,12 +9,10 @@
     <arg name="config_file_train" default="$(find ros_pybullet_rl2)/config/non-ros/pyomnirobot_training_params.yaml" />
     <arg name="config_file_pybullet" default="$(find ros_pybullet_rl2)/config/non-ros/pyomnirobot_pybullet_params.yaml" />
     <arg name="config_file_env" default="$(find ros_pybullet_rl2)/config/$(arg env_config)" />
-    
-    <arg name="training_hyperparams_dir" default="$(find ros_pybullet_rl2)/src/ros_pybullet_rl2/hyperparams" />
+
     <arg name="ros_pybullet_rl2_dir" default="$(find ros_pybullet_rl2)/src/ros_pybullet_rl2" />
     <arg name="main_dir" default="$(find ros_pybullet_rl2)"/>
-    <!--arg name="environment" default="$(find mbot_simulation_environments)/worlds/isr-testbed.world" /-->
-    <!--arg name="env_obj_path" default="$(find ros_pybullet_rl2)/common/test/obj" /-->
+    
     <arg name="robot_urdf_path" default="$(find omnirobot_v3)/urdf/omnirobot_v3_1LiDAR.urdf" />
 
     <!-- upload urdf model to ROS param server from its xacro file, remove if directly using .urdf robot model -->
@@ -28,7 +26,6 @@
         <rosparam file="$(arg config_file_env)" command="load" />
         <param name="generate_env" value="$(arg generate_env)"/>
         <param name="load_env" value="$(arg load_env)"/>
-        <param name="training_hyperparams_dir" value="$(arg training_hyperparams_dir)" />
         <param name="ros_pybullet_rl2_dir" value="$(arg ros_pybullet_rl2_dir)" />
         <param name="main_dir" value="$(arg main_dir)" />
         <!--param name="env_obj_path" value="$(arg env_obj_path)" /-->

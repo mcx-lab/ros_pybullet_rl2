@@ -5,8 +5,8 @@ env:                        PyOmnibase-v0
 # environment ID
 log_folder:                 trained_agents
 # Default: trained_agents, path to load trained_agents 
-algo:                       ppo2
-# RL Algorithm, choices=list(ALGOS.keys()), default=ppo2
+algo:                       ppo
+# RL Algorithm, choices=list(ALGOS.keys()), default=ppo
 n_timesteps:                10000
 # Total number of timesteps allowed to run. Default = 1000
 n_envs:                     1

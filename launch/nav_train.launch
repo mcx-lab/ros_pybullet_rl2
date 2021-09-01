@@ -11,7 +11,6 @@
     <arg name="config_file_env" value="$(find ros_pybullet_rl2)/config/$(arg env_config)" />
  
     <arg name="config_file_nav" default="$(find ros_pybullet_rl2)/config/omnirobot_sml_navigation_params.yaml" />
-    <arg name="training_hyperparams_dir" default="$(find ros_pybullet_rl2)/src/ros_pybullet_rl2/hyperparams" />
     <arg name="ros_pybullet_rl2_dir" default="$(find ros_pybullet_rl2)/src/ros_pybullet_rl2" />
     <arg name="main_dir" default="$(find ros_pybullet_rl2)"/>
 
@@ -29,7 +28,6 @@
         <rosparam file="$(arg config_file_nav)" command="load" />
         <param name="generate_env" value="$(arg generate_env)"/>
         <param name="load_env" value="$(arg load_env)"/>
-        <param name="training_hyperparams_dir" value="$(arg training_hyperparams_dir)" />
         <param name="ros_pybullet_rl2_dir" value="$(arg ros_pybullet_rl2_dir)" />
         <param name="main_dir" value="$(arg main_dir)" />
         <param name="is_validate" value="False" />
