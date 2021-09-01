@@ -66,10 +66,10 @@ gym_packages:               []
 # Additional external Gym environment package modules to import (e.g. gym_minigrid)
 hyperparams:                {'policy': 'MultiInputPolicy',
                               'policy_kwargs': "dict(log_std_init=-2,
-                       ortho_init=False,
-                       activation_fn=nn.ReLU,
-                       net_arch=[dict(pi=[64, 64], vf=[64, 64])]
-                       )"
+                               ortho_init=False,
+                               activation_fn=nn.ReLU,
+                               net_arch=[dict(pi=[64, 64], vf=[64, 64])]
+                               )"
 }
 # Use if there are hyperparameters to overwrite (otherwise: None), in format: learning_rate:0.01 train_freq:10
 # StoreDict format for hyperparams and env_kwargs: 

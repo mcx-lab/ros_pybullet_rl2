@@ -4,9 +4,8 @@ import argparse
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-from stable_baselines.bench import Monitor
-from stable_baselines import results_plotter
-from stable_baselines.results_plotter import load_results, ts2xy
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.results_plotter import load_results, ts2xy
 
 
 

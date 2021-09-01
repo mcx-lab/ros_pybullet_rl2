@@ -34,7 +34,6 @@ global env_kwargs
 global hyperparams
 
 class inputArguments():
-    # def __init__(self, env, tb, i, algo, n, log_interval, eval_freq, eval_episodes, save_freq, f, seed, n_trials, optimize, n_jobs, samplers, pruner, verbose, gym_packages, params, uuid, env_kwargs):
     def __init__(self):
         self.env = rospy.get_param('~env')
         self.tensorboard_log = rospy.get_param('~tensorboard_log')
@@ -157,48 +156,4 @@ def run():
         exp_manager.hyperparameters_optimization()
 
     rospy.signal_shutdown('Training complete. Shutting down.\n________________________________')
-
-
-    '''
-    ### Needed especially to train in navigation environment.
-    def shutdown_save_hook(): # for signal, need to give two inputs. As on_shutdown hook, no inputs. 
-        # Only save worker of rank 0 when using mpi
-        if rank == 0:
-            print("\nSaving to {}".format(save_path))
-            model.save("{}/{}".format(save_path, env_id))
-        if args.trained_agent != "":
-            print("\nPolicy has been trained using: ", best_model_zip)
-            print("\n")
-        if normalize:
-            # Important: save the running average, for testing the agent we need that normalization
-            print(params_path)
-            model.get_vec_normalize_env().save(os.path.join(params_path, 'vecnormalize.pkl'))
-        rospy.signal_shutdown('\nTraining aborted. Shutting down.\n________________________________')
-
-
-    try:
-        # signal.signal(signal.SIGINT, shutdown_save_hook)
-        rospy.on_shutdown(shutdown_save_hook)
-        model.learn(n_timesteps, **kwargs)
-    except KeyboardInterrupt:
-        print("Error encountered, shutting off training.")
-        pass
-    
-
-
-    # Only save worker of rank 0 when using mpi
-    if rank == 0:
-        print("Saving to {}".format(save_path))
-        model.save("{}/{}".format(save_path, env_id))
-    if args.trained_agent != "":
-        print("\nPolicy has been trained using: ", best_model_zip)
-        print("\n")
-
-    if normalize:
-        # Important: save the running average, for testing the agent we need that normalization
-        model.get_vec_normalize_env().save(os.path.join(params_path, 'vecnormalize.pkl'))
-
-    # rospy.logwarn('killing training node now...')
-    rospy.signal_shutdown('Training complete. Shutting down.\n________________________________')
-    '''
 
