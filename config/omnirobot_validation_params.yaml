@@ -1,18 +1,20 @@
 # Configuration parameters for Omnirobot training validation in pybullet ros simulator
 # ________________________________________________________________________________
 
-env:                        PyOmnibase-v0 
+env:                        NavOmnibase-v1
 # environment ID
 log_folder:                 trained_agents
 # Default: trained_agents, path to load trained_agents 
 algo:                       ppo
 # RL Algorithm, choices=list(ALGOS.keys()), default=ppo
 n_timesteps:                10000
-# Total number of timesteps allowed to run. Default = 1000
+# Total number of timesteps allowed to run. Default = 10000
+num_threads:                -1
+# Number of threads for PyTorch (-1 to use default)
 n_envs:                     1
 # Number of environments
 exp_id:                     0
-# Experiment ID (default: -1, no exp folder, 0: latest)', default=-1)
+# Experiment ID (default: 0: latest, -1: no exp folder)', default=0)
 verbose:                    1 
 # Verbose mode (0: no output, 1: INFO)
 render:                     True
@@ -21,19 +23,24 @@ deterministic:              True
 # Use deterministic actions
 stochastic:                 False
 # Use stochatic actions (for DDPG/DQN/SAC)
+### Use either load_best, load_checkpoint, or load_last_checkpoint
 load_best:                  True
 # Load best model instead of last model if available
+load_checkpoint:            None
+# Load checkpoint instead of last model if available, pass the number of timesteps corresponding to it (default: None)
+load_last_checkpoint:       False
+# Load last checkpoint instead of last model if available (default: False)
+###
 norm_reward:                True
 # Normalize reward if applicable (trained with VecNormalize)
 seed:                       0
-# Random generator seed, 0
+# Random generator seed, default: 0
 reward_log:                 trained_agents/validation
 # Where to log reward
 gym_packages:               [] 
 # if there are any other packages you want to call, Additional external Gym environemnt package modules to import (e.g. gym_minigrid)
 env_kwargs:                 None 
 # Optional keyword argument to pass to the env constructor
-
 # StoreDict action for hyperparams and env_kwargs: 
 # In: args1:0.0 args2:"dict(a=1)"
 # Out: {'args1': 0.0, arg2: dict(a=1)}
