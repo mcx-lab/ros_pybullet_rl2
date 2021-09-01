@@ -1,0 +1,10 @@
+# Configuration sensors for navigation parameters for omnirobot in pybullet ros simulator
+
+# To control the reward policy values
+# omnirobot SML navigation plugins, will be loaded during runtime
+# -----------------------------------------------------------------------
+detect_radius:          1.0           
+
+kp_linear:              0.01         
+
+kf_lower:               0.1

@@ -1,0 +1,3236 @@
+
+# pybullet environment creation, will be loaded during runtime
+# -----------------------------------------------------------------------
+# These environment objects to be loaded should be placed in pybullet-gym/pybulletgym/envs/assets/scenes/stadium directory. 
+# Else, can edit the directory to look for your desired objects in pybullet-gym/pybulletgym/envs/yc/stadium.py. 
+# env_obj:                ['Door_4','Wall_0','Wall_19','obstacle_1','obstacle_2','obstacle_3','obstacle_4']
+
+# These ENV objects are generated via Pybullet create multi body function.
+
+### stadium maze environment ###
+env_obj0:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [-6,8,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,7.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.5,6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4.5,6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9.5,6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-3.5,4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-8,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj11':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-4,0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj12':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4.5,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj13':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3,0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj14':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj15':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj16':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1,-1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj17':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj18':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj19':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-6,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj20':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2.5,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj21':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj22':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5.5,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj23':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,-2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj24':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,-4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj25':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-3,-4.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj26':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2,-4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj27':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,-4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj28': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.1,
+                                        'height':   1.5,
+                                        'baseMass': 0,
+                                        'basePosition': [-5,-4.5,0.7],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj29':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-6,-5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj30':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,-5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj31':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj32':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,3.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [10,-8,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj33':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5.5,-6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj34':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj35':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [8,-8.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj36':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [8.5,-6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj37':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4.5,-7,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj38':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,-7.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj39':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9.5,-7,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj40':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2.5,-8,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj41':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5.5,-8,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj42':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [8.5,-8,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj43':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4.5,-9,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj44':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3,-9.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj45':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,-9.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj46':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9.5,-9,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj47':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-10.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj48':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,-10.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj49':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,-10.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj50':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [4.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,-11,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {'obj1':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [2.5,3.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.6,
+                                        'baseMass': 73,
+                                        'basePosition': [5.5,1.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.8,
+                                        'baseMass': 75,
+                                        'basePosition': [-0.5,-6.5,0.9],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1,
+                                        'baseMass': 74, 
+                                        'basePosition': [-2.5,3.5,0.5],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [-6.5,5.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                }
+                    }
+        action_angle_set: [] # If want to define specific movement for dynamic object, use None for random movement. 
+        goal_set:   '[]' # Do not fill to generate random goals automatically. 
+
+
+### simpler environments for starters ###
+# Simple straight line
+env_obj1:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [10,0.1,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [0,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [10,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {
+                                }
+                    }
+        action_angle_set: [] # If want to define specific movement for dynamic object, use None for random movement. 
+        goal_set:   '[
+                    (1,0),
+                    (1,0),
+                    (1,0),
+                    (2,0),
+                    (2,0),
+                    (2,0),
+                    (3,0),
+                    (3,0),
+                    (3,0),
+                    (4,0),
+                    (4,0),
+                    (4,0),
+                    (5,0),
+                    (5,0),
+                    (5,0)
+                ]'
+
+                #    '[
+                #    (1,0),
+                #    (2,0),
+                #    (3,0),
+                #    (4,0),
+                #    (5,0),
+                #    (6,0),
+                #    (7,0),
+                #    (8,0),
+                #    (9,0),
+                #    (10,0),
+                #    (-1,0),
+                #    (-2,0),
+                #    (-3,0),
+                #    (-4,0),
+                #    (-5,0),
+                #    (-6,0),
+                #    (-7,0),
+                #    (-8,0),
+                #    (-9,0),
+                #    (-10,0)
+                #]'
+        validation_goal_set:    '[
+                                (1,0),
+                                (2,0),
+                                (3,0),
+                                (4,0),
+                                (5,0)
+                            ]'
+
+# Curvy corridor
+env_obj2:
+        env:            {'static':  {'obj1': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [0,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [2,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [4,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [6,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [8,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [10,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [1,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [3,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [7,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj11': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [9,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj12': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   1,
+                                        'height':   1,
+                                        'baseMass': 0,
+                                        'basePosition': [11,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj13':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj14':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2.5,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj15':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-3,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj16':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-4,-4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj17':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj18':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-6,-6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj19':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,-7,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj20':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-8,-8,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj21':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-9,-9,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj22':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-0.5,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj23':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2,-4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj24':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-3,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj25':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-4,-6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj26':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,-7,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj27':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-6,-8,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj28':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,-9,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj29':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-8,-9.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj30':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [5.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj31':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [4.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-6,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj32':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-3,2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj33':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-4,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj34':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj35':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-6,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj36':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj37':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-8,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj38':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-9,2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj39':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-10,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {
+                                }
+                    }
+        action_angle_set: [] # If want to define specific movement for dynamic object, use None to skip this object. 
+        goal_set:   '[
+                    (2,-0.5),
+                    (2,-0.5),
+                    (2,-0.5),
+                    (3,-0.5),
+                    (3,-0.5),
+                    (3,-0.5),
+                    (4,0.4),
+                    (4,0.4),
+                    (4,0.4),
+                    (5,0.5),
+                    (5,0.5),
+                    (5,0.5)
+                ]'
+                #    '[
+                #    (2,-0.5),
+                #    (3,-0.5),
+                #    (4,0.5),
+                #    (5,0.5),
+                #    (6,0.5),
+                #    (7,-0.5),
+                #    (8,-0.5),
+                #    (9,-0.5),
+                #    (10,0.5),
+                #    (11,0.5),
+                #    (-2.5,-2.5),
+                #    (-2.5,-4.5),
+                #    (-4.5,-6.5),
+                #    (-6.5,-8.5),
+                #    (-8.5,-9.5),
+                #    (-2.5,2.5),
+                #    (-4.5,2.5),
+                #    (-6.5,2.5),
+                #    (-8.5,2.5),
+                #    (-9.5,2.5)
+                #]'
+        validation_goal_set:    '[
+                                (2,-0.5),
+                                (3,-0.5),
+                                (4,0.4),
+                                (5,0.5)
+                            ]'
+
+# Twisting corridor
+env_obj3:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [10.1,0.1,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [0,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [10.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-3,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {
+                                }
+                    }
+        action_angle_set: [] # If want to define specific movement for dynamic object, use None to skip this object. 
+        goal_set:   '[
+                    (1,1),
+                    (1,1),
+                    (1,1),
+                    (2,1),
+                    (2,1),
+                    (2,1),
+                    (2,0),
+                    (2,0),
+                    (2,0),
+                    (2,-1),
+                    (2,-1),
+                    (2,-1),
+                    (3,-1),
+                    (3,-1),
+                    (3,-1),
+                    (4,-1),
+                    (4,-1),
+                    (4,-1),
+                    (4,0),
+                    (4,0),
+                    (4,0),
+                    (4,1),
+                    (4,1),
+                    (4,1),
+                    (5,1),
+                    (5,1),
+                    (5,1)
+                ]'
+        validation_goal_set:    '[
+                                (1,1),
+                                (2,0),
+                                (3,-1),
+                                (4,0),
+                                (5,1)
+                            ]'
+
+#                                (1,1),
+#                                (2,1),
+#                                (2,0),
+#                                (2,-1),
+#                                (3,-1),
+#                                (4,-1),
+#                                (4,0),
+#                                (4,1),
+
+# Straight line with dynamic obstacles
+env_obj4:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [6.1,0.1,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [4,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [10.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [4.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-6,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {'obj5':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [3,0.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [7.5,-0.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.70,
+                                        'baseMass': 75, 
+                                        'basePosition': [-4.5,1.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [-6.5,-0.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.8,
+                                        'baseMass': 75, 
+                                        'basePosition': [-8.5,0.5,0.9],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                }
+                    }
+        action_angle_set: [['np.pi','0'],['np.pi','-np.pi'],['-np.pi/4','3/4*np.pi'],['np.pi','0'],['np.pi/4','-3/4*np.pi']] # If want to define specific movement for dynamic object, use None to skip this object. 
+        goal_set:   '[
+                    (1.5,0.5),
+                    (1.5,0.5),
+                    (1.5,0.5),
+                    (2.5,-0.5),
+                    (2.5,-0.5),
+                    (2.5,-0.5),
+                    (3.5,0.5),
+                    (3.5,0.5),
+                    (3.5,0.5),
+                    (4.5,-0.5),
+                    (4.5,-0.5),
+                    (4.5,-0.5),
+                    (5.5,0.5),
+                    (5.5,0.5),
+                    (5.5,0.5)
+                ]'
+                #   '[ # for dyn_obj2: ['0','np.pi']
+                #    (1.5,0.5),
+                #    (2.5,-0.5),
+                #    (3.5,0.5),
+                #    (4.5,-0.5),
+                #    (5.5,0.5),
+                #    (6.5,-0.5),
+                #    (7.5,0.5),
+                #    (8.5,-0.5),
+                #    (9.5,0.5),
+                #    (9.5,-0.5),
+                #    (-2.5,-0.5),
+                #    (-2.5,1.5),
+                #    (-3.5,0.5),
+                #    (-4.5,0.5),
+                #    (-5.5,0.5),
+                #    (-6.5,0.5),
+                #    (-7.5,0.5),
+                #    (-8.5,0.5),
+                #    (-9.5,0.5),
+                #    (-9.5,-0.5)
+                #]'
+        validation_goal_set:    '[
+                                (5.5,0.5)
+                            ]'
+
+#                                (1.5,0.5),
+#                                (2.5,-0.5),
+#                                (3.5,0.5),
+#                                (4.5,-0.5),
+
+# T-junction with unseen static obstacles
+env_obj5:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.1,0.1,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [0,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj2':{
+#                                        'shapeType':'GEOM_BOX',
+#                                        'halfExtents':  [4.6,0.1,1],
+#                                        'baseMass': 0,
+#                                        'basePosition': [-0.5,-1,1],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 0, 
+                                        'basePosition': [2.5,4.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.80,
+                                        'baseMass': 0, 
+                                        'basePosition': [2.5,2.5,0.9],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [8,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [10,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [8.5,3.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj11':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [9.5,1.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj12':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj13':{
+#                                        'shapeType':'GEOM_BOX',
+#                                        'halfExtents':  [0.1,2.1,1],
+#                                        'baseMass': 0,
+#                                        'basePosition': [6,-3,1],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj13':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj14':{
+#                                        'shapeType':'GEOM_CYLINDER',
+#                                        'radius':   0.35,
+#                                        'height':   1.75,
+#                                        'baseMass': 0, 
+#                                        'basePosition': [4.5,-1.5,0.875],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+#                                    'obj15':{
+#                                        'shapeType':'GEOM_CYLINDER',
+#                                        'radius':   0.25,
+#                                        'height':   1.70,
+#                                        'baseMass': 0, 
+#                                        'basePosition': [5.5,-3.5,0.85],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj14':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [2.5,-1.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj15':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 0, 
+                                        'basePosition': [3.5,-3.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj16':{
+#                                        'shapeType':'GEOM_BOX',
+#                                        'halfExtents':  [2.1,0.1,1],
+#                                        'baseMass': 0,
+#                                        'basePosition': [8,-1,1],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj16':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj17':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj18':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-4,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj19':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 0, 
+                                        'basePosition': [-3,4,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj20':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 0, 
+                                        'basePosition': [-2.5,1.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj21':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5.5,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj22':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj23':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-10,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj24':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 0, 
+                                        'basePosition': [-8.5,4.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj25':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [-8.5,3.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj26':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [-7.5,2.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj27':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj28':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj29':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [-6.5,-2.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj30':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [-6.5,-3.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj31':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-8.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj32':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [10.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,7,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {
+                                }
+                    }
+        action_angle_set: []
+        goal_set:   '[
+                    (3,1.5),
+                    (3,1.5),
+                    (3,1.5),
+                    (3,-2.5),
+                    (3,-2.5),
+                    (3,-2.5),
+                    (3,3.5),
+                    (3,3.5),
+                    (3,3.5),
+                    (3,-4.5),
+                    (3,-4.5),
+                    (3,-4.5)
+                ]'
+                #    '[
+                #    (2.5,1.5),
+                #    (2.5,3.5),
+                #    (3.5,4.5),
+                #    (5.5,-2.5),
+                #    (4.5,-2.5),
+                #    (4.5,-4.5),
+                #    (8.5,1.5),
+                #    (9.5,2.5),
+                #    (9.5,3.5),
+                #    (8.5,4.5),
+                #    (-3.5,1.5),
+                #    (-2.5,3),
+                #    (-3.5,3),
+                #    (-5.5,-3.5),
+                #    (-5.5,-4.5),
+                #    (-6.5,-4.5),
+                #    (-8.5,2.5),
+                #    (-9.5,3.5),
+                #    (-9.5,4.5),
+                #    (-7.5,4.5)
+                #]'
+        validation_goal_set:    '[
+                                (3,1.5),
+                                (3,3.5),
+                                (3,-2.5),
+                                (3,-4.5)
+                            ]'
+
+# T-junction with dynamic obstacles
+env_obj6:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.1,0.1,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [0,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj2':{
+#                                        'shapeType':'GEOM_BOX',
+#                                        'halfExtents':  [4.6,0.1,1],
+#                                        'baseMass': 0,
+#                                        'basePosition': [-0.5,-1,1],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [8,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [10,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj12':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj13':{
+#                                        'shapeType':'GEOM_BOX',
+#                                        'halfExtents':  [0.1,2.1,1],
+#                                        'baseMass': 0,
+#                                        'basePosition': [6,-3,1],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj13':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj16':{
+#                                        'shapeType':'GEOM_BOX',
+#                                        'halfExtents':  [2.1,0.1,1],
+#                                        'baseMass': 0,
+#                                        'basePosition': [8,-1,1],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj16':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj17':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj18':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-4,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj21':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5.5,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj22':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj23':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-10,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj27':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj28':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-7,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj31':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-8.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj32':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [10.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,7,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {'obj6':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.80,
+                                        'baseMass': 76, 
+                                        'basePosition': [2.5,2.5,0.9],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [8.5,3.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+#                                    'obj15':{
+#                                        'shapeType':'GEOM_CYLINDER',
+#                                        'radius':   0.25,
+#                                        'height':   1.70,
+#                                        'baseMass': 74, 
+#                                        'basePosition': [5.5,-3.5,0.85],
+#                                        'baseOrientation':  [0,0,0,1]
+#                                        },
+                                    'obj15':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 74, 
+                                        'basePosition': [3.5,-3.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj19':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 74, 
+                                        'basePosition': [-3,4,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj26':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.75,
+                                        'baseMass': 0, 
+                                        'basePosition': [-7.5,2.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj29':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 76, 
+                                        'basePosition': [-6.5,-2.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj33':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.75,
+                                        'baseMass': 74, 
+                                        'basePosition': [-2.5,-0.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj34':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [7.5,0.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                }
+                    }
+        action_angle_set: [] # random movement
+        goal_set:   '[
+                    (3,1.5),
+                    (3,1.5),
+                    (3,1.5),
+                    (3,-2.5),
+                    (3,-2.5),
+                    (3,-2.5),
+                    (3,3.5),
+                    (3,3.5),
+                    (3,3.5),
+                    (3,-4.5),
+                    (3,-4.5),
+                    (3,-4.5)
+                ]'
+                #    '[
+                #    (2.5,1.5),
+                #    (2.5,3.5),
+                #    (3.5,4.5),
+                #    (7.5,-2.5),
+                #    (6.5,-2.5),
+                #    (6.5,-4.5),
+                #    (8.5,1.5),
+                #    (9.5,2.5),
+                #    (9.5,3.5),
+                #    (8.5,4.5),
+                #    (-3.5,1.5),
+                #    (-2.5,3),
+                #    (-3.5,3),
+                #    (-5.5,-3.5),
+                #    (-5.5,-4.5),
+                #    (-6.5,-4.5),
+                #    (-8.5,2.5),
+                #    (-9.5,3.5),
+                #    (-9.5,4.5),
+                #    (-7.5,4.5)
+                #]'
+        validation_goal_set:    '[
+                                (3,1.5),
+                                (3,3.5),
+                                (3,-2.5),
+                                (3,-4.5)
+                            ]'
+
+# Hall, circle goal
+env_obj7:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [5.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [5.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,5.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,5.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-5,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {
+                                }
+                    }
+        action_angle_set: [] # random movement
+        goal_set:   '[
+                    (2.0,0.0),
+                    (2.0,0.0),
+                    (2.0,0.0),
+                    (1.879,0.684),
+                    (1.879,0.684),
+                    (1.879,0.684),
+                    (1.532,1.285),
+                    (1.532,1.285),
+                    (1.532,1.285),
+                    (1,1.732),
+                    (1,1.732),
+                    (1,1.732),
+                    (0.347,1.969),
+                    (0.347,1.969),
+                    (0.347,1.969),
+                    (0.347,-1.969),
+                    (0.347,-1.969),
+                    (0.347,-1.969),
+                    (1,-1.732),
+                    (1,-1.732),
+                    (1,-1.732),
+                    (1.532,-1.285),
+                    (1.532,-1.285),
+                    (1.532,-1.285),
+                    (1.879,-0.684),
+                    (1.879,-0.684),
+                    (1.879,-0.684)
+                ]'
+        # (-0.347,1.969),
+        # (-1,1.732),
+        # (-1.532,1.285),
+        # (-1.879,0.684),
+        # (-2.0,0.0),
+        # (-1.879,-0.684),
+        # (-1.532,-1.285),
+        # (-1,-1.732),
+        # (-0.347,-1.969),
+        validation_goal_set:    '[
+                                (2.0,0.0),
+                                (1.879,0.684),
+                                (1.532,1.285),
+                                (1,1.732),
+                                (0.347,1.969),
+                                (0.347,-1.969),
+                                (1,-1.732),
+                                (1.532,-1.285),
+                                (1.879,-0.684)
+                            ]'
+        # (-0.347,1.969),
+        # (-1,1.732),
+        # (-1.532,1.285),
+        # (-1.879,0.684),
+        # (-2.0,0.0),
+        # (-1.879,-0.684),
+        # (-1.532,-1.285),
+        # (-1,-1.732),
+        # (-0.347,-1.969),
+
+# Static environment with deadends
+env_obj8:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1.5,0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1.5,-0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3.5,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3.5,0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3.5,-0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.6,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3.5,-1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {
+                                }
+                    }
+        action_angle_set: [] # random movement
+        goal_set:   '[
+                    (1.5,0),
+                    (1.5,0),
+                    (1.5,0),
+                    (2.5,0),
+                    (2.5,0),
+                    (2.5,0),
+                    (4,0),
+                    (4,0),
+                    (4,0),
+                    (4.5,1),
+                    (4.5,1),
+                    (4.5,1),
+                    (4.5,-1),
+                    (4.5,-1),
+                    (4.5,-1)
+                ]'
+        validation_goal_set:    '[
+                                (1.5,0),
+                                (2.5,0),
+                                (4,0),
+                                (4.5,1),
+                                (4.5,-1)
+                            ]'
+
+
+# Dynamic environment without static obstacles
+env_obj9:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [100,0,10],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {'obj2':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.80,
+                                        'baseMass': 76, 
+                                        'basePosition': [2.5,2.5,0.9],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [-5.5,3.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 74, 
+                                        'basePosition': [5.5,-3.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.70,
+                                        'baseMass': 74, 
+                                        'basePosition': [-3,4,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.75,
+                                        'baseMass': 80, 
+                                        'basePosition': [-7.5,2.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 76, 
+                                        'basePosition': [-4.5,-2.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.25,
+                                        'height':   1.75,
+                                        'baseMass': 74, 
+                                        'basePosition': [-2.5,-0.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.40,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [4.5,0.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.75,
+                                        'baseMass': 75, 
+                                        'basePosition': [-4.5,-7.5,0.875],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                }
+                    }
+        action_angle_set: [] # random movement
+        goal_set:   '[
+                    (1.0,1.0),
+                    (1.0,1.0),
+                    (1.0,1.0),
+                    (2.0,2.0),
+                    (2.0,2.0),
+                    (2.0,2.0),
+                    (3.0,3.0),
+                    (3.0,3.0),
+                    (3.0,3.0),
+                    (4.0,4.0),
+                    (4.0,4.0),
+                    (4.0,4.0),
+                    (5.0,5.0),
+                    (5.0,5.0),
+                    (5.0,5.0)
+                ]'
+        validation_goal_set:    '[
+                                (1.0,1.0),
+                                (2.0,2.0),
+                                (3.0,3.0),
+                                (4.0,4.0),
+                                (5.0,5.0)
+                            ]'
+
+### AV Lab Clean ###
+env_obj10:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.6,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [-1,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.75,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,4.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2.5,-1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [5.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.66,0.05,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6.5,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,5.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [4.60,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2.25,-9,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2.5,-7.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj11':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.75,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj12':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.75,-6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj13':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.5,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0.5,-7.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj14':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.5,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3.5,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj15':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj16':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj17':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.5,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2.5,-4.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj18':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,-2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj19':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj20':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1,-3.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj21':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.266,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-3.75,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj22':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.766,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9,-0.75,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj23':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.35,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [11.25,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj24':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [13.5,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj25':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.35,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [11.25,-0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj26':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,4.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [13.5,-5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj27':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.35,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [11.25,-10,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj28': {
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.85,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9,-9.25,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj29':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.35,1.0,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9.25,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj30':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9.5,5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj31':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.266,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5.5,4.25,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj32':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,2.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7.75,6,1],
+                                        'baseOrientation':  [0,0,0.312252,0.9499993]
+                                        },
+                                    'obj33':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,2.844,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,6,1],
+                                        'baseOrientation':  [0,0,-0.3826797,0.9238811]
+                                        },
+                                    'obj34':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.5,2.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj35':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [11.5,2.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj36':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-1.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj37':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-6.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj38':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [11.5,-7.0,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj39':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-7.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj40':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-8.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj41':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.5,-9.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj42':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [11.5,-9.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj43':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [10.5,-9.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj44':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1.5,2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj45':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj46':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj47':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj48':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj49':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.266,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1,-5.75,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {
+                                }
+                    }
+        action_angle_set: [] # If want to define specific movement for dynamic object, use None for random movement. 
+        goal_set:   '[
+                    (1,0),
+                    (1,0),
+                    (2,0),
+                    (2,0),
+                    (2,0),
+                    (3,0),
+                    (3,0),
+                    (3,0),
+                    (4,0),
+                    (4,0),
+                    (4,0),
+                    (5,0),
+                    (5,0),
+                    (5,0),
+                    (0,-2.0),
+                    (0,-2.0),
+                    (0,-2.0),
+                    (0,2.0),
+                    (0,2.0),
+                    (0,2.0),
+                    (2.0,-2.0),
+                    (2.0,-2.0),
+                    (2.0,-2.0),
+                    (4.0,-2.0),
+                    (4.0,-2.0),
+                    (4.0,-2.0),
+                    (5.0,1.0),
+                    (5.0,1.0),
+                    (5.0,1.0),
+                    (1,0)
+                ]'
+
+
+
+#                    (4.0,-2.0),
+#                    (4.0,-2.0),
+#                    (4.0,-2.0),
+#                    (8.0,0.5),
+#                    (8.0,0.5),
+#                    (8.0,0.5),
+#                    (8.0,-2.0),
+#                    (8.0,-2.0),
+#                    (8.0,-2.0),
+#                    (8.5,-4.0),
+#                    (8.5,-4.0),
+#                    (8.5,-4.0),
+#                    (8.0,-9.0),
+#                    (8.0,-9.0),
+#                    (8.0,-9.0),
+#                    (12.0,-4.0),
+#                    (12.0,-4.0),
+#                    (12.0,-4.0)
+
+        validation_goal_set:    '[
+                                (1,0),
+                                (2,0),
+                                (3,0),
+                                (4,0),
+                                (5,0),
+                                (0,-2.0),
+                                (0,2.0),
+                                (2.0,-2.0),
+                                (4.0,-2.0),
+                                (5.0,1.0)
+                            ]'
+                                #(1,0),
+                                #(2,0),
+                                #(3,0),
+                                #(4,0),
+                                #(5,0),
+                            #    (8.0,0.5),
+                            #    (8.0,-2.0),
+                            #    (8.5,-4.0),
+                            #    (8.0,-9.0),
+                            #    (12.0,-4.0)
+
+### AV Lab Clean (Dynamic) ###
+env_obj11:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.6,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [-1,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.75,0,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,4.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2.5,-1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [5.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.66,0.05,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6.5,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,5.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [4.60,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2.25,-9,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-2.5,-7.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj11':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.75,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj12':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1.75,-6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj13':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.5,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0.5,-7.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj14':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.5,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3.5,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj15':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj16':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [3.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj17':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.5,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2.5,-4.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj18':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,-2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj19':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3,-3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj20':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1,-3.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj21':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.266,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-3.75,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj22':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,2.766,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9,-0.75,3],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj23':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.35,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [11.25,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj24':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,1.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [13.5,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj25':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.35,0.5,1],
+                                        'baseMass': 0,
+                                        'basePosition': [11.25,-0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj26':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,4.6,1],
+                                        'baseMass': 0,
+                                        'basePosition': [13.5,-5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj27':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.35,0.1,1],
+                                        'baseMass': 0,
+                                        'basePosition': [11.25,-10,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj28': {
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.1,0.85,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9,-9.25,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj29':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.35,1.0,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9.25,-6.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj30':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9.5,5.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj31':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.266,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5.5,4.25,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj32':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,2.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7.75,6,1],
+                                        'baseOrientation':  [0,0,0.312252,0.9499993]
+                                        },
+                                    'obj33':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,2.844,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6,6,1],
+                                        'baseOrientation':  [0,0,-0.3826797,0.9238811]
+                                        },
+                                    'obj34':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.5,2.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj35':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [11.5,2.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj36':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-1.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj37':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-6.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj38':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [11.5,-7.0,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj39':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-7.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj40':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.75,-8.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj41':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [12.5,-9.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj42':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [11.5,-9.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj43':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.7,
+                                        'baseMass': 76, 
+                                        'basePosition': [10.5,-9.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj44':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1.5,2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj45':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.766,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj46':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj47':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj48':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj49':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.266,1],
+                                        'baseMass': 0,
+                                        'basePosition': [-1,-5.75,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {'obj1':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.30,
+                                        'height':   1.6,
+                                        'baseMass': 75, 
+                                        'basePosition': [8.5,-4.5,0.85],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.3,
+                                        'baseMass': 76.5,
+                                        'basePosition': [8.5,-9.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.6,
+                                        'baseMass': 76,
+                                        'basePosition': [5.5,-0.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.35,
+                                        'height':   1.6,
+                                        'baseMass': 77,
+                                        'basePosition': [-0.5,-3.0,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.6,
+                                        'baseMass': 76,
+                                        'basePosition': [8.5,0.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.3,
+                                        'height':   1.6,
+                                        'baseMass': 76,
+                                        'basePosition': [11.5,0.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                }
+                    }
+        action_angle_set: [['np.pi/2','np.pi/2'],['0','np.pi/2','0','-np.pi/2','0'],['np.pi','np.pi','-np.pi'],['np.pi/2','np.pi/2','-np.pi/2','-np.pi/2'],['np.pi','np.pi','-np.pi'],['np.pi','np.pi','-np.pi']] # If want to define specific movement for dynamic object, use None for random movement. 
+        goal_set:   '[
+                    (5,0, 0.0),
+                    (5,0, 0.0),
+                    (5,0, 0.0),
+                    (3.5, 2.0),
+                    (3.5, 2.0),
+                    (3.5, 2.0),
+                    (2.0,-2.0),
+                    (2.0,-2.0),
+                    (2.0,-2.0),
+                    (4.0,1.0),
+                    (4.0,1.0),
+                    (4.0,1.0),
+                    (4.0,-2.0),
+                    (4.0,-2.0),
+                    (4.0,-2.0),
+                    (8.0,0.5),
+                    (8.0,0.5),
+                    (8.0,0.5),
+                    (8.0,-2.0),
+                    (8.0,-2.0),
+                    (8.0,-2.0)
+                ]'
+
+#                    (3.5, 2.0),
+#                    (3.5, 2.0),
+#                    (3.5, 2.0),
+#                    (4.0,-2.0),
+#                    (4.0,-2.0),
+#                    (4.0,-2.0),
+#                    (8.0,0.5),
+#                    (8.0,0.5),
+#                    (8.0,0.5),
+#                    (8.0,-2.0),
+#                    (8.0,-2.0),
+#                    (8.0,-2.0),
+#                    (8.5,-4.0),
+#                    (8.5,-4.0),
+#                    (8.5,-4.0),
+#                    (8.0,-9.0),
+#                    (8.0,-9.0),
+#                    (8.0,-9.0),
+#                    (12.0,-4.0),
+#                    (12.0,-4.0),
+#                    (12.0,-4.0)
+
+#                    (1,0),
+#                    (1,0),
+#                    (1,0),
+#                    (2,0),
+#                    (2,0),
+#                    (2,0),
+#                    (3,0),
+#                    (3,0),
+#                    (3,0),
+#                    (4,0),
+#                    (4,0),
+#                    (4,0),
+#                    (5,0),
+#                    (5,0),
+#                    (5,0),
+#                    (0,-2.0),
+#                    (0,-2.0),
+#                    (0,-2.0),
+#                    (0,2.0),
+#                    (0,2.0),
+#                    (0,2.0),
+#                    (2.0,-2.0),
+#                    (2.0,-2.0),
+#                    (2.0,-2.0),
+#                    (3.5, 2.0),
+#                    (3.5, 2.0),
+#                    (3.5, 2.0),
+#                    (4.0,-2.0),
+#                    (4.0,-2.0),
+#                    (4.0,-2.0),
+#                    (5.0,1.0),
+#                    (5.0,1.0),
+#                    (5.0,1.0),
+#                    (1,0)
+
+
+        validation_goal_set:    '[
+                                (4,0),
+                                (5,0),
+                                (0,-2.0),
+                                (0,2.0),
+                                (2.0,-2.0),
+                                (3.5, 2.0),
+                                (4.0,-2.0)
+
+                            ]'
+
+                                #(1,0), 
+                                #(2,0),
+                                #(3,0),
+                                #(4,0),
+                                #(5,0),
+                                #(0,-2.0),
+                                #(0,2.0),
+                                #(2.0,-2.0),
+                                #(3.5, 2.0),
+                                #(4.0,-2.0),
+                                #(5.0,1.0)
+
+                            #    (8.0,0.5),
+                            #    (8.0,-2.0),
+                            #    (8.5,-4.0),
+                            #    (8.0,-9.0),
+                            #    (12.0,-4.0)
+
+### Doorway (Dynamic) ###
+env_obj12:
+        env:            {'static':  {'obj1':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,3.516,1], # z extends downwards. 
+                                        'baseMass': 0, # 0 for static? Test it. 
+                                        'basePosition': [-1,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0.5,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4':{
+                                        'shapeType':'GEOM_BOX',
+                                        # old 'halfExtents':  [0.016,0.266,1],
+                                        # old 'baseMass': 0,
+                                        # old 'basePosition': [2.5,1.5,1],
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5':{
+                                        'shapeType':'GEOM_BOX',
+                                        # old 'halfExtents':  [0.016,0.266,1],
+                                        'halfExtents':  [0.016,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.016,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [0,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2,-4,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj8':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [2.5,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj9':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,-4.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj10':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4.5,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj11':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6.5,-5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj12':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,-4.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj13':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,-2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj14':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6.5,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj15':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4.5,-2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj16':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,-2.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj17':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [9,-1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj18':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        # old 'basePosition': [4,0.5,1],
+                                        'basePosition': [4,-0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj19':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj20':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6.5,-1,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj21':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        # old 'basePosition': [7,0.5,1],
+                                        'basePosition': [7,-0.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj22':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [7,1.5,3],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj23':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5.5,2,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj24':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [4,1.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj25':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [6.5,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj26':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,1.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5,5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj27':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [2.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [5.5,6,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj28': {
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [1.516,0.016,1],
+                                        'baseMass': 0,
+                                        'basePosition': [1.5,3,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj29':{
+                                        'shapeType':'GEOM_BOX',
+                                        'halfExtents':  [0.016,0.516,1],
+                                        'baseMass': 0,
+                                        'basePosition': [3,3.5,1],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                },
+                        'dynamic':  {'obj1':{
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.36,
+                                        'height':   1.6,
+                                        'baseMass': 75, 
+                                        'basePosition': [4,0.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj2': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.36,
+                                        'height':   1.6,
+                                        'baseMass': 75,
+                                        'basePosition': [10,0.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj3': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.36,
+                                        'height':   1.6,
+                                        'baseMass': 76,
+                                        'basePosition': [10,-3.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj4': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.36,
+                                        'height':   1.6,
+                                        'baseMass': 76,
+                                        'basePosition': [3.5,-8,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj5': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.36,
+                                        'height':   1.6,
+                                        'baseMass': 75,
+                                        'basePosition': [5.5,-9,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj6': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.36,
+                                        'height':   1.6,
+                                        'baseMass': 75,
+                                        'basePosition': [1.5,-11,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        },
+                                    'obj7': {
+                                        'shapeType':'GEOM_CYLINDER',
+                                        'radius':   0.36,
+                                        'height':   1.6,
+                                        'baseMass': 76,
+                                        'basePosition': [10,3.5,0.8],
+                                        'baseOrientation':  [0,0,0,1]
+                                        }
+                                }
+                    }
+        # old action_angle_set: [['np.pi/2','np.pi/2'],['0','np.pi/2','0','-np.pi/2','0'],['np.pi','np.pi','-np.pi'],['np.pi/2','np.pi/2','-np.pi/2','-np.pi/2'],['np.pi','np.pi','-np.pi'],['np.pi','np.pi','-np.pi']] # If want to define specific movement for dynamic object, use None for random movement. 
+        action_angle_set: [['np.pi','np.pi','-np.pi'],['np.pi','np.pi','-np.pi'],['np.pi','np.pi','-np.pi'],['np.pi/2','np.pi/2','-np.pi/2'],['np.pi/2','np.pi/2','-np.pi/2'],['np.pi/2','np.pi/2','-np.pi/2'],['np.pi','np.pi','-np.pi']]
+        goal_set:   '[
+                    (3.5,0.5),
+                    (3.5,0.5),
+                    (3.5,0.5),
+                    (5.5,0.5),
+                    (5.5,0.5),
+                    (5.5,0.5),
+                    (3.5,-2.5),
+                    (3.5,-2.5),
+                    (3.5,-2.5),
+                    (5.5,-1.5),
+                    (5.5,-1.5),
+                    (5.5,-1.5),
+                    (5.5,-3.5),
+                    (5.5,-3.5),
+                    (5.5,-3.5),
+                    (5.5, 4.5)
+                    (5.5, 4.5)
+                    (5.5, 4.5)
+                ]'
+#                    (3.5,0.5),
+#                    (3.5,0.5),
+#                    (3.5,0.5),
+#                    (5.5,0.5),
+#                    (5.5,0.5),
+#                    (5.5,0.5),
+#                    (3.5,-2.5),
+#                    (3.5,-2.5),
+#                    (3.5,-2.5),
+#                    (5.5,-1.5),
+#                    (5.5,-1.5),
+#                    (5.5,-1.5),
+#                    (5.5,-3.5),
+#                    (5.5,-3.5),
+#                    (5.5,-3.5),
+#                    (5.5, 4.5),
+#                    (5.5, 4.5),
+#                    (5.5, 4.5)
+
+        validation_goal_set:    '[
+                                (3,0.5),
+                                (5.5,0.5),
+                                (3.5,-2.5),
+                                (5.5,-1.5)
+
+                            ]'
+
+#                                (3.5,-2.5),
+#                                (5.5,-1.5),
+#                                (5.5,-3.5),
+#                                (5.5, 4.5)

@@ -1,0 +1,136 @@
+
+# pybullet environment objects will be loaded during runtime
+# -----------------------------------------------------------------------
+# URDF environment objects to be loaded should be placed in ros_pybullet_rl/common/urdf directory. 
+# Else, can edit the directory to look for your desired objects in pybullet-gym/pybulletgym/envs/yc/stadium.py. 
+
+# These ENV objects are loaded via Pybullet loadURDF or createSoftBody functions.
+
+### simpler environments for starters ###
+## Envs 1 - 5 are for testing mass-damping platforms
+# All hard ground
+env_obj1:
+        env:            {'static':  {'obj1':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [0,0.6,0.45],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 1
+                                        },
+                                    'obj2':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [0,-0.6,0.45],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 1
+                                        },
+                                    'obj3':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [0.6,0,0.45],
+                                        'baseOrientation':  [0,0,0.707,0.707],
+                                        'globalScaling': 1
+                                        },
+                                    'obj4':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [-0.6,0,0.45],
+                                        'baseOrientation':  [0,0,0.707,0.707],
+                                        'globalScaling': 1
+                                        },
+                                    'obj5':{
+                                        'filename':'cube_platform.urdf',
+                                        'basePosition': [0.25,0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        },
+                                    'obj6':{
+                                        'filename':'cube_platform.urdf',
+                                        'basePosition': [-0.25,0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        },
+                                    'obj7':{
+                                        'filename':'cube_platform.urdf',
+                                        'basePosition': [-0.25,-0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        },
+                                    'obj8':{
+                                        'filename':'cube_platform.urdf',
+                                        'basePosition': [0.25,-0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        }
+                                },
+                        'soft': {
+                            },
+                        'dynamic':  {
+                                }
+                    }
+
+# Front right feet soft ground
+env_obj2:
+        env:            {'static':  {'obj1':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [0,0.6,0.45],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 1
+                                        },
+                                    'obj2':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [0,-0.6,0.45],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 1
+                                        },
+                                    'obj3':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [0.6,0,0.45],
+                                        'baseOrientation':  [0,0,0.707,0.707],
+                                        'globalScaling': 1
+                                        },
+                                    'obj4':{
+                                        'filename':'1m_wall.urdf',
+                                        'basePosition': [-0.6,0,0.45],
+                                        'baseOrientation':  [0,0,0.707,0.707],
+                                        'globalScaling': 1
+                                        },
+                                    'obj5':{
+                                        'filename':'cube_platform.urdf',
+                                        'basePosition': [0.25,0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        },
+                                    'obj6':{
+                                        'filename':'cube_platform.urdf',
+                                        'basePosition': [-0.25,0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        },
+                                    'obj7':{
+                                        'filename':'cube_platform.urdf',
+                                        'basePosition': [-0.25,-0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        },
+                                    'obj8':{
+                                        'filename': 'cube.urdf',
+                                        'colour': 'Y',
+                                        'basePosition': [0.25,-0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'globalScaling': 0.5
+                                        }
+                                },
+                        'soft': {'obj1':{
+                                        'filename': 'cube.obj',
+                                        'colour': 'Y',
+                                        'basePosition': [0.25,-0.25,0.75],
+                                        'baseOrientation':  [0,0,0,1],
+                                        'scale': 0.5,
+                                        'mass': 1.0,
+                                        'springElasticStiffness': 500,
+                                        'springDampingStiffness': 500,
+                                        'collisionMargin': 0.01,
+                                        'frictionCoeff': 0.5
+                                    }
+                            },
+                        'dynamic':  {
+                                }
+                    }
+

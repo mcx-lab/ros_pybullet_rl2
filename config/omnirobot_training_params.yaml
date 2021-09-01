@@ -1,0 +1,103 @@
+# Configuration parameters for Omnirobot training in pybullet ros simulator
+# ________________________________________________________________________________
+
+### Standard Configuration Params
+env:                        Omnibase-v1
+# environment ID
+tensorboard_log:            /home/yc/test_train_models/ 
+# Tensorboard log dir
+trained_agent:              ""
+# logs/ppo2/Omnibase-v1_1/best_model.zip / Default: "" / Path to a pretrained agent to continue training
+algo:                       ppo
+# RL Algorithm, choices=list(ALGOS.keys())
+n_timesteps:                -1 
+# Overwrite the number of timesteps, this has nothing to do with the number of timesteps in an episode
+num_threads:                -1
+# Number of threads for PyTorch (-1 to use default)
+log_interval:               -1 
+# Override log interval (default: -1, no change)
+eval_freq:                  10000
+# Evaluate the agent every n steps (default: 5000, 8000. If negative, -1, no evaluation). During hyperparameter optimization n-evaluations is used instead
+eval_episodes:              10
+# Number of episodes to use for evaluation
+n_eval_envs:                1
+# Number of environments for evaluation (default: 1. Only use 1 for ROS environment)
+save_freq:                  50000 
+# Save the model every n steps (if negative, no checkpoint)
+save_replay_buffer:         False
+# Save the replay buffer too (when applicable)
+normalise_obs:              True
+# normalise observation inputs (env must have normalise feature)
+log_folder:                 logs 
+# Log folder. Relative path from src/ros_pybullet_rl2.py 
+seed:                       0 
+# Random generator seed
+vec_env:                    dummy
+# VecEnv type, choices=["dummy", "subproc"] (default: dummy)
+
+### Hyperparameter Optimization Params
+n_trials:                   10 
+# Number of trials for optimizing hyperparameters
+optimize_hyperparameters:   False
+# Run optuna hyperparameters search
+optimization_log_path:      /home/yc/hyperparam_tuning_logs/
+# Path to save the evaluation log and optimal policy for each hyperparameter tried during optimization. Disabled if no argument is passed.
+no_optim_plots:             False
+# Disable hyperparameter optimization plots
+n_jobs:                     1 
+# Number of parallel jobs when optimizing hyperparameters
+sampler:                    tpe 
+# Sampler to use when optimizing hyperparameters, choices=['random', 'tpe', 'skopt']
+pruner:                     median 
+# choices=['halving', 'median', 'none']
+n_startup_trials:           10
+# Number of trials before using optuna sampler
+n_evaluations:              20
+# Training policies are evaluated every n-timesteps // n-evaluations steps when doing hyperparameter optimization
+storage:                    None
+# Database storage path if distributed optimization should be used
+study_name:                 None
+# Study name for distributed optimization
+
+### Additional Params
+verbose:                    1 
+# Verbose mode (0: no output, 1: INFO)
+gym_packages:               [] 
+# Additional external Gym environment package modules to import (e.g. gym_minigrid)
+hyperparams:                {'policy': 'MultiInputPolicy',
+                              'policy_kwargs': "dict(log_std_init=-2,
+                       ortho_init=False,
+                       activation_fn=nn.ReLU,
+                       net_arch=[dict(pi=[64, 64], vf=[64, 64])]
+                       )"
+}
+# Use if there are hyperparameters to overwrite (otherwise: None), in format: learning_rate:0.01 train_freq:10
+# StoreDict format for hyperparams and env_kwargs: 
+# In: args1:0.0 args2:"dict(a=1)"
+# Out: {'args1': 0.0, arg2: dict(a=1)}
+### For multi feature vector input, use {'policy': 'MultiInputPolicy'}.
+uuid:                       False 
+# Ensure that the run has a unique ID
+env_kwargs:                 None 
+# Optional keyword argument to pass to the env constructor. In StoreDict format
+truncate_last_trajectory:   False
+# "When using HER with online sampling the last trajectory in the replay buffer will be truncated after reloading the replay buffer."
+
+### Simulation Environment Params
+render:                     True
+# Show simulation environment
+select_env:                 1 
+# Environment labelling after 'env_obj' in env_pybullet_params.yaml
+# 0: Stadium maze environment
+# 1: Simple straight line
+# 2: Curvy corridor
+# 3: Twisting corridor
+# 4: Straight line with dynamic obstacles 
+# 5: T-junction with unseen static obstacles
+# 6: T-junction with dynamic obstacles
+# 7: Hall, goals in circular formation
+# 8: Static environment with deadends
+# 9: Dynamic obstacles environment without static obstacles
+# 10: Lab
+# 11: Lab (Dynamic)
+# 12: Doorway

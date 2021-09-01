@@ -1,0 +1,10 @@
+<class_libraries>
+  <library path="lib/libsemantic_layers">
+    <class type="costmap_2d::SemanticObstacleLayer" base_class_type="costmap_2d::Layer">
+      <description>Segment out different objects and set a sepecific cost</description>
+    </class>
+    <class type="costmap_2d::SemanticInflationLayer" base_class_type="costmap_2d::Layer">
+      <description>Segment out different objects and do corresponding inflation around</description>
+    </class>
+  </library>
+</class_libraries>

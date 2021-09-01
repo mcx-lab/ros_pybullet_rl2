@@ -1,0 +1,23 @@
+local_costmap:
+  global_frame: map ##The global frame for the costmap to operate in. 
+  robot_base_frame: base_link #The name of the frame for the base link of the robot. 
+  update_frequency: 5.0 #The frequency in Hz for the map to be updated.
+  publish_frequency: 5.0 #The frequency in Hz for the map to be publish display information.
+  transform_tolerance: 0.6
+  width: 5.0 # 10.0 #The width of the map in meters. 
+  height: 5.0 # 10.0 #The height of the map in meters. 
+  
+  static_map: false #Whether or not to use the static map to initialize the costmap
+  rolling_window: true #Whether or not to use a rolling window version of the costmap.
+  resolution: 0.02 #The resolution of the map in meters/cell. 
+# origin_x: -5.0
+# origin_y: 1.0
+
+#  plugins:
+#        - {name: tactile_layer,   type: "tactile_layer_namespace::TactileLayer", output: "screen"}
+##        - {name: footprint_layer,   type: "costmap_2d::FootprintLayer"}
+#        - {name: inflation_layer,   type: "costmap_2d::InflationLayer", output: "screen"}
+#        - {name: static_map,   type: "costmap_2d::StaticLayer", output: "screen"}
+#        - {name: obstacle_layer,   type: "costmap_2d::ObstacleLayer"}
+
+# More information at http://wiki.ros.org/costmap_2d and http://wiki.ros.org/costmap_2d/flat

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<launch>
+
+   <!--- Navigation stack -->
+   <include file="$(find ros_pybullet_rl)/launch/navigation/move_base_eband.launch">
+    <!--arg name="map" value="wgmap" /no need map, do live hector mapping-->
+    <arg name="config_folder" value="navigation" />
+   </include>
+
+   <!-- Initial RVIZ -->
+   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ros_pybullet_rl)/rviz/navigation.rviz" />
+
+</launch>

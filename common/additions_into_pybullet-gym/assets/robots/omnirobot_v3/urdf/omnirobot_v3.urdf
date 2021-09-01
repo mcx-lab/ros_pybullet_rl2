@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="omnirobot_v3">
+  <!--colours defined for convenience-->
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="orange">
+    <color rgba="1.0 0.4235294117647059 0.0392156862745098 1.0"/>
+  </material>
+  <material name="brown">
+    <color rgba="0.8705882352941177 0.8117647058823529 0.7647058823529411 1.0"/>
+  </material>
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  <!--colours defined for convenience-->
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.012151 -0.012869 0.20"
+        rpy="0 0 0" /> <!--This is the centre of mass xyz="0.012151 -0.012869 0.37433" -->
+      <mass
+        value="25.164" /> <!--25.164-->
+      <inertia
+        ixx="0.15544"
+        ixy="-1.3379E-05"
+        ixz="4.946E-05"
+        iyy="0.15382"
+        iyz="-3.2387E-05"
+        izz="0.16354" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot_v3/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.62745 0.62745 0.62745 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot_v3/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!--############# Here onwards is added section ##############-->
+  <link
+    name="camera"> <!--virtual link-->
+    <inertial>
+      <origin
+        xyz="-0.018786 -0.00025995 0.0091985"
+        rpy="0 0 0" />
+      <mass
+        value="0.16603" />
+      <inertia
+        ixx="0.0004097"
+        ixy="5.348E-07"
+        ixz="-3.83E-08"
+        iyy="2.5534E-05"
+        iyz="1.2789E-08"
+        izz="0.00041805" />
+    </inertial>
+    <!--visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot/meshes/camera.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot/meshes/camera.STL" />
+      </geometry>
+    </collision-->
+  </link>
+  <joint
+    name="camera_to_base_link"
+    type="fixed">
+    <origin
+      xyz="0.11046 -0.004146 0.78309"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="camera" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="laser_1">
+    <inertial>
+      <origin
+        xyz="-6.245E-07 -0.023496 -0.012259"
+        rpy="0 0 0" />
+      <mass
+        value="0.1215" />
+      <inertia
+        ixx="0.00010976"
+        ixy="1.2854E-07"
+        ixz="2.2888E-07"
+        iyy="0.00010738"
+        iyz="9.393E-07"
+        izz="6.0425E-05" />
+    </inertial>
+    <!--visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot/meshes/laser_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot/meshes/laser_1.STL" />
+      </geometry>
+    </collision-->
+  </link>
+  <joint
+    name="laser_1_to_base_link"
+    type="fixed">
+    <origin
+      xyz="0.052032 0.1139 0.6588" 
+      rpy="0 0 1.57079" /> <!--calibrated values from original: xyz="0.081032 0.1439 0.6388" 
+      rpy="0 0 1.57079" />-->
+    <parent
+      link="base_link" />
+    <child
+      link="laser_1" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="laser_2">
+    <inertial>
+      <origin
+        xyz="6.2453E-07 0.023496 -0.012259"
+        rpy="0 0 0" />
+      <mass
+        value="0.1215" />
+      <inertia
+        ixx="0.00010976"
+        ixy="1.2854E-07"
+        ixz="-2.2888E-07"
+        iyy="0.00010738"
+        iyz="-9.393E-07"
+        izz="6.0425E-05" />
+    </inertial>
+    <!--visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot/meshes/laser_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://omnirobot/meshes/laser_2.STL" />
+      </geometry>
+    </collision-->
+  </link>
+  <joint
+    name="laser_2_to_base_link"
+    type="fixed">
+    <origin
+      xyz="0.046032 -0.1322 0.6588"
+      rpy="0 0 -1.57079" /> <!--calibrated values from original: xyz="0.081032 -0.1522 0.6388"-->
+    <parent
+      link="base_link" />
+    <child
+      link="laser_2" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_plate">
+    <inertial>
+      <origin
+        xyz="0.0095337 1.1345E-15 0.0034793"
+        rpy="0 0 0" />
+      <mass
+        value="0.47182" />
+      <inertia
+        ixx="0.0065826"
+        ixy="3.3798E-17"
+        ixz="-7.3583E-08"
+        iyy="0.0019654"
+        iyz="-3.9219E-15"
+        izz="0.0046194" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/front_plate.STL" /-->
+        <box size="0.005 0.345 0.225"/>
+      </geometry>
+      <material
+        name="red">
+        <!--color
+          rgba="1 1 1 0.3" /-->
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/front_plate.STL" /-->
+        <box size="0.005 0.345 0.225"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_plate_to_base_link"
+    type="fixed">
+    <origin
+      xyz="0.22587 -0.012539 0.49700"
+      rpy="0 0 0" /> <!--calibrated values from original: xyz="0.23247 -0.003539 0.46991"--><!--Values before offset for force_torque sensing in pybullet: xyz="0.22487 -0.012539 0.49700"-->
+    <parent
+      link="base_link" />
+    <child
+      link="front_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="back_plate">
+    <inertial>
+      <origin
+        xyz="-0.010977 6.5356E-16 0.021201"
+        rpy="0 0 0" />
+      <mass
+        value="0.26343" />
+      <inertia
+        ixx="0.0017823"
+        ixy="-8.3769E-16"
+        ixz="6.4463E-16"
+        iyy="0.0010598"
+        iyz="-1.3548E-15"
+        izz="0.00072461" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/back_plate.STL" /-->
+        <box size="0.005 0.186 0.225"/>
+      </geometry>
+      <material
+        name="red">
+        <!--color
+          rgba="1 1 1 0.3" /-->
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/back_plate.STL" /-->
+        <box size="0.005 0.186 0.225"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_plate_to_base_link"
+    type="fixed"> <!---calibrated x value: 0.27259-->
+    <origin
+      xyz="-0.27359 -0.013250 0.49700"
+      rpy="0 0 0" /> <!--calibrated values from original: xyz="-0.24359 -0.003539 0.45137"--><!--Values before offset for force_torque sensing in pybullet: xyz="-0.27259 -0.013250 0.49700"-->
+    <parent
+      link="base_link" />
+    <child
+      link="back_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_left_plate">
+    <inertial>
+      <origin
+        xyz="0.0054884 0.0095062 0.021201"
+        rpy="0 0 0" />
+      <mass
+        value="0.26343" />
+      <inertia
+        ixx="0.0012404"
+        ixy="0.00031287"
+        ixz="-1.3516E-15"
+        iyy="0.0016017"
+        iyz="-1.9871E-16"
+        izz="0.00072461" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/front_left_plate.STL" /-->
+        <box size="0.005 0.186 0.225"/>
+      </geometry>
+      <material
+        name="red">
+        <!--color
+          rgba="1 1 1 0.3" /-->
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/front_left_plate.STL" /-->
+        <box size="0.005 0.186 0.225"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_plate_to_base_link"
+    type="fixed">
+    <origin
+      xyz="0.13693 0.2264001 0.49700"
+      rpy="0 0 1.04719" /> <!--calibrated values from original: xyz="0.14543 0.22107 0.45137" rpy='"0 0 0"--><!--Values before offset for force_torque sensing in pybullet: xyz="0.13443 0.22207 0.49700"-->
+    <parent
+      link="base_link" />
+    <child
+      link="front_left_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_right_plate">
+    <inertial>
+      <origin
+        xyz="0.0054884 -0.0094962 0.021201"
+        rpy="0 0 0" />
+      <mass
+        value="0.26343" />
+      <inertia
+        ixx="0.0012404"
+        ixy="-0.00031287"
+        ixz="1.1957E-15"
+        iyy="0.0016017"
+        iyz="1.2014E-15"
+        izz="0.00072461" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/front_right_plate.STL" /-->
+        <box size="0.005 0.186 0.225"/>
+      </geometry>
+      <material
+        name="red">
+        <!--color
+          rgba="1 1 1 0.3" /-->
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/front_right_plate.STL" /-->
+        <box size="0.005 0.186 0.225"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_plate_to_base_link"
+    type="fixed">
+    <origin
+      xyz="0.13643 -0.2514701 0.49700"
+      rpy="0 0 -1.04719" /> <!--calibrated values from original: xyz="0.14543 -0.22814 0.45137" rpy='"0 0 0"--><!--Values before offset for force_torque sensing in pybullet: xyz="0.13393 -0.24714 0.49700"-->
+    <parent
+      link="base_link" />
+    <child
+      link="front_right_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="back_left_plate">
+    <inertial>
+      <origin
+        xyz="-0.0047668 0.0082563 0.0034797"
+        rpy="0 0 0" />
+      <mass
+        value="0.47182" />
+      <inertia
+        ixx="0.0031197"
+        ixy="-0.0019993"
+        ixz="3.0353E-15"
+        iyy="0.0054283"
+        iyz="2.666E-15"
+        izz="0.0046194" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/back_left_plate.STL" /-->
+        <box size="0.005 0.345 0.225"/>
+      </geometry>
+      <material
+        name="red">
+        <!--color
+          rgba="1 1 1 0.3" /-->
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/back_left_plate.STL" /-->
+        <box size="0.005 0.345 0.225"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_left_plate_to_base_link"
+    type="fixed">
+    <origin
+      xyz="-0.116098 0.1884701 0.49700"
+      rpy="0 0 -1.04719" /> <!--calibrated values from original: xyz="-0.092598 0.18414 0.46991" rpy='"0 0 0"--><!--Values before offset for force_torque sensing in pybullet: xyz="-0.113598 0.18414 0.49700"-->
+    <parent
+      link="base_link" />
+    <child
+      link="back_left_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="back_right_plate">
+    <inertial>
+      <origin
+        xyz="-0.0047668 -0.0082563 0.0034797"
+        rpy="0 0 0" />
+      <mass
+        value="0.47182" />
+      <inertia
+        ixx="0.0031197"
+        ixy="0.0019993"
+        ixz="-3.5959E-15"
+        iyy="0.0054283"
+        iyz="1.5424E-15"
+        izz="0.0046194" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/back_right_plate.STL" /-->
+        <box size="0.005 0.345 0.225"/>
+      </geometry>
+      <material
+        name="red">
+        <!--color
+          rgba="1 1 1 0.3" /-->
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!--mesh
+          filename="package://omnirobot/meshes/back_right_plate.STL" /-->
+        <box size="0.005 0.345 0.225"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_right_plate_to_base_link"
+    type="fixed">
+    <origin
+      xyz="-0.116098 -0.2130501 0.49700"
+      rpy="0 0 1.04719" /> <!--calibrated values from original: xyz="-0.092598 -0.19122 0.46991" rpy='"0 0 0"--><!--Values before offset for force_torque sensing in pybullet: xyz="-0.113598 -0.20872 0.49700"-->
+    <parent
+      link="base_link" />
+    <child
+      link="back_right_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+<!--############# before here is added section ##############-->
+<!--Not integrating the wheels as of now, as we can ignore the actual rotation of the wheels, but just based on /cmd_vel in simulation for now-->
+
+</robot>

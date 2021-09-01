@@ -1,0 +1,106 @@
+# NOTE: Only certain parameters are exposed here, check sample launch files for the rest
+# Configuration parameters for R2D2 robot in pybullet ros simulator
+
+# pybullet plugins, will be loaded during runtime
+# -----------------------------------------------------------------------
+# body_vel_control - Subscribe to cmd_vel and apply desired speed to the robot, without any noise
+# odometry - Query robot base pose and speed from pybullet and publish to /odom topic
+# control  - Position, velocity and effort control for all revolute joints on the robot
+# joint_state_pub - Query robot state and publish position, velocity and effort values to /joint_states
+# laser_scanner - Laser scanner simulation based on pybullet rayTestBatch function
+plugins: {  ros_pybullet_rl.plugins.body_vel_control: cmdVelCtrl,
+            ros_pybullet_rl.plugins.odometry: simpleOdometry,
+            ros_pybullet_rl.plugins.control: Control,
+# pybullet_ros.plugins.joint_state_pub: jointStatePub, # was joinStatePub
+            ros_pybullet_rl.plugins.laser_scanner_modular: laserScannerModular, # .laser_scanner: laserScanner
+# pybullet_ros.plugins.force_torque_sensor: forceTorqueSensor,
+            ros_pybullet_rl.plugins.contact_sensor: contactSensor,
+            ros_pybullet_rl.plugins.rgbd_camera: RGBDCamera}
+
+loop_rate:              400.0            
+# default: 80.0, the frequency at which to step sim in hz
+gravity:                -9.81           
+# default: -9.81, earth gravity in m/s^2
+max_effort_vel_mode:    50.0            
+# default: 50.0, the max force to apply to the model in vel mode
+parallel_plugin_execution:  False # will trap in loop of asynchronous execution
+
+# True = allow pybullet to compute the inertia tensor based on mass and volume of the collision shape
+# False = you can provide a more accurate inertia tensor, so inertia will be read then from URDF model
+use_inertia_from_file: True           
+# default: False
+
+### laser plugin params, modular method. 
+number_of_lidars:       1
+lidar_topics:           ['scan3'] 
+# Please follow convention, scan1, scan2, scan3, scan4, etc. 
+laser_3:
+    frame_id:           laser_3     
+# default: laser, laser reference frame
+    angle_min:          -3.14159     
+# default: -90 deg, laser field of view (fov) min angle in rad
+    angle_max:          3.14159        
+# default: 90 deg, overall (with prev param) we have a 180 degree fov
+    num_beams:          1083            
+# default: 512 beams for hokuyo laser
+    range_min:          0.10            
+# default: 0.03, the minimum distance (range) that the laser is able to detect in m
+    range_max:          31.0 # so that the pybullet output is the same as laserscan_merger output, i.e. 30.0 + 1.0.            
+# default: 5.6, the maximum distance (range) that the laser is able to detect in m
+    beam_visualisation: False           
+# default: False, draw lines on pybullet gui representing the laser beams
+# transformation parameters acquired from urdf
+    trans_x_tf_to base_link:    0.049032
+    trans_y_tf_to_base_link:    0.00915 
+    trans_z_tf_to_base_link:    0.88309
+    rot_x_tf_to_base_link:      0.0
+    rot_y_tf_to_base_link:      0.0
+    rot_z_tf_to_base_link:      0.0
+    rot_w_tf_to_base_link:      1.0
+
+#laser_1:
+#    trans_x_tf_to base_link:    0.052032 
+#    trans_y_tf_to_base_link:    0.1139 
+#    trans_z_tf_to_base_link:    0.6588
+#    rot_x_tf_to_base_link:      0.0
+#    rot_y_tf_to_base_link:      0.0
+#    rot_z_tf_to_base_link:      0.707
+#    rot_w_tf_to_base_link:      0.707
+
+#laser_2:
+#    frame_id:           laser_2     
+#    angle_min:          -2.356194
+#    angle_max:          2.356194
+#    num_beams:          1080
+#    range_min:          0.10
+#    range_max:          30.0      
+#    beam_visualisation: False
+#    trans_x_tf_to base_link:    0.046032
+#    trans_y_tf_to_base_link:    -0.1322
+#    trans_z_tf_to_base_link:    0.6588
+#    rot_x_tf_to_base_link:      0.0
+#    rot_y_tf_to_base_link:      0.0
+#    rot_z_tf_to_base_link:      -0.707
+#    rot_w_tf_to_base_link:      0.707
+
+### 
+
+# rgb camera plugin parameters
+rgbd_camera:
+    frame_id:           camera             
+# default: box, the name of the reference frame of the camera
+    resolution:
+        width:          640             
+# default: 640, horizontal image resolution in pixels
+        height:         480             
+# default: 480, vertical image resolution in pixels
+
+
+force_torque_sensor:
+    sensor_id:          ['front_plate_to_base_link', 'back_plate_to_base_link','front_left_plate_to_base_link', 'back_left_plate_to_base_link','front_right_plate_to_base_link','back_right_plate_to_base_link'] 
+# name according to all force torque joints
+
+contact_sensor:
+    sensor_id:          ['front_plate', 'back_plate','front_left_plate', 'back_left_plate','front_right_plate','back_right_plate']
+# name according to all links
+

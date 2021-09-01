@@ -1,0 +1,395 @@
+<?xml version="1.0"?>
+<robot name="5406dog">
+
+    <material name="blue">
+        <color rgba="0 0 1.0 1"/>
+    </material>
+    <material name="green">
+        <color rgba="0 1.0 0 1"/>
+    </material>
+    <material name="red">
+        <color rgba="1.0 0 0 1"/>
+    </material>
+
+
+    <link name="base_link">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0.475"/>
+            <mass value="1"/>
+          <inertia
+            ixx="0.26298"
+            ixy="2.574E-06"
+            ixz="-5.7411E-09"
+            iyy="1.3758"
+            iyz="1.0917E-09"
+            izz="1.5389" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.475"/>
+            <geometry>
+                <box size="1.0 0.4 0.2"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.475"/>
+            <geometry>
+                <box size="1.0 0.4 0.2"/>
+            </geometry>
+            <!--contact_coefficient mu="0.65"/-->
+        </collision>
+    </link>
+
+<!-- .........................................................LEFT SIDE LEGS...........................................-->
+
+    <link name="front_left_upper_leg">
+        <inertial>i
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="1.4935E-17"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="-7.5894E-19"
+        izz="0.0090481" />
+    </inertial>
+
+        <visual>
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 0.7854 0" xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="base_to_front_left_leg" type="revolute">
+        <parent link="base_link"/>
+        <child link="front_left_upper_leg"/>
+        <origin xyz="0.3 0.25 0.475"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-1.5708"
+          upper="0"
+          effort="10"
+          velocity="2" />
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+    <link name="front_left_lower_leg">
+        <inertial>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="-2.5208E-18"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="2.9816E-19"
+        izz="0.0090481" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 -0.7854 0" xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="front_left_leg_knee" type="revolute">
+        <parent link="front_left_upper_leg"/>
+        <child link="front_left_lower_leg"/>
+        <origin xyz="-0.2 0.1 -0.2"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-0.3927"
+          upper="0.7854"
+          effort="10"
+          velocity="2" /> <!--lower="-0.7854", "-0.3927"--><!--upper="1.5708" "0.7854"-->
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+
+    <link name="back_left_upper_leg">
+        <inertial>
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="5.7192E-18"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="-2.7105E-19"
+        izz="0.0090481" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 0.7854 0" xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="base_to_back_left_leg" type="revolute">
+        <parent link="base_link"/>
+        <child link="back_left_upper_leg"/>
+        <origin xyz="-0.3 0.25 0.475"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-1.5708"
+          upper="0"
+          effort="10"
+          velocity="2" />
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+    <link name="back_left_lower_leg">
+        <inertial>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="-7.5081E-18"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="4.3368E-19"
+        izz="0.0090481" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 -0.7854 0" xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="back_left_leg_knee" type="revolute">
+        <parent link="back_left_upper_leg"/>
+        <child link="back_left_lower_leg"/>
+        <origin xyz="-0.2 0.1 -0.2"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-0.3927"
+          upper="0.7854"
+          effort="10"
+          velocity="2" /> <!--lower = -0.7854-->
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+<!-- .........................................................RIGHT SIDE LEGS...........................................-->
+
+    <link name="front_right_upper_leg">
+        <inertial>
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="-1.8784E-17"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="8.9447E-19"
+        izz="0.0090481" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 0.7854 0" xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="base_to_front_right_leg" type="revolute">
+        <parent link="base_link"/>
+        <child link="front_right_upper_leg"/>
+        <origin xyz="0.3 -0.25 0.475"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-1.5708"
+          upper="0"
+          effort="10"
+          velocity="2" />
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+    <link name="front_right_lower_leg">
+        <inertial>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="-3.1442E-18"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="2.4395E-19"
+        izz="0.0090481" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 -0.7854 0" xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="front_right_leg_knee" type="revolute">
+        <parent link="front_right_upper_leg"/>
+        <child link="front_right_lower_leg"/>
+        <origin xyz="-0.2 -0.1 -0.2"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-0.3927"
+          upper="0.7854"
+          effort="10"
+          velocity="2" />
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+
+    <link name="back_right_upper_leg">
+        <inertial>
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="-1.1113E-17"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="4.8789E-19"
+        izz="0.0090481" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 0.7854 0"  xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 0.7854 0" xyz="-0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="base_to_back_right_leg" type="revolute">
+        <parent link="base_link"/>
+        <child link="back_right_upper_leg"/>
+        <origin xyz="-0.3 -0.25 0.475"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-1.5708"
+          upper="0"
+          effort="10"
+          velocity="2" />
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+    <link name="back_right_lower_leg">
+        <inertial>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <mass value="0.75"/>
+      <inertia
+        ixx="0.00092141"
+        ixy="1.7076E-18"
+        ixz="0.00031984"
+        iyy="0.0085789"
+        iyz="-1.0842E-19"
+        izz="0.0090481" />
+        </inertial>
+
+        <visual>
+            <origin rpy="0 -0.7854 0"  xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+        <collision>
+            <origin rpy="0 -0.7854 0" xyz="0.1 0 -0.1"/>
+            <geometry>
+                <box size="0.1 0.1 0.4"/>
+            </geometry>
+            <contact_coefficient mu="0.65"/>
+        </collision>
+    </link>
+
+    <joint name="back_right_leg_knee" type="revolute">
+        <parent link="back_right_upper_leg"/>
+        <child link="back_right_lower_leg"/>
+        <origin xyz="-0.2 -0.1 -0.2"/>
+        <axis xyz="0 1 0"/>
+        <limit
+          lower="-0.3927"
+          upper="0.7854"
+          effort="10"
+          velocity="2" />
+        <dynamics friction="1" damping="0.5"/>
+    </joint>
+
+</robot>

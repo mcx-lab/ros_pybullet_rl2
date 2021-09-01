@@ -1,0 +1,53 @@
+# Configuration parameters for Omnirobot training validation in pybullet ros simulator
+# ________________________________________________________________________________
+
+env:                        PyOmnibase-v0 
+# environment ID
+log_folder:                 trained_agents
+# Default: trained_agents, path to load trained_agents 
+algo:                       ppo2
+# RL Algorithm, choices=list(ALGOS.keys()), default=ppo2
+n_timesteps:                10000
+# Total number of timesteps allowed to run. Default = 1000
+n_envs:                     1
+# Number of environments
+exp_id:                     0
+# Experiment ID (default: -1, no exp folder, 0: latest)', default=-1)
+verbose:                    1 
+# Verbose mode (0: no output, 1: INFO)
+render:                     True
+# Show simulation environment
+deterministic:              True
+# Use deterministic actions
+stochastic:                 False
+# Use stochatic actions (for DDPG/DQN/SAC)
+load_best:                  True
+# Load best model instead of last model if available
+norm_reward:                True
+# Normalize reward if applicable (trained with VecNormalize)
+seed:                       0
+# Random generator seed, 0
+reward_log:                 trained_agents/validation
+# Where to log reward
+gym_packages:               [] 
+# if there are any other packages you want to call, Additional external Gym environemnt package modules to import (e.g. gym_minigrid)
+env_kwargs:                 None 
+# Optional keyword argument to pass to the env constructor
+
+# StoreDict action for hyperparams and env_kwargs: 
+# In: args1:0.0 args2:"dict(a=1)"
+# Out: {'args1': 0.0, arg2: dict(a=1)}
+
+select_env:                 1 # the labelling after 'env_obj'
+# 0: Stadium maze environment
+# 1: Simple straight line
+# 2: Curvy corridor
+# 3: Twisting corridor
+# 4: Straight line with dynamic obstacles 
+# 5: T-junction with unseen static obstacles
+# 6: T-junction with dynamic obstacles
+# 7: Hall, goals in circular formation
+# 8: Static environment with deadends
+# 9: Dynamic obstacles environment without static obstacles
+# 10: Lab
+# 11: Lab with dynamic obstacles
