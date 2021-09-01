@@ -206,7 +206,27 @@ class ExperimentManager(object):
         if len(self.callbacks) > 0:
             kwargs["callback"] = self.callbacks
 
+        # Hook needed to save when training in navigation environment.
+        def shutdown_save_hook(): # for signal, need to give two inputs. As on_shutdown hook, no inputs. 
+            print("\nSaving to {}".format(self.save_path))
+            model.save("{}/{}".format(self.save_path, self.env_id))
+
+            if self.trained_agent != "":
+                print("\nPolicy has been trained using: ", self.trained_agent)
+                print("\n")
+
+            if hasattr(model, "save_replay_buffer") and self.save_replay_buffer:
+                print("Saving replay buffer")
+                model.save_replay_buffer(os.path.join(self.save_path, "replay_buffer.pkl"))
+
+            if self.normalize:
+                # Important: save the running average, for testing the agent we need that normalization
+                print("Saved policy: ", self.params_path)
+                model.get_vec_normalize_env().save(os.path.join(self.params_path, "vecnormalize.pkl"))
+            rospy.signal_shutdown('\nTraining aborted. Shutting down.\n________________________________')
+
         try:
+            rospy.on_shutdown(shutdown_save_hook)
             model.learn(self.n_timesteps, **kwargs)
         except KeyboardInterrupt:
             # this allows to save the model when interrupting training

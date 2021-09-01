@@ -178,7 +178,7 @@ def run():
 
     try:
         # signal.signal(signal.SIGINT, shutdown_save_hook)
-        rospy.on_shutdown(shutdown_save_hook) # (Can see the save)
+        rospy.on_shutdown(shutdown_save_hook)
         model.learn(n_timesteps, **kwargs)
     except KeyboardInterrupt:
         print("Error encountered, shutting off training.")

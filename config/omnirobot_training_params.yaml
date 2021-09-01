@@ -2,7 +2,7 @@
 # ________________________________________________________________________________
 
 ### Standard Configuration Params
-env:                        Omnibase-v1
+env:                        NavOmnibase-v1
 # environment ID
 tensorboard_log:            /home/yc/test_train_models/ 
 # Tensorboard log dir
@@ -84,7 +84,7 @@ truncate_last_trajectory:   False
 # "When using HER with online sampling the last trajectory in the replay buffer will be truncated after reloading the replay buffer."
 
 ### Simulation Environment Params
-render:                     True
+render:                     False
 # Show simulation environment
 select_env:                 1 
 # Environment labelling after 'env_obj' in env_pybullet_params.yaml
