@@ -12,8 +12,8 @@ This custom image installs:
 
 Build command:
 
-	docker build -t rl_pybullet:latest \
-		-f docker/Dockerfile-rl . 
+	docker build -t rl_pybullet2:latest \
+		-f docker/Dockerfile-rl2 . 
 
 Note: 
 
@@ -26,20 +26,20 @@ Note:
 Nvidia Gpu:
 
 	docker run -it --privileged --net=host --ipc=host \
-         --name=pybullet_rl \
+         --name=pybullet_rl2 \
          --env="DISPLAY=$DISPLAY" \
          --env="QT_X11_NO_MITSHM=1" \
          --runtime=nvidia \
-         rl_pybullet:latest \
+         rl_pybullet2:latest \
          terminator
 
 Integrated graphics:
 
     docker run -it --privileged --net=host --ipc=host \
-         --name=pybullet_rl \
+         --name=pybullet_rl2 \
          --env="DISPLAY=$DISPLAY" \
          --env="QT_X11_NO_MITSHM=1" \
-         rl_pybullet:latest \
+         rl_pybullet2:latest \
          terminator
 
 Note: if not using terminator, replace `terminator` with `bash`
@@ -62,4 +62,4 @@ Run,
 
 Run,
 
-	docker rm -f pybullet_rl
+	docker rm -f pybullet_rl2

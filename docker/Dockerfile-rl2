@@ -71,9 +71,9 @@ RUN conda update conda
 # Create conda env
 RUN conda init bash && \
     . ~/.bashrc && \
-    conda create --name py3.6 python=3.6
-ENV PATH /opt/conda/envs/py3.6/bin:$PATH
-RUN /bin/bash -c 'echo -e "conda activate py3.6" >> /root/.bashrc && source /root/.bashrc'
+    conda create --name py3.7 python=3.7
+ENV PATH /opt/conda/envs/py3.7/bin:$PATH
+RUN /bin/bash -c 'echo -e "conda activate py3.7" >> /root/.bashrc && source /root/.bashrc'
 
 # Install pybullet-gym
 RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
@@ -81,9 +81,9 @@ RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
 # RUN cd /root/pybullet-gym && pip install -e .
 
 # copy files to container
-COPY . /root/rl_ws/src/ros_pybullet_rl/
-RUN /bin/bash -c 'cp -r /root/rl_ws/src/ros_pybullet_rl/common/other_packages/* /root/rl_ws/src/ && \
-    cp -r /root/rl_ws/src/ros_pybullet_rl/common/additions_into_pybullet-gym/* /root/pybullet-gym/pybulletgym/envs/'
+COPY . /root/rl_ws/src/ros_pybullet_rl2/
+RUN /bin/bash -c 'cp -r /root/rl_ws/src/ros_pybullet_rl2/common/other_packages/* /root/rl_ws/src/ && \
+    cp -r /root/rl_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* /root/pybullet-gym/pybulletgym/envs/'
 
 # Copy install_dependencies.sh
 COPY docker/config/install_dependencies.sh /root/install.sh
