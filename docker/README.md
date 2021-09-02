@@ -1,4 +1,4 @@
-# Docker support for ros_pybullet_rl_
+# Docker support for ros_pybullet_rl2
 
 ## Build docker image
 
@@ -48,7 +48,7 @@ Note: if not using terminator, replace `terminator` with `bash`
 
 Run,
 
-    ./docker/run.sh pybullet_rl
+    ./docker/run.sh pybullet_rl2
 
 ## Install pip dependencies
 

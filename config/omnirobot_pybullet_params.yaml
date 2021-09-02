@@ -8,14 +8,14 @@
 # control  - Position, velocity and effort control for all revolute joints on the robot
 # joint_state_pub - Query robot state and publish position, velocity and effort values to /joint_states
 # laser_scanner - Laser scanner simulation based on pybullet rayTestBatch function
-plugins: {  ros_pybullet_rl.plugins.body_vel_control: cmdVelCtrl,
-            ros_pybullet_rl.plugins.odometry: simpleOdometry,
-            ros_pybullet_rl.plugins.control: Control,
+plugins: {  ros_pybullet_rl2.plugins.body_vel_control: cmdVelCtrl,
+            ros_pybullet_rl2.plugins.odometry: simpleOdometry,
+            ros_pybullet_rl2.plugins.control: Control,
 # pybullet_ros.plugins.joint_state_pub: jointStatePub, # was joinStatePub
-            ros_pybullet_rl.plugins.laser_scanner_modular: laserScannerModular, # .laser_scanner: laserScanner
+            ros_pybullet_rl2.plugins.laser_scanner_modular: laserScannerModular, # .laser_scanner: laserScanner
 # pybullet_ros.plugins.force_torque_sensor: forceTorqueSensor,
-            ros_pybullet_rl.plugins.contact_sensor: contactSensor,
-            ros_pybullet_rl.plugins.rgbd_camera: RGBDCamera}
+            ros_pybullet_rl2.plugins.contact_sensor: contactSensor,
+            ros_pybullet_rl2.plugins.rgbd_camera: RGBDCamera}
 
 loop_rate:              400.0            
 # default: 80.0, the frequency at which to step sim in hz
