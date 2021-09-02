@@ -6,8 +6,8 @@ query contact sensor on robot to /contact_sensor
 
 import rospy
 # can use this because same data structure as contact sensors 
-from ros_pybullet_rl.msg import ForceTorqueData
-from ros_pybullet_rl.msg import ForceTorqueSensors
+from ros_pybullet_rl2.msg import ForceTorqueData
+from ros_pybullet_rl2.msg import ForceTorqueSensors
 
 
 class contactSensor:

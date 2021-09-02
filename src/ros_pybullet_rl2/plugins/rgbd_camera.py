@@ -10,7 +10,7 @@ import numpy as np
 import rospy
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from ros_pybullet_rl.msg import DepthImageProcessed
+from ros_pybullet_rl2.msg import DepthImageProcessed
 
 class RGBDCamera:
     def __init__(self, pybullet, robot, **kargs):

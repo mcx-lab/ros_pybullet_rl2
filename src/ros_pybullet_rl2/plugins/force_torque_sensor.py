@@ -5,8 +5,8 @@ query force torque sensor on robot to /force_torque_sensor
 """
 
 import rospy
-from ros_pybullet_rl.msg import ForceTorqueData
-from ros_pybullet_rl.msg import ForceTorqueSensors
+from ros_pybullet_rl2.msg import ForceTorqueData
+from ros_pybullet_rl2.msg import ForceTorqueSensors
 
 
 class forceTorqueSensor:
