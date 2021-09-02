@@ -3,7 +3,7 @@
    <arg name="config_folder" default="navigation"/>
 
    <!--- Localization -->
-   <include file="$(find ros_pybullet_rl)/launch/navigation/localization.launch">
+   <include file="$(find ros_pybullet_rl2)/launch/navigation/localization.launch">
     <!--no need map, do live hector mapping-->
     <!--arg name="map" value="$(arg map)" /-->
    </include>
@@ -11,12 +11,12 @@
 
    <!--- Run move_base with parameters -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen"><!--launch-prefix="xterm -e"-->
-    <rosparam file="$(find ros_pybullet_rl)/config/$(arg config_folder)/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find ros_pybullet_rl)/config/$(arg config_folder)/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find ros_pybullet_rl)/config/$(arg config_folder)/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find ros_pybullet_rl)/config/$(arg config_folder)/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find ros_pybullet_rl2)/config/$(arg config_folder)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find ros_pybullet_rl2)/config/$(arg config_folder)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find ros_pybullet_rl2)/config/$(arg config_folder)/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find ros_pybullet_rl2)/config/$(arg config_folder)/global_costmap_params.yaml" command="load" />
     <param name="base_local_planner" value="eband_local_planner/EBandPlannerROS"/>
-    <rosparam file="$(find ros_pybullet_rl)/config/$(arg config_folder)/eband_local_planner.yaml" command="load" />
+    <rosparam file="$(find ros_pybullet_rl2)/config/$(arg config_folder)/eband_local_planner.yaml" command="load" />
     <param name="planner_frequency" value="1.0"/>
     <param name="controller_frequency" value="10.0"/>    
     <remap from="cmd_vel" to="/nav/cmd_vel"/>

@@ -4,7 +4,7 @@
    <!-- Run the map server -->
    <!--node name="map_server" pkg="map_server" type="map_server" args="$(find omni_navigation)/map/$(arg map).yaml" output="screen"/-->
 
-   <include file="$(find ros_pybullet_rl)/launch/navigation/hector_mapping.launch"/><!--the map server--><!--This includes localisation, therefore does not require amcl-->
+   <include file="$(find ros_pybullet_rl2)/launch/navigation/hector_mapping.launch"/><!--the map server--><!--This includes localisation, therefore does not require amcl-->
 
    <!--- Run AMCL -->
    <!--include file="$(find pybullet_ros)/ros/launch/omni_navigation/amcl.launch" /-->
