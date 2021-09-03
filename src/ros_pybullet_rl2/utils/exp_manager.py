@@ -15,6 +15,7 @@ import pybulletgym
 import numpy as np
 import optuna
 import yaml
+import psutil
 from optuna.integration.skopt import SkoptSampler
 from optuna.pruners import BasePruner, MedianPruner, SuccessiveHalvingPruner
 from optuna.samplers import BaseSampler, RandomSampler, TPESampler
@@ -39,6 +40,38 @@ import ros_pybullet_rl2.utils.import_envs  # noqa: F401 pytype: disable=import-e
 from ros_pybullet_rl2.utils.callbacks import SaveVecNormalizeCallback, TrialEvalCallback
 from ros_pybullet_rl2.utils.hyperparams_opt import HYPERPARAMS_SAMPLER
 from ros_pybullet_rl2.utils.utils import ALGOS, get_callback_list, get_latest_run_id, get_wrapper_class, linear_schedule
+
+
+class RamLimitCallback(BaseCallback):
+    """
+    Callback for saving a model and shutting off training.
+    to ``env.step()``.
+
+    :param max_ram_usage: The memory limit occupiable by training node
+    :param save_path: Path to the folder where the model will be saved.
+    :param name_prefix: Common prefix to the saved models
+    :param verbose:
+    """
+
+    def __init__(self, max_ram_usage: float, save_path: str, name_prefix: str = "rl_model", verbose: int = 0):
+        super(RamLimitCallback, self).__init__(verbose)
+        self.save_path = save_path
+        self.name_prefix = name_prefix
+        self.max_ram_usage = max_ram_usage
+
+    def _init_callback(self) -> None:
+        # Create folder if needed
+        if self.save_path is not None:
+            os.makedirs(self.save_path, exist_ok=True)
+
+    def _on_step(self) -> bool:
+        if psutil.virtual_memory().percent > self.max_ram_usage:
+            path = os.path.join(self.save_path, f"{self.name_prefix}_{self.num_timesteps}_steps")
+            self.model.save(path)
+            if self.verbose > 1:
+                print(f"Saving model checkpoint to {path}")
+            rospy.signal_shutdown("RAM Usage exceeding limit, signaling shutdown.")
+        return True
 
 
 class ExperimentManager(object):
@@ -80,6 +113,7 @@ class ExperimentManager(object):
         vec_env_type: str = "dummy",
         n_eval_envs: int = 1,
         no_optim_plots: bool = False,
+        max_ram_usage: float = 90,
     ):
         super(ExperimentManager, self).__init__()
         self.algo = algo
@@ -94,6 +128,7 @@ class ExperimentManager(object):
         self.frame_stack = None
         self.seed = seed
         self.optimization_log_path = optimization_log_path
+        self.max_ram_usage = max_ram_usage
 
         self.vec_env_class = {"dummy": DummyVecEnv, "subproc": SubprocVecEnv}[vec_env_type]
 
@@ -464,6 +499,17 @@ class ExperimentManager(object):
             )
 
             self.callbacks.append(eval_callback)
+
+        # Add Max RAM Usage Callback (Or reach RAM limit save-shutdown callback)
+        if self.max_ram_usage > 0.0:
+            ram_limit_callback = RamLimitCallback(
+                max_ram_usage=self.max_ram_usage,
+                save_path=self.save_path,
+                name_prefix="rl_model_limit",
+                verbose=1,
+            )
+            self.callbacks.append(ram_limit_callback)
+
 
     @staticmethod
     def is_atari(env_id: str) -> bool:

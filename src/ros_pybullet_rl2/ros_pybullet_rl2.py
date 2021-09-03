@@ -51,6 +51,7 @@ class inputArguments():
         self.log_folder = rospy.get_param('~log_folder')
         self.seed = rospy.get_param('~seed')
         self.vec_env = rospy.get_param('~vec_env')
+        self.max_ram_usage = rospy.get_param('~max_ram_usage')
 
         self.n_trials = rospy.get_param('~n_trials')
         self.optimize_hyperparameters = rospy.get_param('~optimize_hyperparameters')
@@ -143,6 +144,7 @@ def run():
         vec_env_type=args.vec_env,
         n_eval_envs=args.n_eval_envs,
         no_optim_plots=args.no_optim_plots,
+        max_ram_usage=args.max_ram_usage,
     )
 
     # Prepare experiment and launch hyperparameter optimization if needed
