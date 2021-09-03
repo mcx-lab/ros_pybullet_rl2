@@ -1,20 +1,24 @@
 # Dockerfile to build custom image for kinetic with nvidia gpu
 ARG ros_distro=kinetic
 
-FROM osrf/ros:$ros_distro-desktop-full
+FROM nvidia/cudagl:11.2.2-base-ubuntu16.04
 
 ARG ros_distro=kinetic
 ENV ROS_DISTRO=$ros_distro
+
 ARG DEBIAN_FRONTEND=noninteractive
+
+# remove for integrated graphics
+# allow nvidia container toolkit
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics,compute,utility,display
 
 # Install packages
 RUN apt-get update && apt-get upgrade -y && apt-get install -q -y --no-install-recommends sudo \
     python-pip \
     curl \
-    ros-$ros_distro-navigation \
-    ros-$ros_distro-eband-local-planner \
-    ros-$ros_distro-hector-slam \
-    ros-$ros_distro-cv-bridge \
     wget \
     cmake \
     libopenmpi-dev \
@@ -31,7 +35,34 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -q -y --no-install-r
     python3-gst-1.0 \
     libglib2.0-dev \
     ubuntu-restricted-extras \
-    libgstreamer-plugins-base1.0-dev 
+    libgstreamer-plugins-base1.0-dev \
+    mesa-utils
+
+# Install ros kinetic
+# setup keys and source.list
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
+echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list;
+
+# install ros packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-$ros_distro-desktop-full \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    python-rosdep \
+    python-rosinstall \
+    python-vcstools \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN rosdep init && rosdep update --rosdistro $ros_distro
+RUN apt-get update && apt-get -y install -y \
+    python-rosinstall \
+    ros-$ros_distro-qt-ros \
+    ros-$ros_distro-navigation \
+    ros-$ros_distro-eband-local-planner \
+    ros-$ros_distro-hector-slam \
+    ros-$ros_distro-cv-bridge
 
 # Install sublime
 RUN apt-get install -y software-properties-common apt-transport-https
@@ -43,8 +74,7 @@ RUN apt-get update && apt-get install -y sublime-text
 RUN apt-get install -y terminator 
 
 # Force Install of missing dependencies
-RUN apt-get -y -f install && \
-    rm -rf /var/lib/apt/lists/
+RUN apt-get -y -f install
 
 # Copy bashrc
 COPY docker/config/bashrc /root/.bashrc
