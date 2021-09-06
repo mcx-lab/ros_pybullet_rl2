@@ -34,6 +34,10 @@ seed:                       0
 # Random generator seed
 vec_env:                    dummy
 # VecEnv type, choices=["dummy", "subproc"] (default: dummy)
+obs_input_type:             array
+# how input data is prepared for neural network model intake (choice: ['default','array', 'multi_input']) (Note, the env must support this function, else no affect)
+max_ram_usage:              95.0
+# Percent %
 
 ### Hyperparameter Optimization Params
 n_trials:                   10 
@@ -64,7 +68,7 @@ verbose:                    1
 # Verbose mode (0: no output, 1: INFO)
 gym_packages:               [] 
 # Additional external Gym environment package modules to import (e.g. gym_minigrid)
-hyperparams:                {'policy': 'MultiInputPolicy',
+hyperparams:                {'policy': 'MlpPolicy',
                               'policy_kwargs': "dict(log_std_init=-2,
                                ortho_init=False,
                                activation_fn=nn.ReLU,
