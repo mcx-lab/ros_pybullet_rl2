@@ -62,63 +62,83 @@ class Omnirobot2(OmniBase, URDFBasedRobot):
 
         self.normalise = rospy.get_param('~normalise_obs', False)
 
+        self.obs_input_type = rospy.get_param('~obs_input_type')
+
         contact_low = np.array([0] * 6)
         contact_high = np.array([5] * 6)
 
         laser_low = np.array([rospy.get_param('~laser_1/range_min')]* 18)
         laser_high = np.array([rospy.get_param('~laser_1/range_max')] * 18)
 
-        ### Using Tuple for multi input env (Not supported)
-        '''if self.normalise:
-            self.observation_space = gym.spaces.Tuple((gym.spaces.Box(np.array([-1.0,-1.0]),np.array([1.0,1.0]),dtype=np.float32),
-                                                    gym.spaces.Box(np.array([-1.0,-1.0,-1.0]),np.array([1.0,1.0,1.0]),dtype=np.float32),
-                                                    gym.spaces.Box(np.array([-1.0] * 6),np.array([1.0] * 6),dtype=np.float32),
-                                                    gym.spaces.Box(np.array([-1.0] * 18),np.array([1.0] * 18),dtype=np.float32)
-                                                    ))
-        else:
-            self.observation_space = gym.spaces.Tuple((gym.spaces.Box(np.array([-np.inf,-np.pi]),np.array([np.inf,np.pi]),dtype=np.float32),
-                                                    gym.spaces.Box(np.array([-1,-1,-2]),np.array([1,1,2]),dtype=np.float32),
-                                                    gym.spaces.Box(contact_low,contact_high,dtype=np.float32),
-                                                    gym.spaces.Box(laser_low,laser_high,dtype=np.float32)
-                                                    ))
-        '''
-        '''self.numeric_obs_space = Box(numeric_low, numeric_high, 
-                                     dtype=np.float32)
-        self.image_obs_space = Box(low=0, high=255, 
-                                  shape=(self.front_cam_h,self.front_cam_w, 3),
-                                  dtype=np.uint8)
-        self.observation_space = Tuple([self.numeric_obs_space, 
-                                        self.image_obs_space])
-        '''
-        
-        ### Using Dict for multi input env ###
-        self.img_size = [64, 64, 1]
-        if self.normalise:
+
+        if self.obs_input_type is 'multi_input':
+            obs_dim = 4
+            contact_low = np.array([0] * 6)
+            contact_high = np.array([5] * 6)
+
+            laser_low = np.array([rospy.get_param('~laser_1/range_min')]* 18)
+            laser_high = np.array([rospy.get_param('~laser_1/range_max')] * 18)
+
+            ### Using Dict for multi input env ###
+            self.img_size = [64, 64, 1]
+            if self.normalise:
+                # normalised observation space
                 self.observation_space = gym.spaces.Dict(
-                spaces={
-                    "goal": gym.spaces.Box(-1.0, 1.0, (2,), dtype=np.float32),
-                    "vel": gym.spaces.Box(-1.0, 1.0, (len(self.cmd_vel_info),), dtype=np.float32),
-                    "contact": gym.spaces.Box(-1.0, 1.0, (len(self.contact_info),), dtype=np.float32),
-                    "laser": gym.spaces.Box(-1.0, 1.0, (18,), dtype=np.float32)
-                    # "img": gym.spaces.Box(-1.0, 1.0, self.img_size, dtype=np.uint8),
-                }
-            )
-        else:
-            self.observation_space = gym.spaces.Dict(
-                spaces={
-                    "goal": gym.spaces.Box(-np.inf, np.inf, (2,), dtype=np.float32),
-                    "vel": gym.spaces.Box(-2.0, 2.0, (len(self.cmd_vel_info),), dtype=np.float32),
-                    "contact": gym.spaces.Box(0.0, 5.0, (len(self.contact_info),), dtype=np.float32),
-                    "laser": gym.spaces.Box(0.0, 30.1, (18,), dtype=np.float32)
-                    # "img": gym.spaces.Box(0, 255, self.img_size, dtype=np.uint8),
-                }
-            )
-        
+                    spaces={
+                        "goal": gym.spaces.Box(-1.0, 1.0, (2,), dtype=np.float32),
+                        "vel": gym.spaces.Box(-1.0, 1.0, (len(self.cmd_vel_info),), dtype=np.float32),
+                        "contact": gym.spaces.Box(-1.0, 1.0, (len(self.contact_info),), dtype=np.float32),
+                        "laser": gym.spaces.Box(-1.0, 1.0, (18,), dtype=np.float32)
+                        # "img": gym.spaces.Box(-1.0, 1.0, self.img_size, dtype=np.uint8),
+                    }
+                )
+            else:
+                self.observation_space = gym.spaces.Dict(
+                    spaces={
+                        "goal": gym.spaces.Box(-np.inf, np.inf, (2,), dtype=np.float32),
+                        "vel": gym.spaces.Box(-2.0, 2.0, (len(self.cmd_vel_info),), dtype=np.float32),
+                        "contact": gym.spaces.Box(0.0, 5.0, (len(self.contact_info),), dtype=np.float32),
+                        "laser": gym.spaces.Box(0.0, 30.1, (18,), dtype=np.float32)
+                        # "img": gym.spaces.Box(0, 255, self.img_size, dtype=np.uint8),
+                    }
+                )
+
+            ### Using Tuple for multi input env (Not supported)
+            '''if self.normalise:
+                self.observation_space = gym.spaces.Tuple((gym.spaces.Box(np.array([-1.0,-1.0]),np.array([1.0,1.0]),dtype=np.float32),
+                                                        gym.spaces.Box(np.array([-1.0,-1.0,-1.0]),np.array([1.0,1.0,1.0]),dtype=np.float32),
+                                                        gym.spaces.Box(np.array([-1.0] * 6),np.array([1.0] * 6),dtype=np.float32),
+                                                        gym.spaces.Box(np.array([-1.0] * 18),np.array([1.0] * 18),dtype=np.float32)
+                                                        ))
+            else:
+                self.observation_space = gym.spaces.Tuple((gym.spaces.Box(np.array([-np.inf,-np.pi]),np.array([np.inf,np.pi]),dtype=np.float32),
+                                                        gym.spaces.Box(np.array([-1,-1,-2]),np.array([1,1,2]),dtype=np.float32),
+                                                        gym.spaces.Box(contact_low,contact_high,dtype=np.float32),
+                                                        gym.spaces.Box(laser_low,laser_high,dtype=np.float32)
+                                                        ))
+            '''
+            '''self.numeric_obs_space = Box(numeric_low, numeric_high, 
+                                         dtype=np.float32)
+            self.image_obs_space = Box(low=0, high=255, 
+                                      shape=(self.front_cam_h,self.front_cam_w, 3),
+                                      dtype=np.uint8)
+            self.observation_space = Tuple([self.numeric_obs_space, 
+                                            self.image_obs_space])
+            '''
+
+        else: # 'default' or 'array'
+            obs_dim = 29
+            if self.normalise:
+                high = np.ones([obs_dim]) # * np.inf
+            else:
+                high = np.ones([obs_dim]) * np.inf
+            self.observation_space = gym.spaces.Box(-high, high) # the range of input values
+
 
         URDFBasedRobot.__init__(self, "omnirobot_v3/urdf/omnirobot_v3.urdf",
                                 "Omnirobot", 
                                 action_dim=3, 
-                                obs_dim=5, # original 29, 23 is exclude contact_data
+                                obs_dim=obs_dim,
                                 action_space=self.action_space,
                                 observation_space=self.observation_space
                                 )
@@ -336,6 +356,11 @@ class Omnirobot2(OmniBase, URDFBasedRobot):
         # reward_state = np.concatenate([goal_info] + [self.cmd_vel_info] + [self.contact_info] + [laser_processed_info])
         reward_state = tuple([goal_info,self.cmd_vel_info,self.contact_info,laser_processed_info])
 
+        ### This is to check the positioning of the LiDAR data points. 
+        # self.original_laser.ranges = laser_processed_info # [0:5]
+        # self.original_laser.angle_increment = 0.349
+        # self.ori_lidar_pub.publish(self.original_laser)
+
         # normalisation or clipping step
         if self.normalise:
             # -1 to 1
@@ -349,18 +374,20 @@ class Omnirobot2(OmniBase, URDFBasedRobot):
             contact_processed_info = self.contact_info / 5.0 * 2.0 - 1.0
             laser_processed_info = laser_processed_info / 30.1 * 2.0 - 1.0
 
-            # return tuple([goal_info, norm_cmd_vel, contact_processed_info, laser_processed_info]), reward_state
-            return {'goal':goal_info, 'vel': norm_cmd_vel, 'contact': contact_processed_info, 'laser': laser_processed_info}, reward_state
+            if self.obs_input_type is 'multi_input':
+                norm_state =  {'goal':goal_info, 'vel': norm_cmd_vel, 'contact': contact_processed_info, 'laser': laser_processed_info}, reward_state
+            else:
+                norm_state = np.concatenate([goal_info] + [norm_cmd_vel] + [contact_processed_info] + [laser_processed_info]), reward_state
+            return norm_state
 
-        ### This is to check the positioning of the LiDAR data points. 
-        # self.original_laser.ranges = laser_processed_info # [0:5]
-        # self.original_laser.angle_increment = 0.349
-        # self.ori_lidar_pub.publish(self.original_laser)
+        if self.obs_input_type is 'multi_input':
+            norm_state = {'goal':goal_info, 'vel': self.cmd_vel_info, 'contact': self.contact_info, 'laser': laser_processed_info}, reward_state
+        else:
+            norm_state = np.concatenate([goal_info] + [self.cmd_vel_info] + [self.contact_info] + [laser_processed_info]), reward_state
+        return norm_state
 
-        # return np.concatenate([goal_info] + [norm_cmd_vel] + [contact_processed_info] + [laser_processed_info]), reward_state
         ### Tuple is not supported
         # return tuple([goal_info, self.cmd_vel_info, self.contact_info, laser_processed_info]), reward_state
-        return {'goal':goal_info, 'vel': norm_cmd_vel, 'contact': contact_processed_info, 'laser': laser_processed_info}, reward_state
 
-        # corresponds to state space of dist, angle, 3 nav_cmd_vel, 3 prev cmd_vel, 6 contact, 18 laser scan. 
-        # total of 32 state spaces
+        # corresponds to state space of dist, angle, 3 prev cmd_vel, 6 contact, 18 laser scan. 
+        # total of 29 state spaces

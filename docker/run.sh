@@ -1,12 +1,13 @@
 #!/bin/bash
 # load params
 name=$1
-home=$HOME
 
-if [ $1 == "" ];then
+if [ "$1" == "" ];
+then
 	echo 
 	echo "./run.sh [container_name]"
 	echo
+	exit 1
 fi
 
 # Allow X server host

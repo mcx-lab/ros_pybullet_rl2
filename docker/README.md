@@ -6,20 +6,23 @@ This custom image installs:
  
 - ros kinetic
 - all dependencies installed via apt-get
-- anaconda3 and creates python3.6 env (env name=py3.6)
+- anaconda3 and creates python3.7 env (env name=py3.7)
 - sublime text (optional, line 44-48)
 - terminator (optional, line 51)
 
-Build command:
+Build command for nvidia gpu:
 
-	docker build -t rl_pybullet2:latest \
-		-f docker/Dockerfile-rl2 . 
+    docker build -t rl_pybullet2_gpu:latest \
+        -f docker/Dockerfile-rl2-gpu . 
+
+Build command for integrated graphics:
+
+    docker build -t rl_pybullet2:latest \
+        -f docker/Dockerfile-rl2 .
 
 Note: 
 
-* Build from ros_pybullet_rl_  dir so that docker can copy this package into the image.
-* For computers with **integrated graphics**, comment out line 11-16 of `Dockerfile-rl`.
-* For computers with **nvidia gpu**, make sure [nvidia-docker 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) is installed.
+* Build from ros_pybullet_rl2 dir so that docker can copy this package into the image.
 
 ## Make docker container 
 
@@ -30,7 +33,8 @@ Nvidia Gpu:
          --env="DISPLAY=$DISPLAY" \
          --env="QT_X11_NO_MITSHM=1" \
          --runtime=nvidia \
-         rl_pybullet2:latest \
+         --gpus all \
+         rl_pybullet2_gpu:latest \
          terminator
 
 Integrated graphics:
