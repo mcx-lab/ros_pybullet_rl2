@@ -35,6 +35,10 @@ seed:                       0
 vec_env:                    dummy
 # VecEnv type, choices=["dummy", "subproc"] (default: dummy)
 
+max_ram_usage:              97.0
+# Checks percentage (out of 100.0%) of RAM used by computer and trigger program save & shutdown. (DO NOT SET AT 99.0 AND ABOVE)
+# If disable usage, set to -1
+
 ### Hyperparameter Optimization Params
 n_trials:                   10 
 # Number of trials for optimizing hyperparameters

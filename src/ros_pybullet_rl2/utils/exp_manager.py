@@ -3,6 +3,7 @@ import os
 import pickle as pkl
 import time
 import warnings
+import signal
 from collections import OrderedDict
 from pprint import pprint
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -41,6 +42,9 @@ from ros_pybullet_rl2.utils.callbacks import SaveVecNormalizeCallback, TrialEval
 from ros_pybullet_rl2.utils.hyperparams_opt import HYPERPARAMS_SAMPLER
 from ros_pybullet_rl2.utils.utils import ALGOS, get_callback_list, get_latest_run_id, get_wrapper_class, linear_schedule
 
+def signal_handler(sig, frame):
+    rospy.loginfo("Shutdown signalled. System interrupt, killing node.")
+    # sys.exit(0)
 
 class RamLimitCallback(BaseCallback):
     """
@@ -71,6 +75,7 @@ class RamLimitCallback(BaseCallback):
             if self.verbose > 1:
                 print(f"Saving model checkpoint to {path}")
             rospy.signal_shutdown("RAM Usage exceeding limit, signaling shutdown.")
+            signal.signal(signal.SIGINT, signal_handler)
         return True
 
 
