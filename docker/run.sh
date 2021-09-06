@@ -2,7 +2,7 @@
 # load params
 name=$1
 
-if [ $1 == "" ];
+if [ "$1" == "" ];
 then
 	echo 
 	echo "./run.sh [container_name]"
