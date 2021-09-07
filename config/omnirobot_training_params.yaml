@@ -7,7 +7,7 @@ env:                        NavOmnibase-v1
 tensorboard_log:            /home/yc/test_train_models/ 
 # Tensorboard log dir
 trained_agent:              ""
-# logs/ppo2/Omnibase-v1_1/best_model.zip / Default: "" / Path to a pretrained agent to continue training
+# logs/ppo/Omnibase-v1_1/best_model.zip / Default: "" / Path to a pretrained agent to continue training
 algo:                       ppo
 # RL Algorithm, choices=list(ALGOS.keys())
 n_timesteps:                -1 
@@ -37,9 +37,6 @@ vec_env:                    dummy
 obs_input_type:             array
 # how input data is prepared for neural network model intake (choice: ['default','array', 'multi_input']) (Note, the env must support this function, else no affect)
 max_ram_usage:              95.0
-# Percent %
-
-max_ram_usage:              97.0
 # Checks percentage (out of 100.0%) of RAM used by computer and trigger program save & shutdown. (DO NOT SET AT 99.0 AND ABOVE)
 # If disable usage, set to -1
 
