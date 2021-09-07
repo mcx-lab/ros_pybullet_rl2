@@ -108,7 +108,7 @@ i.e. make sure to change the **tensorboard_log** input to your desired location 
 
 Run the training:
 
-        roslaunch ros_pybullet_rl2 train.launch
+        roslaunch ros_pybullet_rl2 nav_train.launch
 
 - To monitor the training of your robot at any instance in time (Note this is not real-time), navigate to *src/ros_pybullet_rl2* and run: 
 
@@ -173,7 +173,7 @@ Set the number of timesteps to run the validation program by changing the **n_ti
 
 Run the validation program:
 
-        roslaunch ros_pybullet_rl2 validation.launch
+        roslaunch ros_pybullet_rl2 nav_validation.launch
 
 - To choose an environment for validation:
 

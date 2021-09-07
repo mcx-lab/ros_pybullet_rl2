@@ -33,6 +33,8 @@ load_last_checkpoint:       False
 ###
 norm_reward:                True
 # Normalize reward if applicable (trained with VecNormalize)
+obs_input_type:             array
+# how input data is prepared for neural network model intake (choice: ['default','array', 'multi_input']) (Note, the env must support this function, else no affect)
 seed:                       0
 # Random generator seed, default: 0
 reward_log:                 trained_agents/validation
