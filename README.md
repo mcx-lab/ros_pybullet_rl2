@@ -124,7 +124,25 @@ This is possible, but it may cause the computer to freeze if there is insufficie
 
 - To load a previously trained agent for further training:
 
-Navigate to *ros_pybullet_rl2/config*, and edit *omnirobot_training_params.yaml*. Change the **trained_agent** parameter to the relative path (from ros_pybullet_rl2.py) of your trained agent directory, i.e. *logs/ppo2/Omnibase-v1_1*. 
+Navigate to *ros_pybullet_rl2/config*, and edit *omnirobot_training_params.yaml*. Change the **trained_agent** parameter to the relative path (from *ros_pybullet_rl2.py*) of your trained agent directory, i.e. *logs/ppo2/Omnibase-v1_1*. 
+
+- The default hyperparameters used for training may also be override by specifying in the *omnirobot_training_params.yaml*. To change the neural network architecture i.e. from 2 layers of 64 nodes to 4 layers of 64 nodes, edit **net_arch=[dict(pi=[64, 64], vf=[64, 64])]** to **net_arch=[dict(pi=[64, 64, 64, 64], vf=[64, 64, 64, 64])]**: 
+
+```
+hyperparams:                {'policy': 'MlpPolicy',
+                              'policy_kwargs': "dict(log_std_init=-2,
+                               ortho_init=False,
+                               activation_fn=nn.ReLU,
+                               net_arch=[dict(pi=[64, 64], vf=[64, 64])]
+                               )"
+}
+```
+
+- To change the input data mode to the neural network, edit the **obs_input_type** parameter (take note that the RL environment has to support the use of this parameter). The choices are ['default','array', 'multi_input']. 'array' ('defaullt') is for use with MlpPolicy, 'multi_input' is for use with MultiInputPolicy. 
+```
+obs_input_type:             array
+```
+
 
 - To choose a simulation environment for training:
 
