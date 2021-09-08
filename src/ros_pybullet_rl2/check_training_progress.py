@@ -11,7 +11,7 @@ from stable_baselines3.common.results_plotter import load_results, ts2xy
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-mp', '--model-path', type=str, default="logs/ppo2/Omnibase-v0_1", help='Relative path to model of directory')
+    parser.add_argument('-mp', '--model-path', type=str, default="logs/ppo/NavOmnibase-v1_1", help='Relative path to model of directory')
 
     args = parser.parse_args()
 

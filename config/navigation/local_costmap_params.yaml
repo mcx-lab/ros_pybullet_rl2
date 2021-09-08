@@ -15,7 +15,7 @@ local_costmap:
 
 #  plugins:
 #        - {name: tactile_layer,   type: "tactile_layer_namespace::TactileLayer", output: "screen"}
-##        - {name: footprint_layer,   type: "costmap_2d::FootprintLayer"}
+#        - {name: footprint_layer,   type: "costmap_2d::FootprintLayer"}
 #        - {name: inflation_layer,   type: "costmap_2d::InflationLayer", output: "screen"}
 #        - {name: static_map,   type: "costmap_2d::StaticLayer", output: "screen"}
 #        - {name: obstacle_layer,   type: "costmap_2d::ObstacleLayer"}
