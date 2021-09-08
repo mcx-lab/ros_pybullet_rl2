@@ -174,7 +174,10 @@ Navigate to config/env_pybullet_params.yaml and under each environment, the **go
 
 ## Run the validation of trained models
 
-First, place the trained model, i.e. Omnibase-v1_1, found in src/ros_pybullet_rl2/logs/algorithm_name directory (by default), into src/ros_pybullet_rl2/trained_agents/allgorithm_name directory.
+First, place the trained model, i.e. Omnibase-v1_1, found in src/ros_pybullet_rl2/logs/algorithm_name directory (by default), into src/ros_pybullet_rl2/trained_agents/allgorithm_name directory, for example:
+```
+sudo cp -r /root/workspace_ws/src/ros_pybullet_rl2/src/ros_pybullet_rl2/logs/ppo /root/workspace_ws/src/ros_pybullet_rl2/src/ros_pybullet_rl2/trained_agent
+```
 
 - To edit the configuration files for validation:
 
@@ -200,6 +203,8 @@ Navigate to config/omnirobot_validation_params.yaml. Edit **select_env** paramet
 8. Static environment with deadends
 9. Dynamic obstacles environment without static obstacles
 10. Lab
+11. Lab (Dynamic)
+12. Doorway
 
 - To fix the set of goals to be achieved by the robot agent in each environment:
 

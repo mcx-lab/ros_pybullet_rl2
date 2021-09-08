@@ -25,10 +25,6 @@ from ros_pybullet_rl2.utils import ALGOS, create_test_env, get_latest_run_id, ge
 from ros_pybullet_rl2.utils.utils import StoreDict
 from ros_pybullet_rl2.utils.exp_manager import ExperimentManager
 
-# Fix for breaking change in v2.6.0
-sys.modules['stable_baselines.ddpg.memory'] = stable_baselines.common.buffers
-stable_baselines.common.buffers.Memory = stable_baselines.common.buffers.ReplayBuffer
-
 class inputArguments():
      def __init__(self):
         self.env = rospy.get_param('~env')
@@ -65,8 +61,8 @@ def main():
     algo = args.algo
     log_folder = args.log_folder
 
-    ros_pybullet_rl_dir = rospy.get_param('~ros_pybullet_rl2_dir')
-    log_path = "{}/{}/{}/".format(ros_pybullet_rl_dir, args.log_folder, args.algo)
+    ros_pybullet_rl2_dir = rospy.get_param('~ros_pybullet_rl2_dir')
+    log_path = "{}/{}/{}/".format(ros_pybullet_rl2_dir, args.log_folder, args.algo)
 
     if args.exp_id == 0:
         args.exp_id = get_latest_run_id(log_path, env_id)
@@ -74,9 +70,9 @@ def main():
 
     # Sanity checks
     if args.exp_id > 0:
-        log_path = os.path.join(folder, algo, f"{env_id}_{args.exp_id}")
+        log_path = os.path.join(ros_pybullet_rl2_dir, log_folder, algo, f"{env_id}_{args.exp_id}")
     else:
-        log_path = os.path.join(folder, algo)
+        log_path = os.path.join(ros_pybullet_rl2_dir, log_folder, algo)
 
     assert os.path.isdir(log_path), "The {} log_folder was not found".format(log_path)
 
@@ -91,7 +87,7 @@ def main():
         model_path = os.path.join(log_path, "best_model.zip")
         found = os.path.isfile(model_path)
 
-    if args.load_checkpoint is not None:
+    if args.load_checkpoint != 'None':
         model_path = os.path.join(log_path, f"rl_model_{args.load_checkpoint}_steps.zip")
         found = os.path.isfile(model_path)
 
@@ -131,7 +127,7 @@ def main():
     stats_path = os.path.join(log_path, env_id)
     hyperparams, stats_path = get_saved_hyperparams(stats_path, norm_reward=args.norm_reward, test_mode=True)
 
-    args.reward_log = "{}/{}/{}/{}_{}/".format(ros_pybullet_rl_dir, args.reward_log, args.algo, env_id, args.exp_id)
+    args.reward_log = "{}/{}/{}/{}_{}/".format(ros_pybullet_rl2_dir, args.reward_log, args.algo, env_id, args.exp_id)
     log_dir = args.reward_log if args.reward_log != '' else None
 
     # load env_kwargs if existing

@@ -192,7 +192,7 @@ def create_test_env(
     :return:
     """
     # Avoid circular import
-    from utils.exp_manager import ExperimentManager
+    from ros_pybullet_rl2.utils.exp_manager import ExperimentManager
 
     # Create the environment and wrap it if necessary
     env_wrapper = get_wrapper_class(hyperparams)
