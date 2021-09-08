@@ -205,10 +205,12 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
 
     def robot_specific_reset(self, bullet_client):
         ### Relaunch move_base node to avoid clear costmap rosservice not-working error. 
-        try:
-            self.move_base_launch.shutdown()
-        except:
-            pass
+        while True:
+            try:
+                self.move_base_launch.shutdown()
+                break
+            except:
+                rospy.logwarn("Error shutting down navigation node. Trying again.")
         self.launch_move_base_node()
         ###
 
@@ -265,7 +267,10 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
         # self.move_base_node = roslaunch.core.Node("move_base", "move_base")
         # self.move_base_launch = roslaunch.scriptapi.ROSLaunch()
         self.move_base_launch = roslaunch.parent.ROSLaunchParent(self.uuid, ["{}/launch/navigation/move_base_eband.launch".format(self.main_dir)])
-        self.move_base_launch.start()
+        # print("Server URI is: ", self.move_base_launch.server.uri)
+        self.move_base_launch.start() # the problem is when it lags at this step
+        # print("Server URI is: ", self.move_base_launch.server.uri)
+        # manually set URI?
 
         def shutdown_save_hook(): # for signal, need to give two inputs. As on_shutdown hook, no inputs. 
             # self.identify_ros_node_pid()
