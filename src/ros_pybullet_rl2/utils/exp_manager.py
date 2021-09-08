@@ -4,11 +4,19 @@ import pickle as pkl
 import time
 import warnings
 import signal
+import sys
 from collections import OrderedDict
 from pprint import pprint
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import rospy
+import rosnode
+import rosgraph
+try:
+    from xmlrpc.client import ServerProxy
+except ImportError:
+    from xmlrpclib import ServerProxy
+
 warnings.filterwarnings("ignore", category=UserWarning, module='gym')
 
 import gym
@@ -44,7 +52,7 @@ from ros_pybullet_rl2.utils.utils import ALGOS, get_callback_list, get_latest_ru
 
 def signal_handler(sig, frame):
     rospy.loginfo("Shutdown signalled. System interrupt, killing node.")
-    # sys.exit(0)
+    sys.exit(0)
 
 class RamLimitCallback(BaseCallback):
     """
@@ -72,10 +80,10 @@ class RamLimitCallback(BaseCallback):
         if psutil.virtual_memory().percent > self.max_ram_usage:
             path = os.path.join(self.save_path, f"{self.name_prefix}_{self.num_timesteps}_steps")
             self.model.save(path)
-            if self.verbose > 1:
+            if self.verbose > 0:
                 print(f"Saving model checkpoint to {path}")
+            rospy.logwarn("RAM Usage exceeding limit, signaling shutdown.")
             rospy.signal_shutdown("RAM Usage exceeding limit, signaling shutdown.")
-            signal.signal(signal.SIGINT, signal_handler)
         return True
 
 
@@ -196,6 +204,28 @@ class ExperimentManager(object):
         )
         self.params_path = f"{self.save_path}/{self.env_id}"
 
+        self.pids = []
+
+    def identify_ros_node_pid(self):
+        ID = '/rosnode'
+        master = rosgraph.Master(ID) # , master_uri="http://0.0.0.0:11311")
+        nodes = rosnode.get_node_names()
+        for node in nodes:
+            if str(node) == '/rviz':
+                continue
+            if str(node) == '/training':
+                node_api = rosnode.get_api_uri(master, node)
+                node = ServerProxy(node_api)
+                training_pid = rosnode._succeed(node.getPid(ID))
+                # print("training pid is: ", training_pid)
+                continue
+            node_api = rosnode.get_api_uri(master, node)
+            node = ServerProxy(node_api)
+            self.pids.append(rosnode._succeed(node.getPid(ID)))
+        # self.pids = [rosnode._succeed(ServerProxy(rosnode.get_api_uri(master, node)).getPid(ID)) for node in nodes]
+        self.pids.insert(0, training_pid)
+        # print(self.pids)
+
     def setup_experiment(self) -> Optional[BaseAlgorithm]:
         """
         Read hyperparameters, pre-process them (create schedules, wrappers, callbacks, action noise objects)
@@ -246,8 +276,10 @@ class ExperimentManager(object):
         if len(self.callbacks) > 0:
             kwargs["callback"] = self.callbacks
 
-        # Hook needed to save when training in navigation environment.
+        ### Hook needed to save when training in navigation environment.
         def shutdown_save_hook(): # for signal, need to give two inputs. As on_shutdown hook, no inputs. 
+            self.identify_ros_node_pid()
+            rospy.loginfo("Shutdown signal detected.")
             print("\nSaving to {}".format(self.save_path))
             model.save("{}/{}".format(self.save_path, self.env_id))
 
@@ -263,10 +295,18 @@ class ExperimentManager(object):
                 # Important: save the running average, for testing the agent we need that normalization
                 print("Saved policy: ", self.params_path)
                 model.get_vec_normalize_env().save(os.path.join(self.params_path, "vecnormalize.pkl"))
+            model.env.close()
+            rospy.logwarn('\nTraining aborted. Shutting down.\n________________________________')
             rospy.signal_shutdown('\nTraining aborted. Shutting down.\n________________________________')
+            for pid in self.pids[1:]:
+                os.kill(pid, signal.SIGINT)
+            time.sleep(2)
+            os.kill(self.pids[0], signal.SIGINT) # cannot use SIGKILL
+        ###
 
         try:
             rospy.on_shutdown(shutdown_save_hook)
+            # signal.signal(signal.SIGINT, signal_handler)
             model.learn(self.n_timesteps, **kwargs)
         except KeyboardInterrupt:
             # this allows to save the model when interrupting training
@@ -287,7 +327,7 @@ class ExperimentManager(object):
         :param model:
         """
         print(f"Saving to {self.save_path}")
-        model.save(f"{self.save_path}/{self.env_id}")
+        model.save(f"{self.save_path}/{self.env_id}") # the .zip save file. 
 
         if self.trained_agent != "":
             print("\nPolicy has been trained using: ", self.trained_agent)

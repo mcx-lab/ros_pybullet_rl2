@@ -15,6 +15,7 @@ pip install -r /root/rl_ws/src/ros_pybullet_rl2/requirements.txt
 #  rename ros cv2 
 cd /opt/ros/kinetic/lib/python2.7/dist-packages && \
 mv cv2.so cv2_renamed.so
+sudo cp /root/rl_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/loader.py
 
 # make workspace
 cd /root/rl_ws

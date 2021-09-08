@@ -266,6 +266,19 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
         # self.move_base_launch = roslaunch.scriptapi.ROSLaunch()
         self.move_base_launch = roslaunch.parent.ROSLaunchParent(self.uuid, ["{}/launch/navigation/move_base_eband.launch".format(self.main_dir)])
         self.move_base_launch.start()
+
+        def shutdown_save_hook(): # for signal, need to give two inputs. As on_shutdown hook, no inputs. 
+            # self.identify_ros_node_pid()
+            # rospy.loginfo("Shutdown signal detected.")
+            # rospy.logwarn('\nTraining stopped. Shutting down.\n________________________________')
+            # for pid in self.pids[1:]:
+            #     os.kill(pid, signal.SIGINT)
+            # time.sleep(2)
+            # os.kill(self.pids[0], signal.SIGINT) # cannot use SIGKILL
+            self.move_base_launch.shutdown()
+            # sys.exit(0)
+
+        rospy.on_shutdown(shutdown_save_hook)
         # self.move_base_launch.launch(self.move_base_node)
 
     def publish_goal(self):

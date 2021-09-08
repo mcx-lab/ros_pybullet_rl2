@@ -85,17 +85,9 @@ To make sure .../your_workspace_ws/src shows in the **$ROS_PACKAGE_PATH** enviro
 
         source devel/setup.bash
 
-To ensure safe loading of configuration file parameters to avoid potential error crashing in between training process, open the following file (replace the **kinetic** with **melodic** accordingly depending on version):
+To ensure safe loading of configuration file parameters to avoid potential error crashing in between training process, replace *.../roslaunch/loader.py*with ros_pybullet_rl2/common/other_packages/roslaunch/loader.py (replace the **kinetic** with **melodic** accordingly depending on version) at:
 ```
 /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/loader.py
-```
-Edit the line 409 from:
-```
-data = yaml.load(text)
-```
-to:
-```
-data = yaml.safe_load(text)
 ```
 
 
