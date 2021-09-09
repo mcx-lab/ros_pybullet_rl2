@@ -51,7 +51,7 @@ from ros_pybullet_rl2.utils.hyperparams_opt import HYPERPARAMS_SAMPLER
 from ros_pybullet_rl2.utils.utils import ALGOS, get_callback_list, get_latest_run_id, get_wrapper_class, linear_schedule
 
 def signal_handler(sig, frame):
-    rospy.logwarn("System interrupt, initiating shutdown.")
+    rospy.logwarn("System interrupt, exiting.")
     sys.exit(0)
 
 class RamLimitCallback(BaseCallback):
