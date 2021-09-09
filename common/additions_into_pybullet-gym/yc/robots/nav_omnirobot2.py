@@ -19,6 +19,7 @@ from time import sleep
 
 from std_srvs.srv import Empty
 import roslaunch
+from roslaunch.core import RLException
 
 import os
 from signal import signal, SIGINT
