@@ -306,7 +306,7 @@ class ExperimentManager(object):
 
         try:
             rospy.on_shutdown(shutdown_save_hook)
-            # signal.signal(signal.SIGINT, signal_handler)
+            signal.signal(signal.SIGINT, signal_handler)
             model.learn(self.n_timesteps, **kwargs)
         except KeyboardInterrupt:
             # this allows to save the model when interrupting training
