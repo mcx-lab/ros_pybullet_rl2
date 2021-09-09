@@ -269,11 +269,18 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
         ### Initialise navigation service
         # self.move_base_node = roslaunch.core.Node("move_base", "move_base")
         # self.move_base_launch = roslaunch.scriptapi.ROSLaunch()
-        self.move_base_launch = roslaunch.parent.ROSLaunchParent(self.uuid, ["{}/launch/navigation/move_base_eband.launch".format(self.main_dir)])
-        # print("Server URI is: ", self.move_base_launch.server.uri)
-        self.move_base_launch.start() # the problem is when it lags at this step
-        # print("Server URI is: ", self.move_base_launch.server.uri)
-        # manually set URI?
+        while True:
+            try:
+                self.move_base_launch = roslaunch.parent.ROSLaunchParent(self.uuid, ["{}/launch/navigation/move_base_eband.launch".format(self.main_dir)])
+                # move_base_launch may fail
+                self.move_base_launch.start() # the problem is when it lags at this step
+                print("Server URI is: ", self.move_base_launch.server.uri)
+                break
+            except RLException as error_msg:
+                # catch - raise RLException("XML-RPC initialization failed")
+                print("roslaunch.core.RLException: ", error_msg)
+                rospy.logwarn("Move base node failed to launch... Trying again in 3 seconds.")
+                sleep(3)
 
         def shutdown_save_hook(): # for signal, need to give two inputs. As on_shutdown hook, no inputs. 
             # self.identify_ros_node_pid()
@@ -281,7 +288,7 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
             # rospy.logwarn('\nTraining stopped. Shutting down.\n________________________________')
             # for pid in self.pids[1:]:
             #     os.kill(pid, signal.SIGINT)
-            # time.sleep(2)
+            # sleep(2)
             # os.kill(self.pids[0], signal.SIGINT) # cannot use SIGKILL
             self.move_base_launch.shutdown()
             # sys.exit(0)
