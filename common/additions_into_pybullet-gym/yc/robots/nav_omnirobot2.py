@@ -206,6 +206,9 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
     def robot_specific_reset(self, bullet_client):
         ### Relaunch move_base node to avoid clear costmap rosservice not-working error. 
         while True:
+            if self.count == 0:
+                self.count += 1
+                break
             try:
                 self.move_base_launch.shutdown()
                 break
