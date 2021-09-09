@@ -51,7 +51,7 @@ from ros_pybullet_rl2.utils.hyperparams_opt import HYPERPARAMS_SAMPLER
 from ros_pybullet_rl2.utils.utils import ALGOS, get_callback_list, get_latest_run_id, get_wrapper_class, linear_schedule
 
 def signal_handler(sig, frame):
-    rospy.loginfo("Shutdown signalled. System interrupt, killing node.")
+    rospy.logwarn("System interrupt, initiating shutdown.")
     sys.exit(0)
 
 class RamLimitCallback(BaseCallback):
@@ -279,7 +279,7 @@ class ExperimentManager(object):
         ### Hook needed to save when training in navigation environment.
         def shutdown_save_hook(): # for signal, need to give two inputs. As on_shutdown hook, no inputs. 
             self.identify_ros_node_pid()
-            rospy.loginfo("Shutdown signal detected.")
+            rospy.logwarn("Shutdown signal detected.")
             print("\nSaving to {}".format(self.save_path))
             model.save("{}/{}".format(self.save_path, self.env_id))
 
@@ -297,7 +297,7 @@ class ExperimentManager(object):
                 model.get_vec_normalize_env().save(os.path.join(self.params_path, "vecnormalize.pkl"))
             model.env.close()
             rospy.logwarn('\nTraining aborted. Shutting down.\n________________________________')
-            rospy.signal_shutdown('\nTraining aborted. Shutting down.\n________________________________')
+            # rospy.signal_shutdown('\nTraining aborted. Shutting down.\n________________________________')
             for pid in self.pids[1:]:
                 os.kill(pid, signal.SIGINT)
             time.sleep(2)
