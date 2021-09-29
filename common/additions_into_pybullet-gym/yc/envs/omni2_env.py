@@ -34,7 +34,7 @@ class OmniBase2BulletEnv(BaseBulletEnv):
     self.detect_radius = rospy.get_param("~detect_radius", 0.5)
     self.kp_linear = rospy.get_param("~kp_linear", 0.02)
     self.kf_lower = rospy.get_param("~kf_lower", 0.4) # in proximity filter, value = 1.0
-
+    self.kf_move_dynamic_obj = rospy.get_param("~kf_move_dynamic_obj", 61)
 
     self._seed()
 
@@ -196,7 +196,7 @@ class OmniBase2BulletEnv(BaseBulletEnv):
             self.dynamic_obj[bod]['action_angle_index'] = 0
         else:
           self.dynamic_obj[bod]['F_angle'] = random.uniform(-np.pi,np.pi)
-        self.dynamic_obj[bod]['F_factor'] = 295 # 300 as the F_external hypotenuse that will make a 75 kg mass move at ~ constant velocity. 
+        self.dynamic_obj[bod]['F_factor'] = self.kf_move_dynamic_obj # 300 as the F_external hypotenuse that will make a 75 kg mass move at ~ constant velocity. 
         self.dynamic_obj[bod]['F_ext'] = [np.cos(self.dynamic_obj[bod]['F_angle']) * self.dynamic_obj[bod]['F_factor'], np.sin(self.dynamic_obj[bod]['F_angle']) * self.dynamic_obj[bod]['F_factor'], 0] # For close to constant speed, 
         self.dynamic_obj[bod]['position'], orient = self._p.getBasePositionAndOrientation(bod)
         self.dynamic_obj[bod]['reinstate_direction'] = 0
