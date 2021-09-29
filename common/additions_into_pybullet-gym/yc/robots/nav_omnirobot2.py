@@ -206,6 +206,7 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
 
     def robot_specific_reset(self, bullet_client):
         ### Relaunch move_base node to avoid clear costmap rosservice not-working error. 
+        self.nav_msg_received = 0
         while True:
             if self.count == 0:
                 self.count += 1
@@ -405,7 +406,8 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
             angle_to_goal = 2*np.pi + angle_to_goal
 
         if (self.nav_cmd_vel_info == self.nav_vel_info).all(): # This is always varying, never be the same unless nav_cmd_vel is not published. 
-            self.nav_msg_received = 0            
+            self.nav_msg_received = 0
+
             # self.nav_msg_X_count += 1
             # if self.nav_msg_X_count == 5:
             #     self.nav_msg_X_count = 0
@@ -458,7 +460,7 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
                                     ])
             # norm_cmd_vel already calculated in apply_action_step.
             contact_processed_info = self.contact_info / 5.0 * 2.0 - 1.0
-            laser_processed_info = laser_processed_info / 30.1 * 2.0 - 1.0
+            laser_processed_info = laser_processed_info / 31.0 * 2.0 - 1.0
 
             if self.obs_input_type is 'multi_input':
                 norm_state =  {'goal':goal_info, 'nav_vel': norm_nav_cmd_vel, 'vel': norm_cmd_vel, 'contact': contact_processed_info, 'laser': laser_processed_info}, reward_state

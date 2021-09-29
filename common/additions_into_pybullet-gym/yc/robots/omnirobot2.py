@@ -372,7 +372,7 @@ class Omnirobot2(OmniBase, URDFBasedRobot):
                                     ])
             # norm_cmd_vel already calculated in apply_action_step.
             contact_processed_info = self.contact_info / 5.0 * 2.0 - 1.0
-            laser_processed_info = laser_processed_info / 30.1 * 2.0 - 1.0
+            laser_processed_info = laser_processed_info / 31.0 * 2.0 - 1.0 # lidar max range 30.0, largest val will be 31.0
 
             if self.obs_input_type is 'multi_input':
                 norm_state =  {'goal':goal_info, 'vel': norm_cmd_vel, 'contact': contact_processed_info, 'laser': laser_processed_info}, reward_state
