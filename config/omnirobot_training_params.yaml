@@ -10,8 +10,14 @@ trained_agent:              ""
 # logs/ppo/Omnibase-v1_1/best_model.zip / Default: "" / Path to a pretrained agent to continue training
 algo:                       ppo
 # RL Algorithm, choices=list(ALGOS.keys())
-n_timesteps:                -1 
+n_timesteps:                !!float 1e6 
 # Overwrite the number of timesteps, this has nothing to do with the number of timesteps in an episode
+save_timesteps:             !!float 1e3
+# Number of timesteps to save in the expert_data.pkl
+rollout_save_n_timesteps:   !!float 1e6
+# Sampling will not stop until there are at least this many timesteps
+rollout_save_n_episodes:    !!float 3e2
+# Sampling will not stop until there are at least this many episodes
 num_threads:                -1
 # Number of threads for PyTorch (-1 to use default)
 log_interval:               -1 
