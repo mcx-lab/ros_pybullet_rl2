@@ -29,7 +29,7 @@ This project is an upgrade of the original ros_pybullet_rl package at (https://g
 The main Reinforcement Learning training code is [here](https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/src/ros_pybullet_rl2/ros_pybullet_rl2.py)
 
 
-## Installation
+## Installation of ros_pybullet_rl2
 
 The following instructions have been tested under **Ubuntu 16.04** with **ROS Kinetic distribution** and **Ubuntu 18.04** with **ROS Melodic distribution**. 
 
@@ -88,6 +88,18 @@ To make sure .../your_workspace_ws/src shows in the **$ROS_PACKAGE_PATH** enviro
 To ensure safe loading of configuration file parameters to avoid potential error crashing in between training process, replace *.../roslaunch/loader.py*with ros_pybullet_rl2/common/other_packages/roslaunch/loader.py (replace the **kinetic** with **melodic** accordingly depending on version) at:
 ```
 /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/loader.py
+```
+
+## Installation of ros_pybullet_rl2
+
+```
+pip install imitation
+```
+
+```
+git clone http://github.com/HumanCompatibleAI/imitation
+cd imitation
+pip install -e .
 ```
 
 
