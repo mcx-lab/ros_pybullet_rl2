@@ -90,7 +90,7 @@ To ensure safe loading of configuration file parameters to avoid potential error
 /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/loader.py
 ```
 
-## Installation of ros_pybullet_rl2
+## Installation of imitation
 
 ```
 pip install imitation
