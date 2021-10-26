@@ -50,9 +50,61 @@ from ros_pybullet_rl2.utils.callbacks import SaveVecNormalizeCallback, TrialEval
 from ros_pybullet_rl2.utils.hyperparams_opt import HYPERPARAMS_SAMPLER
 from ros_pybullet_rl2.utils.utils import ALGOS, get_callback_list, get_latest_run_id, get_wrapper_class, linear_schedule
 
+# For generating expert traj & GAIL training
+import dataclasses
+import logging
+from typing import Union, Sequence
+from imitation.data import types
+from imitation.data import rollout
+
+GenTrajTerminationFn = Callable[[Sequence[types.TrajectoryWithRew]], bool]
+
 def signal_handler(sig, frame):
     rospy.logwarn("System interrupt, exiting.")
     sys.exit(0)
+
+class RolloutAndSaveCallback(BaseCallback):
+    def __init__(
+        self,  
+        sample_until: GenTrajTerminationFn,
+        save_timesteps: int,
+        save_path: str,
+        unwrap: bool = True,
+        exclude_infos: bool = True,
+        verbose: bool = True,
+        **kwargs,):
+
+        super(RolloutAndSaveCallback, self).__init__(verbose)
+        self.sample_until = sample_until
+        self.save_timesteps = save_timesteps
+        self.save_path = save_path
+        self.unwarp = unwrap
+        self.exclude_infos = exclude_infos
+        self.verbose = verbose
+        self.kwargs = kwargs
+
+    def _init_callback(self) -> None:
+        # Create folder if needed
+        if self.save_path is not None:
+            os.makedirs(self.save_path, exist_ok=True)
+
+    def _on_step(self) -> bool:
+        # print(self.save_timesteps)
+        # print(self.n_calls)
+        # print(self.n_calls % self.save_timesteps == 0)
+        if self.save_timesteps > 0 and self.n_calls % self.save_timesteps == 0:  
+            trajs = rollout.generate_trajectories(self.model, self.model.env, self.sample_until)
+            # if self.unwrap:
+            #     trajs = [rollout.unwrap_traj(traj) for traj in trajs]
+            if self.exclude_infos:
+                trajs = [dataclasses.replace(traj, infos=None) for traj in trajs]
+            if self.verbose:
+                stats = rollout.rollout_stats(trajs)
+                logging.info(f"Rollout stats: {stats}")
+
+            save_pkl_path = os.path.join(self.save_path, "final.pkl")       
+            types.save(save_pkl_path, trajs)
+            # print('Saving Expert Data')
 
 class RamLimitCallback(BaseCallback):
     """
@@ -127,6 +179,9 @@ class ExperimentManager(object):
         n_eval_envs: int = 1,
         no_optim_plots: bool = False,
         max_ram_usage: float = 90,
+        save_timesteps: int = 0,
+        rollout_save_n_timesteps: int = 0,
+        rollout_save_n_episodes: int = 0,
     ):
         super(ExperimentManager, self).__init__()
         self.algo = algo
@@ -142,6 +197,9 @@ class ExperimentManager(object):
         self.seed = seed
         self.optimization_log_path = optimization_log_path
         self.max_ram_usage = max_ram_usage
+        self.save_timesteps = save_timesteps
+        self.rollout_save_n_timesteps = rollout_save_n_timesteps
+        self.rollout_save_n_episodes = rollout_save_n_episodes
 
         self.vec_env_class = {"dummy": DummyVecEnv, "subproc": SubprocVecEnv}[vec_env_type]
 
@@ -555,6 +613,15 @@ class ExperimentManager(object):
             )
             self.callbacks.append(ram_limit_callback)
 
+        if self.rollout_save_n_timesteps > 0 or self.rollout_save_n_episodes > 0: 
+            sample_until = rollout.make_sample_until(self.rollout_save_n_timesteps, self.rollout_save_n_episodes)
+
+            rollout_and_save_callback = RolloutAndSaveCallback( 
+                sample_until = sample_until,
+                save_timesteps = self.save_timesteps,
+                save_path = self.save_path,
+            )
+            self.callbacks.append(rollout_and_save_callback)
 
     @staticmethod
     def is_atari(env_id: str) -> bool:
