@@ -26,7 +26,7 @@ from stable_baselines3.common.utils import set_random_seed
 import ros_pybullet_rl2.utils.import_envs
 
 from ros_pybullet_rl2.utils.exp_manager import ExperimentManager
-from ros_pybullet_rl2.utils.utils import ALGOS, StoreDict
+from ros_pybullet_rl2.utils.utils import ALGOS, StoreDict, get_latest_run_id
 
 import pathlib
 import pickle
@@ -49,6 +49,7 @@ class inputArguments():
         self.env = rospy.get_param('~env')
         self.tensorboard_log = rospy.get_param('~tensorboard_log')
         self.trained_agent = rospy.get_param('~trained_agent')
+        self.expert_data = rospy.get_param('~expert_data')
         self.algo = rospy.get_param('~algo')
         self.n_timesteps = rospy.get_param('~n_timesteps')
         self.save_timesteps = rospy.get_param('~save_timesteps')
@@ -141,63 +142,71 @@ def run():
     print("=" * 10, env_id, "=" * 10)
     print(f"Seed: {args.seed}")
 
-    exp_manager = ExperimentManager(
-        args,
-        args.algo,
-        env_id,
-        args.log_folder,
-        args.tensorboard_log,
-        args.n_timesteps,
-        args.eval_freq,
-        args.eval_episodes,
-        args.save_freq,
-        args.hyperparams,
-        args.env_kwargs,
-        args.trained_agent,
-        args.optimize_hyperparameters,
-        args.storage,
-        args.study_name,
-        args.n_trials,
-        args.n_jobs,
-        args.sampler,
-        args.pruner,
-        args.optimization_log_path,
-        n_startup_trials=args.n_startup_trials,
-        n_evaluations=args.n_evaluations,
-        truncate_last_trajectory=args.truncate_last_trajectory,
-        uuid_str=uuid_str,
-        seed=args.seed,
-        log_interval=args.log_interval,
-        save_replay_buffer=args.save_replay_buffer,
-        verbose=args.verbose,
-        vec_env_type=args.vec_env,
-        n_eval_envs=args.n_eval_envs,
-        no_optim_plots=args.no_optim_plots,
-        max_ram_usage=args.max_ram_usage,
-        save_timesteps=args.save_timesteps,
-        rollout_save_n_timesteps=args.rollout_save_n_timesteps,
-        rollout_save_n_episodes=args.rollout_save_n_episodes,
-    )
+    # exp_manager = ExperimentManager(
+    #     args,
+    #     args.algo,
+    #     env_id,
+    #     args.log_folder,
+    #     args.tensorboard_log,
+    #     args.n_timesteps,
+    #     args.eval_freq,
+    #     args.eval_episodes,
+    #     args.save_freq,
+    #     args.hyperparams,
+    #     args.env_kwargs,
+    #     args.trained_agent,
+    #     args.optimize_hyperparameters,
+    #     args.storage,
+    #     args.study_name,
+    #     args.n_trials,
+    #     args.n_jobs,
+    #     args.sampler,
+    #     args.pruner,
+    #     args.optimization_log_path,
+    #     n_startup_trials=args.n_startup_trials,
+    #     n_evaluations=args.n_evaluations,
+    #     truncate_last_trajectory=args.truncate_last_trajectory,
+    #     uuid_str=uuid_str,
+    #     seed=args.seed,
+    #     log_interval=args.log_interval,
+    #     save_replay_buffer=args.save_replay_buffer,
+    #     verbose=args.verbose,
+    #     vec_env_type=args.vec_env,
+    #     n_eval_envs=args.n_eval_envs,
+    #     no_optim_plots=args.no_optim_plots,
+    #     max_ram_usage=args.max_ram_usage,
+    #     save_timesteps=args.save_timesteps,
+    #     rollout_save_n_timesteps=args.rollout_save_n_timesteps,
+    #     rollout_save_n_episodes=args.rollout_save_n_episodes,
+    # )
 
     # Prepare experiment and launch hyperparameter optimization if needed
-    model = exp_manager.setup_experiment()
+    # model = exp_manager.setup_experiment()
 
     ros_pybullet_rl2_dir = rospy.get_param('~ros_pybullet_rl2_dir')
-    save_path = os.path.join(ros_pybullet_rl2_dir, "logs", "ppo", "NavOmnibase-v1_1")
+    expert_data_path = os.path.join(ros_pybullet_rl2_dir, args.expert_data)
+    log_path = f"{ros_pybullet_rl2_dir}/{args.log_folder}/{args.algo}/"
+    save_path = os.path.join(
+        log_path, f"{env_id}_{get_latest_run_id(log_path, env_id)}{uuid_str}"
+        )
+    params_path = f"{save_path}/{env_id}"
 
-    with open(os.path.join(save_path, 'final.pkl'), "rb") as f:
+    with open(expert_data_path, "rb") as f:
         trajectories = pickle.load(f)
-
     transitions = rollout.flatten_trajectories(trajectories)
 
     venv = util.make_vec_env(env_id, n_envs=1)
 
+    if args.tensorboard_log is not "":
+        init_tensorboard = True
+        init_tensorboard_graph = True
     tempdir = tempfile.TemporaryDirectory(prefix="quickstart")
     tempdir_path = pathlib.Path(tempdir.name)
     print(f"All Tensorboards and logging are being written inside {tempdir_path}/.")
 
+
     # Normal training
-    if model is not None:
+    if args.expert_data is not "":
         # exp_manager.learn(model)
         # exp_manager.save_trained_model(model)
 
@@ -208,12 +217,16 @@ def run():
             demo_batch_size=32,
             gen_algo=sb3.PPO("MlpPolicy", venv, verbose=1, n_steps=4096),
             custom_logger=gail_logger,
+            log_dir=args.tensorboard_log,
+            init_tensorboard=init_tensorboard,
+            init_tensorboard_graph=init_tensorboard_graph,
+            allow_variable_horizon=True,
         )
-        gail_trainer.train(total_timesteps=10000)
+        gail_trainer.train(total_timesteps=args.n_timesteps)
 
-        save(gail_trainer, os.path.join(save_path, "checkpoints", "final"))
+        save(gail_trainer, os.path.join(params_path, "checkpoints", "final"))
     else:
-        exp_manager.hyperparameters_optimization()
+        print("There is no expert data to run GAIL training, please check the expert_data parameter!")
 
     rospy.signal_shutdown('Training complete. Shutting down.\n________________________________')
 
