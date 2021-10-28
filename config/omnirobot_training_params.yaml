@@ -4,7 +4,7 @@
 ### Standard Configuration Params
 env:                        NavOmnibase-v1
 # environment ID
-tensorboard_log:            /home/yc/test_train_models/ 
+tensorboard_log:            /rl_ws/test_train_models/ 
 # Tensorboard log dir
 trained_agent:              ""
 # logs/ppo/Omnibase-v1_1/best_model.zip / Default: "" / Path to a pretrained agent to continue training
@@ -12,11 +12,11 @@ algo:                       ppo
 # RL Algorithm, choices=list(ALGOS.keys())
 n_timesteps:                !!float 1e6 
 # Overwrite the number of timesteps, this has nothing to do with the number of timesteps in an episode
-save_timesteps:             !!float 1e3
+save_timesteps:             !!float 1e5
 # Number of timesteps to save in the expert_data.pkl
-rollout_save_n_timesteps:   !!float 1e6
+rollout_save_n_timesteps:   1
 # Sampling will not stop until there are at least this many timesteps
-rollout_save_n_episodes:    !!float 3e2
+rollout_save_n_episodes:    10
 # Sampling will not stop until there are at least this many episodes
 num_threads:                -1
 # Number of threads for PyTorch (-1 to use default)
@@ -24,7 +24,7 @@ log_interval:               -1
 # Override log interval (default: -1, no change)
 eval_freq:                  10000
 # Evaluate the agent every n steps (default: 5000, 8000. If negative, -1, no evaluation). During hyperparameter optimization n-evaluations is used instead
-eval_episodes:              10
+eval_episodes:              3
 # Number of episodes to use for evaluation
 n_eval_envs:                1
 # Number of environments for evaluation (default: 1. Only use 1 for ROS environment)
@@ -51,7 +51,7 @@ n_trials:                   10
 # Number of trials for optimizing hyperparameters
 optimize_hyperparameters:   False
 # Run optuna hyperparameters search
-optimization_log_path:      /home/yc/hyperparam_tuning_logs/
+optimization_log_path:      /rl_ws/hyperparam_tuning_logs/
 # Path to save the evaluation log and optimal policy for each hyperparameter tried during optimization. Disabled if no argument is passed.
 no_optim_plots:             False
 # Disable hyperparameter optimization plots
@@ -79,7 +79,7 @@ hyperparams:                {'policy': 'MlpPolicy',
                               'policy_kwargs': "dict(log_std_init=-2,
                                ortho_init=False,
                                activation_fn=nn.ReLU,
-                               net_arch=[dict(pi=[64, 64], vf=[64, 64])]
+                               net_arch=[dict(pi=[64, 64, 64, 64], vf=[64, 64, 64, 64])]
                                )"
 }
 # Use if there are hyperparameters to overwrite (otherwise: None), in format: learning_rate:0.01 train_freq:10

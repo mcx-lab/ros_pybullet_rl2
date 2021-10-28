@@ -40,6 +40,9 @@ class inputArguments():
         self.trained_agent = rospy.get_param('~trained_agent')
         self.algo = rospy.get_param('~algo')
         self.n_timesteps = rospy.get_param('~n_timesteps')
+        self.save_timesteps = rospy.get_param('~save_timesteps')
+        self.rollout_save_n_timesteps = rospy.get_param('~rollout_save_n_timesteps')
+        self.rollout_save_n_episodes = rospy.get_param('~rollout_save_n_episodes')
         self.num_threads = rospy.get_param('~num_threads')
         self.log_interval = rospy.get_param('~log_interval')
         self.eval_freq = rospy.get_param('~eval_freq')
@@ -145,6 +148,9 @@ def run():
         n_eval_envs=args.n_eval_envs,
         no_optim_plots=args.no_optim_plots,
         max_ram_usage=args.max_ram_usage,
+        save_timesteps=args.save_timesteps,
+        rollout_save_n_timesteps=args.rollout_save_n_timesteps,
+        rollout_save_n_episodes=args.rollout_save_n_episodes,
     )
 
     # Prepare experiment and launch hyperparameter optimization if needed
