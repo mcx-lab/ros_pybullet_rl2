@@ -38,6 +38,8 @@ from imitation.algorithms.adversarial import gail
 from imitation.data import rollout
 from imitation.util import logger, util
 from imitation.policies import serialize
+from imitation.scripts.common import common as common_config
+from imitation.scripts.common import demonstrations, reward, rl, train
 
 seaborn.set()
 
@@ -190,12 +192,19 @@ def run():
         log_path, f"{env_id}_{get_latest_run_id(log_path, env_id)}{uuid_str}"
         )
     params_path = f"{save_path}/{env_id}"
+    monitor_path = os.path.join(params_path, "checkpoints")
 
-    with open(expert_data_path, "rb") as f:
-        trajectories = pickle.load(f)
-    transitions = rollout.flatten_trajectories(trajectories)
+    # custom_logger, log_dir = common_config.setup_logging(log_dir=args.tensorboard_log)
+    expert_trajs = demonstrations.load_expert_trajs(rollout_path=expert_data_path, n_expert_demos=None)
 
-    venv = util.make_vec_env(env_id, n_envs=1)
+    venv = common_config.make_venv(env_name=env_id, num_vec=1, parallel=False, log_dir=monitor_path, max_episode_steps=None, env_make_kwargs=None)
+    reward_net = reward.make_reward_net(venv, net_cls=None, net_kwargs=None)
+
+    # with open(expert_data_path, "rb") as f:
+    #     trajectories = pickle.load(f)
+    # transitions = rollout.flatten_trajectories(trajectories)
+
+    # venv = util.make_vec_env(env_id, n_envs=1)
 
     if args.tensorboard_log is not "":
         init_tensorboard = True
@@ -213,7 +222,7 @@ def run():
         gail_logger = logger.configure(tempdir_path / "GAIL/")
         gail_trainer = gail.GAIL(
             venv=venv,
-            demonstrations=transitions,
+            demonstrations=expert_trajs,
             demo_batch_size=32,
             gen_algo=sb3.PPO("MlpPolicy", venv, verbose=1, n_steps=4096),
             custom_logger=gail_logger,
@@ -224,7 +233,7 @@ def run():
         )
         gail_trainer.train(total_timesteps=args.n_timesteps)
 
-        save(gail_trainer, os.path.join(params_path, "checkpoints", "final"))
+        save(gail_trainer, os.path.join(monitor_path, "final"))
     else:
         print("There is no expert data to run GAIL training, please check the expert_data parameter!")
 
