@@ -103,20 +103,24 @@ pip install -e .
 ```
 
 
-## Run the RL training
+## Run the RL and GAIL training
 
 - To edit the configuration files for training:
 
 Navigate to *ros_pybullet_rl2/config*, and edit *omnirobot_training_params.yaml* **(Note NavOmnibase-v1 can only be run with ROS Kinetic)**. 
 i.e. make sure to change the **tensorboard_log** input to your desired location to record the log of the reinforcemeant learning training process. 
 
-Run the training:
+Run the RL training:
 
-        roslaunch ros_pybullet_rl2 nav_train.launch
+        roslaunch ros_pybullet_rl2 nav_train_rl.launch
+
+Run the RL training:
+
+        roslaunch ros_pybullet_rl2 nav_train_gail.launch
 
 - To monitor the training of your robot at any instance in time (Note this is not real-time), navigate to *src/ros_pybullet_rl2* and run: 
 
-        python check_training_progress.py --model-path logs/ppo2/Omnibase-v1_1
+        python check_training_progress.py --model-path logs/ppo/NavOmnibase-v1_1
 
 *Change the model path according to the path to your model directory or log path. The trained model is saved in src/ros_pybullet_rl2/logs/algorithm_name/env_id by default.*
 
