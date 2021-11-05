@@ -31,6 +31,7 @@ from ros_pybullet_rl2.utils.utils import ALGOS, StoreDict, get_latest_run_id
 import pathlib
 import pickle
 import tempfile
+import sacred
 
 import stable_baselines3 as sb3
 
@@ -40,6 +41,7 @@ from imitation.util import logger, util
 from imitation.policies import serialize
 from imitation.scripts.common import common as common_config
 from imitation.scripts.common import demonstrations, reward, rl, train
+from imitation.scripts import train_adversarial
 
 seaborn.set()
 
@@ -144,43 +146,43 @@ def run():
     print("=" * 10, env_id, "=" * 10)
     print(f"Seed: {args.seed}")
 
-    # exp_manager = ExperimentManager(
-    #     args,
-    #     args.algo,
-    #     env_id,
-    #     args.log_folder,
-    #     args.tensorboard_log,
-    #     args.n_timesteps,
-    #     args.eval_freq,
-    #     args.eval_episodes,
-    #     args.save_freq,
-    #     args.hyperparams,
-    #     args.env_kwargs,
-    #     args.trained_agent,
-    #     args.optimize_hyperparameters,
-    #     args.storage,
-    #     args.study_name,
-    #     args.n_trials,
-    #     args.n_jobs,
-    #     args.sampler,
-    #     args.pruner,
-    #     args.optimization_log_path,
-    #     n_startup_trials=args.n_startup_trials,
-    #     n_evaluations=args.n_evaluations,
-    #     truncate_last_trajectory=args.truncate_last_trajectory,
-    #     uuid_str=uuid_str,
-    #     seed=args.seed,
-    #     log_interval=args.log_interval,
-    #     save_replay_buffer=args.save_replay_buffer,
-    #     verbose=args.verbose,
-    #     vec_env_type=args.vec_env,
-    #     n_eval_envs=args.n_eval_envs,
-    #     no_optim_plots=args.no_optim_plots,
-    #     max_ram_usage=args.max_ram_usage,
-    #     save_timesteps=args.save_timesteps,
-    #     rollout_save_n_timesteps=args.rollout_save_n_timesteps,
-    #     rollout_save_n_episodes=args.rollout_save_n_episodes,
-    # )
+    exp_manager = ExperimentManager(
+        args,
+        args.algo,
+        env_id,
+        args.log_folder,
+        args.tensorboard_log,
+        args.n_timesteps,
+        args.eval_freq,
+        args.eval_episodes,
+        args.save_freq,
+        args.hyperparams,
+        args.env_kwargs,
+        args.trained_agent,
+        args.optimize_hyperparameters,
+        args.storage,
+        args.study_name,
+        args.n_trials,
+        args.n_jobs,
+        args.sampler,
+        args.pruner,
+        args.optimization_log_path,
+        n_startup_trials=args.n_startup_trials,
+        n_evaluations=args.n_evaluations,
+        truncate_last_trajectory=args.truncate_last_trajectory,
+        uuid_str=uuid_str,
+        seed=args.seed,
+        log_interval=args.log_interval,
+        save_replay_buffer=args.save_replay_buffer,
+        verbose=args.verbose,
+        vec_env_type=args.vec_env,
+        n_eval_envs=args.n_eval_envs,
+        no_optim_plots=args.no_optim_plots,
+        max_ram_usage=args.max_ram_usage,
+        save_timesteps=args.save_timesteps,
+        rollout_save_n_timesteps=args.rollout_save_n_timesteps,
+        rollout_save_n_episodes=args.rollout_save_n_episodes,
+    )
 
     # Prepare experiment and launch hyperparameter optimization if needed
     # model = exp_manager.setup_experiment()
@@ -194,38 +196,42 @@ def run():
     params_path = f"{save_path}/{env_id}"
     monitor_path = os.path.join(params_path, "checkpoints")
 
-    # custom_logger, log_dir = common_config.setup_logging(log_dir=args.tensorboard_log)
+    custom_logger = logger.configure(os.path.join(args.tensorboard_log, "log"), ["tensorboard", "stdout", "log", "csv"])
     expert_trajs = demonstrations.load_expert_trajs(rollout_path=expert_data_path, n_expert_demos=None)
 
-    venv = common_config.make_venv(env_name=env_id, num_vec=1, parallel=False, log_dir=monitor_path, max_episode_steps=None, env_make_kwargs=None)
-    reward_net = reward.make_reward_net(venv, net_cls=None, net_kwargs=None)
+    venv = common_config.make_venv(env_name=env_id, num_vec=1, parallel=False, log_dir=monitor_path, max_episode_steps=1000, env_make_kwargs=None)
+    # reward_net = reward.make_reward_net(venv, net_cls=None, net_kwargs=None)
 
-    # with open(expert_data_path, "rb") as f:
-    #     trajectories = pickle.load(f)
-    # transitions = rollout.flatten_trajectories(trajectories)
+    hyperparams, saved_hyperparams = exp_manager.read_hyperparameters()
+    hyperparams, env_wrapper, callbacks = exp_manager._preprocess_hyperparams(hyperparams)
 
-    # venv = util.make_vec_env(env_id, n_envs=1)
+    _hyperparams = exp_manager._preprocess_action_noise(hyperparams, saved_hyperparams, venv)
+    del _hyperparams["policy"]
+    del _hyperparams["n_steps"]
+    policy_kwargs = _hyperparams["policy_kwargs"]
+    del _hyperparams["policy_kwargs"]
+    print(_hyperparams)
+
+    gen_algo = rl.make_rl_algo(venv, sb3.PPO, batch_size=4096, rl_kwargs=_hyperparams, 
+        train={'policy_cls':sb3.common.policies.ActorCriticPolicy, 'policy_kwargs':policy_kwargs, 
+        'n_episodes_eval':args.eval_episodes, 'algorithm_specific': {}})
 
     if args.tensorboard_log is not "":
         init_tensorboard = True
         init_tensorboard_graph = True
-    tempdir = tempfile.TemporaryDirectory(prefix="quickstart")
-    tempdir_path = pathlib.Path(tempdir.name)
-    print(f"All Tensorboards and logging are being written inside {tempdir_path}/.")
-
 
     # Normal training
     if args.expert_data is not "":
         # exp_manager.learn(model)
         # exp_manager.save_trained_model(model)
 
-        gail_logger = logger.configure(tempdir_path / "GAIL/")
         gail_trainer = gail.GAIL(
             venv=venv,
             demonstrations=expert_trajs,
             demo_batch_size=32,
-            gen_algo=sb3.PPO("MlpPolicy", venv, verbose=1, n_steps=4096),
-            custom_logger=gail_logger,
+            # gen_algo=sb3.PPO(venv, verbose=1, **_hyperparams),
+            gen_algo=gen_algo,
+            custom_logger=custom_logger,
             log_dir=args.tensorboard_log,
             init_tensorboard=init_tensorboard,
             init_tensorboard_graph=init_tensorboard_graph,
