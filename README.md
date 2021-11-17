@@ -114,7 +114,7 @@ i.e. make sure to change the **tensorboard_log** input to your desired location 
 - For GAIL training, **n_timesteps** input need to be !!int instead of !!float while RL training can be both.
 - **rollout_save_n_episodes** input changes the size of the expert data. For example, **rollout_save_n_episodes** = 10 will save expert data for every 10 episodes.   
 
-<img src="https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/common/training_config.png" alt="show" />
+<img src="https://github.com/mcx-lab/ros_pybullet_rl2/blob/gail/common/training_config.png" alt="show" />
 
 Run the RL training:
 
