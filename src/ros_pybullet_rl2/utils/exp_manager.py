@@ -102,9 +102,10 @@ class RolloutAndSaveCallback(BaseCallback):
                 stats = rollout.rollout_stats(trajs)
                 logging.info(f"Rollout stats: {stats}")
 
-            save_pkl_path = os.path.join(self.save_path, "final.pkl")       
+            save_pkl_path = os.path.join(self.save_path, "final.pkl")   
+            # print("\n\n\n", save_pkl_path)    
             types.save(save_pkl_path, trajs)
-            # print('Saving Expert Data')
+            # print('\n\n\nSaving Expert Data')
 
 class RamLimitCallback(BaseCallback):
     """
@@ -612,7 +613,7 @@ class ExperimentManager(object):
                 verbose=1,
             )
             self.callbacks.append(ram_limit_callback)
-
+        # print(self.rollout_save_n_episodes)
         if self.rollout_save_n_timesteps > 0 or self.rollout_save_n_episodes > 0: 
             sample_until = rollout.make_sample_until(self.rollout_save_n_timesteps, self.rollout_save_n_episodes)
 
@@ -622,6 +623,7 @@ class ExperimentManager(object):
                 save_path = self.save_path,
             )
             self.callbacks.append(rollout_and_save_callback)
+            # print("###\n###\n###\nRegister rollout and save callback.")
 
     @staticmethod
     def is_atari(env_id: str) -> bool:
