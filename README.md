@@ -77,6 +77,8 @@ Then do the following:
 
 - Move the directory, ros_pybullet_rl2/common/additions_into_pybullet-gym/assets, into pybullet-gym/pybulletgym/envs. Copy and merge. 
 
+- Move the file, ros_pybullet_rl2/common/additions_into_imitation/rl.py, into imitation/src/imitation/scripts/common. Replace.
+
 Navigate to your_workspace_ws and build the package:
  
         catkin_make
@@ -112,7 +114,7 @@ i.e. make sure to change the **tensorboard_log** input to your desired location 
 
 - Before starting GAIL training, change the **expert_data** input to your desired final.pkl location
 - For GAIL training, **n_timesteps** input need to be !!int instead of !!float while RL training can be both.
-- **rollout_save_n_episodes** input changes the size of the expert data. For example, **rollout_save_n_episodes** = 10 will save expert data for every 10 episodes.   
+- **rollout_save_n_episodes** input change the size of the expert data. For example, **rollout_save_n_episodes** = 10 will save expert data for every 10 episodes.  
 
 <img src="https://github.com/mcx-lab/ros_pybullet_rl2/blob/gail/common/training_config.png" alt="show" />
 

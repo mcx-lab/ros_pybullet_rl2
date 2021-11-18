@@ -188,6 +188,7 @@ def run():
     # model = exp_manager.setup_experiment()
 
     ros_pybullet_rl2_dir = rospy.get_param('~ros_pybullet_rl2_dir')
+    trained_agent_path = os.path.join(ros_pybullet_rl2_dir, args.trained_agent)
     expert_data_path = os.path.join(ros_pybullet_rl2_dir, args.expert_data)
     log_path = f"{ros_pybullet_rl2_dir}/{args.log_folder}/{args.algo}/"
     save_path = os.path.join(
@@ -212,9 +213,14 @@ def run():
     del _hyperparams["policy_kwargs"]
     print(_hyperparams)
 
+    if args.trained_agent is not "":
+        trained_agent = sb3.PPO.load(trained_agent_path)
+    else:
+        trained_agent = None
+
     gen_algo = rl.make_rl_algo(venv, sb3.PPO, batch_size=4096, rl_kwargs=_hyperparams, 
         train={'policy_cls':sb3.common.policies.ActorCriticPolicy, 'policy_kwargs':policy_kwargs, 
-        'n_episodes_eval':args.eval_episodes, 'algorithm_specific': {}})
+        'n_episodes_eval':args.eval_episodes, 'algorithm_specific': {}}, trained_agent = trained_agent)
 
     if args.tensorboard_log is not "":
         init_tensorboard = True
