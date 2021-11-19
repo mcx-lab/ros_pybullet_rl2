@@ -77,6 +77,8 @@ Then do the following:
 
 - Move the directory, ros_pybullet_rl2/common/additions_into_pybullet-gym/assets, into pybullet-gym/pybulletgym/envs. Copy and merge. 
 
+- Move the file, ros_pybullet_rl2/common/additions_into_imitation/rl.py, into imitation/src/imitation/scripts/common. Replace.
+
 Navigate to your_workspace_ws and build the package:
  
         catkin_make
@@ -110,17 +112,29 @@ pip install -e .
 Navigate to *ros_pybullet_rl2/config*, and edit *omnirobot_training_params.yaml* **(Note NavOmnibase-v1 can only be run with ROS Kinetic)**. 
 i.e. make sure to change the **tensorboard_log** input to your desired location to record the log of the reinforcemeant learning training process. 
 
+- Before starting GAIL training, change the **expert_data** input to your desired final.pkl location
+- For GAIL training, **n_timesteps** input need to be !!int instead of !!float while RL training can be both.
+- **rollout_save_n_episodes** input change the size of the expert data. For example, **rollout_save_n_episodes** = 10 will save expert data for every 10 episodes.  
+
+<img src="https://github.com/mcx-lab/ros_pybullet_rl2/blob/gail/common/training_config.png" alt="show" />
+
 Run the RL training:
 
         roslaunch ros_pybullet_rl2 nav_train_rl.launch
 
-Run the RL training:
+Run the GAIL training:
 
         roslaunch ros_pybullet_rl2 nav_train_gail.launch
 
-- To monitor the training of your robot at any instance in time (Note this is not real-time), navigate to *src/ros_pybullet_rl2* and run: 
+- To monitor the training of your robot at any instance in time (Note this is not real-time), navigate to *src/ros_pybullet_rl2* and run:
+
+RL training: 
 
         python check_training_progress.py --model-path logs/ppo/NavOmnibase-v1_1
+
+GAIL training: 
+
+        python check_training_progress.py --model-path logs/ppo/NavOmnibase-v1_1/NavOmnibase-v1/checkpoints/monitor
 
 *Change the model path according to the path to your model directory or log path. The trained model is saved in src/ros_pybullet_rl2/logs/algorithm_name/env_id by default.*
 
@@ -192,7 +206,7 @@ Navigate to config/env_pybullet_params.yaml and under each environment, the **go
 
 First, place the trained model, i.e. Omnibase-v1_1, found in src/ros_pybullet_rl2/logs/algorithm_name directory (by default), into src/ros_pybullet_rl2/trained_agents/allgorithm_name directory, for example:
 ```
-sudo cp -r /root/workspace_ws/src/ros_pybullet_rl2/src/ros_pybullet_rl2/logs/ppo /root/workspace_ws/src/ros_pybullet_rl2/src/ros_pybullet_rl2/trained_agent
+sudo cp -r /root/workspace_ws/src/ros_pybullet_rl2/src/ros_pybullet_rl2/logs/ppo/NavOmnibase-v1_1 /root/workspace_ws/src/ros_pybullet_rl2/src/ros_pybullet_rl2/trained_agents/ppo
 ```
 
 - To edit the configuration files for validation:
@@ -202,7 +216,7 @@ Set the number of timesteps to run the validation program by changing the **n_ti
 
 Run the validation program:
 
-        roslaunch ros_pybullet_rl2 nav_validation.launch
+        roslaunch ros_pybullet_rl2 nav_validate.launch
 
 - To choose an environment for validation:
 
