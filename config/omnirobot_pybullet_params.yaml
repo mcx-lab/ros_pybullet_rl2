@@ -27,7 +27,7 @@ parallel_plugin_execution:  False # will trap in loop of asynchronous execution
 
 # Simulation dynamic bodies movement speed # difference device will have variability in the f such that ...
 # ... simulation bodies move without going crazy (moving too fast, fall and crash into robot)
-kf_move_dynamic_obj:    61
+kf_move_dynamic_obj:    290 # 61
 
 # True = allow pybullet to compute the inertia tensor based on mass and volume of the collision shape
 # False = you can provide a more accurate inertia tensor, so inertia will be read then from URDF model
