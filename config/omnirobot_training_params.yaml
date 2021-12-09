@@ -4,10 +4,10 @@
 ### Standard Configuration Params
 env:                        NavOmnibase-v1
 # environment ID
-tensorboard_log:            /root/rl_ws/test_train_models/ 
+tensorboard_log:            /home/yc/rl2_ws/test_train_models/ 
 # Tensorboard log dir
 trained_agent:              ""
-# logs/ppo/NavOmnibase-v1_1/best_model.zip / Default: "" / Path to a pretrained agent to continue training
+# logs/ppo/NavOmnibase-v1_1/NavOmnibase-v1/checkpoints/final/gen_policy/model.zip / Default: "" / Path to a pretrained agent to continue training
 expert_data:                logs/ppo/NavOmnibase-v1_1/final.pkl
 # logs/ppo/NavOmnibase-v1_1/final.pkl / If running gail training, use expert_data as the input to load corresponding .pkl file. 
 algo:                       ppo
@@ -15,11 +15,11 @@ algo:                       ppo
 n_timesteps:                !!int 1000000
 # Overwrite the number of timesteps, this has nothing to do with the number of timesteps in an episode
 # for GAIL training, please set !!int 1000000 instead of !!float 1e6 (default)
-save_timesteps:             !!float 1e5
+save_timesteps:             !!float 1e3
 # Number of timesteps to save in the expert_data.pkl
 rollout_save_n_timesteps:   1
 # Sampling will not stop until there are at least this many timesteps
-rollout_save_n_episodes:    10
+rollout_save_n_episodes:    30
 # Sampling will not stop until there are at least this many episodes
 num_threads:                -1
 # Number of threads for PyTorch (-1 to use default)
@@ -54,7 +54,7 @@ n_trials:                   10
 # Number of trials for optimizing hyperparameters
 optimize_hyperparameters:   False
 # Run optuna hyperparameters search
-optimization_log_path:      /rl_ws/hyperparam_tuning_logs/
+optimization_log_path:      /rl2_ws/hyperparam_tuning_logs/
 # Path to save the evaluation log and optimal policy for each hyperparameter tried during optimization. Disabled if no argument is passed.
 no_optim_plots:             False
 # Disable hyperparameter optimization plots
@@ -100,7 +100,7 @@ truncate_last_trajectory:   False
 ### Simulation Environment Params
 render:                     False
 # Show simulation environment
-select_env:                 1 
+select_env:                 10 
 # Environment labelling after 'env_obj' in env_pybullet_params.yaml
 # 0: Stadium maze environment
 # 1: Simple straight line
