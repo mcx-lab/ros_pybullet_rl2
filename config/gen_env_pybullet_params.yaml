@@ -1858,7 +1858,7 @@ env_obj9:
                                 },
                         'dynamic':  {'obj2':{
                                         'shapeType':'GEOM_CYLINDER',
-                                        'radius':   0.25,
+                                        'radius':   0.30,
                                         'height':   1.80,
                                         'baseMass': 76, 
                                         'basePosition': [2.5,2.5,0.9],
@@ -1874,17 +1874,17 @@ env_obj9:
                                         },
                                     'obj4':{
                                         'shapeType':'GEOM_CYLINDER',
-                                        'radius':   0.25,
+                                        'radius':   0.30,
                                         'height':   1.70,
-                                        'baseMass': 74, 
+                                        'baseMass': 75, 
                                         'basePosition': [5.5,-3.5,0.85],
                                         'baseOrientation':  [0,0,0,1]
                                         },
                                     'obj5':{
                                         'shapeType':'GEOM_CYLINDER',
-                                        'radius':   0.25,
+                                        'radius':   0.30,
                                         'height':   1.70,
-                                        'baseMass': 74, 
+                                        'baseMass': 75, 
                                         'basePosition': [-3,4,0.85],
                                         'baseOrientation':  [0,0,0,1]
                                         },
@@ -1906,9 +1906,9 @@ env_obj9:
                                         },
                                     'obj8':{
                                         'shapeType':'GEOM_CYLINDER',
-                                        'radius':   0.25,
+                                        'radius':   0.30,
                                         'height':   1.75,
-                                        'baseMass': 74, 
+                                        'baseMass': 75, 
                                         'basePosition': [-2.5,-0.5,0.875],
                                         'baseOrientation':  [0,0,0,1]
                                         },
