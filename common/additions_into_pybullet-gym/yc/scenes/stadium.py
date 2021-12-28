@@ -7,6 +7,7 @@ from .scene_bases import Scene
 import pybullet
 import pybullet_data
 import rospy
+import numpy as np
 
 class StadiumScene(Scene):
 	multiplayer = False
@@ -32,9 +33,11 @@ class StadiumScene(Scene):
 			self.soft_bodies = []
 			self.col_dyn_bodies = []
 			self.dyn_bodies = []
+			self.dyn_constraints = []
 
 			env_label = rospy.get_param('~select_env')
 			self.env_obj = rospy.get_param('~env_obj{}/env'.format(str(env_label)))
+			movement_constraint = rospy.get_param('~apply_movement_constraint', False)
 
 			if rospy.get_param('~generate_env'):
 				# load static bodies
@@ -58,12 +61,25 @@ class StadiumScene(Scene):
 					# 	self._p.createMultiBody(self.env_obj['static'][obj]['baseMass'], cuid, basePosition=self.env_obj['static'][obj]['basePosition'])
 				# load dynamic bodies
 				try:
+					self.dyn_bodies_action_angle = rospy.get_param('~env_obj{}/action_angle_set'.format(str(env_label)))
 					for obj in sorted(self.env_obj['dynamic'].keys()):
 						if self.env_obj['dynamic'][obj]['shapeType'] == 'GEOM_CYLINDER':
 							cuid = self._p.createCollisionShape(self._p.GEOM_CYLINDER, radius = self.env_obj['dynamic'][obj]['radius'], height = self.env_obj['dynamic'][obj]['height'])
 							self.col_dyn_bodies.append(cuid)
 							self.dyn_bodies.append(self._p.createMultiBody(self.env_obj['dynamic'][obj]['baseMass'], cuid, basePosition=self.env_obj['dynamic'][obj]['basePosition']))
-					self.dyn_bodies_action_angle = rospy.get_param('~env_obj{}/action_angle_set'.format(str(env_label)))
+							
+							# assign 1D movement constraint to object
+							if movement_constraint:
+								if len(self.dyn_bodies_action_angle) != 0:
+									action_set = self.dyn_bodies_action_angle[len(self.dyn_bodies)-1]
+									angle_moveset = [eval(angle) for angle in action_set]
+									angle = angle_moveset[0]
+									axis = [np.cos(angle), np.sin(angle), 0]
+									self.dyn_constraints.append(self._p.createConstraint(self.ground_plane_mjcf[-1], -1, self.dyn_bodies[-1], -1, 
+																self._p.JOINT_PRISMATIC, axis,
+																self.env_obj['dynamic'][obj]['basePosition'],
+																[0,0,0])
+															)
 				except:
 					print("No dynamic bodies found.")
 				#	loaded_sdf = self._p.loadSDF(os.path.join(os.path.dirname(__file__), "..", "..", "assets", "scenes", "stadium", "%s.sdf" %model))
