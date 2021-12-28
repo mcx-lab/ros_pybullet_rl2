@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!--Method to Generate Environment (Either generate or load)-->
+    <arg name="generate_env" default="true" />
+    <arg name="load_env" default="false" />
+    <arg name="env_config" default="gen_env_pybullet_params.yaml" />
+
+    <arg name="config_file_train" default="$(find ros_pybullet_rl2)/config/omnirobot_training_params.yaml" />
+    <arg name="config_file_pybullet" default="$(find ros_pybullet_rl2)/config/omnirobot_pybullet_params.yaml" />
+    <arg name="config_file_env" value="$(find ros_pybullet_rl2)/config/$(arg env_config)" />
+ 
+    <arg name="config_file_nav" default="$(find ros_pybullet_rl2)/config/omnirobot_sml_navigation_params.yaml" />
+    <arg name="ros_pybullet_rl2_dir" default="$(find ros_pybullet_rl2)/src/ros_pybullet_rl2" />
+    <arg name="main_dir" default="$(find ros_pybullet_rl2)"/>
+
+    <arg name="robot_urdf_path" default="$(find omnirobot_v3)/urdf/omnirobot_v3.urdf" />
+
+    <!-- upload urdf model to ROS param server from its xacro file, remove if directly using .urdf robot model -->
+    <param name="robot_description"
+           command="$(find xacro)/xacro --inorder $(arg robot_urdf_path)" /> 
+
+    <!--train.py node-->
+    <node pkg="ros_pybullet_rl2" type="ros_pybullet_human_demo_node" name="training" output="screen" required="true">
+        <rosparam file="$(arg config_file_train)" command="load" />
+        <rosparam file="$(arg config_file_pybullet)" command="load" />
+        <rosparam file="$(arg config_file_env)" command="load" />
+        <rosparam file="$(arg config_file_nav)" command="load" />
+        <param name="generate_env" value="$(arg generate_env)"/>
+        <param name="load_env" value="$(arg load_env)"/>
+        <param name="ros_pybullet_rl2_dir" value="$(arg ros_pybullet_rl2_dir)" />
+        <param name="main_dir" value="$(arg main_dir)" />
+        <param name="is_validate" value="False" />
+    </node>
+
+    <!-- lidar tf publisher -->
+    <node pkg="tf" type="static_transform_publisher" name="tf_laser_1" args="0.112223 0.097805 0.262347 0.0 0.0 0.707 0.707 base_link laser_1 100" /> <!--100 meaning 10 Hz-->
+
+    <node pkg="tf" type="static_transform_publisher" name="tf_laser_2" args="0.112223 -0.097805 0.262347 0.0 0.0 -0.707 0.707 base_link laser_2 100" /> 
+
+    <!-- odom tf publisher -->
+    <node pkg="ros_pybullet_rl2" type="odom_tf.py" name="odom_tf_broadcaster" output="screen" />
+
+    <!--run laser merger-->
+    <include file="$(find ros_pybullet_rl2)/launch/laserscan_merger.launch" />
+
+    <!--run joy_stick-->
+    <include file="$(find omni_control)/launch/use_joy_stick_gail.launch" />
+
+    <!--run navigation, do not need to run here because queried to run in nav_omnirobot.py script-->
+    <!--include file="$(find ros_pybullet_rl2)/launch/navigation/nav.launch" /-->
+   <!-- Initial RVIZ -->
+   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ros_pybullet_rl2)/rviz/navigation.rviz" />
+
+</launch>
