@@ -35,6 +35,8 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
 
         # Initialise variables
         self.odom_info = np.zeros((13,), dtype=np.float32) # list of 13 floats. 
+        self.odom_info[2] = 0.16 # robot height, z
+        self.odom_info[6] = 1.0 # quaternion w
         self.laser_info = np.full((1083,), 31.0, dtype=np.float32) # was list of 1083 floats. 
         self.depth_info = np.zeros((307200,), dtype=np.float32) # list of 307200 floats.
         self.contact_info = np.zeros((6,), dtype=np.float32) # list of 6 floats. !!! TAKE NOTE THE ORDER OF THIS IS IMPORTANT IN GENERALISING PROGRAM !!! 
@@ -66,6 +68,7 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
         # self.nav_msg_X_count = 0
 
         self.select_env = rospy.get_param("~select_env")
+        self.continuous = rospy.get_param("~continuous") # If True, continuous run training without resetting robot to origin in new episode
         self.is_validate = rospy.get_param("~is_validate")
         if not self.is_validate:
             self.goal_set = eval(rospy.get_param("~env_obj{}/goal_set".format(self.select_env)))
@@ -319,7 +322,16 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
 
         position = [self.start_pos_x, self.start_pos_y, self.start_pos_z + 0.16]
         orientation = [0, 0, yaw]  # just face random direction, but stay straight otherwise
-        self.robot_body.reset_pose(position, p.getQuaternionFromEuler(orientation))
+        if self.continuous:
+            robot_angle_wrt_origin = Quaternion(self.odom_info[6],self.odom_info[3],self.odom_info[4],self.odom_info[5]).to_euler()
+            # check if robot roll and pitch is greater than 10 degrees
+            if robot_angle_wrt_origin[0] > 10*3.14169/180 or robot_angle_wrt_origin[0] < -10*3.14169/180 or robot_angle_wrt_origin[1] > 10*3.14169/180 or robot_angle_wrt_origin[1] < -10*3.14169/180:
+                self.odom_info[3] = 0.0
+                self.odom_info[4] = 0.0
+            self.robot_body.reset_pose([self.odom_info[0],self.odom_info[1],self.odom_info[2]], 
+                                        tuple([self.odom_info[3],self.odom_info[4],self.odom_info[5],self.odom_info[6]]))
+        else:
+            self.robot_body.reset_pose(position, p.getQuaternionFromEuler(orientation))
         self.initial_z = 1.5 # so the robot does not spawn in the ground? 
 
     def apply_action(self, a):

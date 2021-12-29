@@ -154,23 +154,24 @@ class URDFBasedRobot(XmlBasedRobot):
         self.ordered_joints = []
 
         full_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "robots", self.model_urdf)
-        if self.objects:
-            self._p.removeBody(self.objects)
-        if self.self_collision:
-            self.objects = self._p.loadURDF(full_path,
-                basePosition=self.basePosition,
-                baseOrientation=self.baseOrientation,
-                useFixedBase=self.fixed_base,
-                flags=pybullet.URDF_USE_SELF_COLLISION)
-            self.parts, self.jdict, self.ordered_joints, self.robot_body = self.addToScene(self._p,
-                self.objects)
-        else:
-            self.objects = self._p.loadURDF(full_path,
-                basePosition=self.basePosition,
-                baseOrientation=self.baseOrientation,
-                useFixedBase=self.fixed_base)
-            self.parts, self.jdict, self.ordered_joints, self.robot_body = self.addToScene(self._p,
-                self.objects)
+        # if self.objects:
+        #     self._p.removeBody(self.objects)
+        if self.episode == 0:
+            if self.self_collision:
+                self.objects = self._p.loadURDF(full_path,
+                    basePosition=self.basePosition,
+                    baseOrientation=self.baseOrientation,
+                    useFixedBase=self.fixed_base,
+                    flags=pybullet.URDF_USE_SELF_COLLISION)
+                self.parts, self.jdict, self.ordered_joints, self.robot_body = self.addToScene(self._p,
+                    self.objects)
+            else:
+                self.objects = self._p.loadURDF(full_path,
+                    basePosition=self.basePosition,
+                    baseOrientation=self.baseOrientation,
+                    useFixedBase=self.fixed_base)
+                self.parts, self.jdict, self.ordered_joints, self.robot_body = self.addToScene(self._p,
+                    self.objects)
         # self.objects will contain a body unique id, non-negative integer value. 
         self.episode += 1
         print("\nEpisode {}.\n".format(self.episode))

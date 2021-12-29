@@ -37,6 +37,8 @@ normalise_obs:              True
 # normalise observation inputs (env must have normalise feature)
 obs_input_type:             array
 # how input data is prepared for neural network model intake (choice: ['default','array', 'multi_input']) (Note, the env must support this function, else no affect)
+continuous:                 False
+# If True, upon episode reset, robot will not begin at origin position but continue from last position in previous timestep
 seed:                       0
 # Random generator seed, default: 0
 reward_log:                 trained_agents/validation
