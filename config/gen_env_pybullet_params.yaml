@@ -1901,7 +1901,7 @@ env_obj9:
                                         'radius':   0.35,
                                         'height':   1.75,
                                         'baseMass': 76, 
-                                        'basePosition': [-4.5,-2.5,0.875],
+                                        'basePosition': [-3.0,-1.5,0.875],
                                         'baseOrientation':  [0,0,0,1]
                                         },
                                     'obj8':{
@@ -1930,7 +1930,8 @@ env_obj9:
                                         }
                                 }
                     }
-        action_angle_set: [] # random movement
+        action_angle_set: [['np.pi/4','-3/4*np.pi'],['-np.pi/2'],['0'],['np.pi'],['0'],['0'],['np.pi/4','-3/4*np.pi'],['0'],['np.pi']] # not random movement
+        # action_angle_set: [obj10, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9] # not random movement
         goal_set:   '[
                     (1.0,1.0),
                     (1.0,1.0),
