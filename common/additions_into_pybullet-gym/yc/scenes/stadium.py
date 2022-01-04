@@ -74,8 +74,10 @@ class StadiumScene(Scene):
 									action_set = self.dyn_bodies_action_angle[len(self.dyn_bodies)-1]
 									angle_moveset = [eval(angle) for angle in action_set]
 									angle = angle_moveset[0]
-									axis = [np.cos(angle), np.sin(angle), 0]
-									self.dyn_constraints.append(self._p.createConstraint(self.ground_plane_mjcf[-1], -1, self.dyn_bodies[-1], -1, 
+								else:
+									angle = np.random.uniform(-np.pi, np.pi) # include low exclude high
+								axis = [np.cos(angle), np.sin(angle), 0]
+								self.dyn_constraints.append(self._p.createConstraint(self.ground_plane_mjcf[-1], -1, self.dyn_bodies[-1], -1, 
 																self._p.JOINT_PRISMATIC, axis,
 																self.env_obj['dynamic'][obj]['basePosition'],
 																[0,0,0])
