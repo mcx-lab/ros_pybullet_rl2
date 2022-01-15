@@ -68,21 +68,27 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
         # self.nav_msg_X_count = 0
 
         self.select_env = rospy.get_param("~select_env")
-        self.continuous = rospy.get_param("~continuous") # If True, continuous run training without resetting robot to origin in new episode
-        self.is_validate = rospy.get_param("~is_validate")
+        self.continuous = rospy.get_param("~continuous", False) # If True, continuous run training without resetting robot to origin in new episode
+        self.is_validate = rospy.get_param("~is_validate", False)
         if not self.is_validate:
             self.goal_set = eval(rospy.get_param("~env_obj{}/goal_set".format(self.select_env)))
         else: 
             self.goal_set = eval(rospy.get_param("~env_obj{}/validation_goal_set".format(self.select_env)))
+        # to track robot last position in previous episode
+        self.last_robot_position = {'last_pos': [[0.0,0.0], [0.0,0.0]],
+                                    'last_goal_pos': [0.0, 0.0]
+                                }
+        # to track robot number of collisions in an episode
+        self.num_collision = 0
 
         self.count = 0
-        self.max_vel_x = rospy.get_param("~robot/max_vel_x", 0.51)
+        self.max_vel_x = rospy.get_param("~robot/max_vel_x", 0.53)
         self.max_vel_y = rospy.get_param("~robot/max_vel_y", 0.46)
         self.max_vel_th = rospy.get_param("~robot/max_vel_th", 1.00)
-        self.min_vel_x = rospy.get_param("~robot/min_vel_x", -0.51)
+        self.min_vel_x = rospy.get_param("~robot/min_vel_x", -0.53)
         self.min_vel_y = rospy.get_param("~robot/min_vel_y", -0.46)
         self.min_vel_th = rospy.get_param("~robot/min_vel_th", -1.00)
-        self.max_vel_all = rospy.get_param("~robot/max_vel_all", 0.2655)
+        self.max_vel_all = rospy.get_param("~robot/max_vel_all", 0.29)
         # self.original_laser = LaserScan()
 
         ### Initialise navigation services
@@ -233,22 +239,23 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
             # print("\nCostmap cleared.\n")
         '''
 
-        self.set_initial_orientation(yaw_center=0, yaw_random_spread=np.pi)
         if len(self.goal_set) != 0:
             ### Specific goal change
             if self.goal_change == 1:
+                self.last_robot_position['last_goal_pos'] = [self.goal_set[self.goal_count][0], self.goal_set[self.goal_count][1]]
                 self.goal_count += 1
                 self.goal_change = 0
                 self.goal_repeat = 0
                 if len(self.goal_set) == self.goal_count:
                     self.goal_count = 0
                     # self.goal_random_disp = random.choice([-0.5, 0.5]) # This is if the goal_set isn't fix. 
-            ### Repetition goal change
-            if self.goal_repeat == 3:
-                self.goal_repeat = 0
-                self.goal_count += random.choice([-1,1])
-                if len(self.goal_set) <= self.goal_count or -len(self.goal_set) > self.goal_count:
-                    self.goal_count = 0
+            ### Change goal if repeated (if in a not continuous training setup)
+            if not self.continuous:
+                if self.goal_repeat == 3:
+                    self.goal_repeat = 0
+                    self.goal_count += random.choice([-1,1])
+                    if len(self.goal_set) <= self.goal_count or -len(self.goal_set) > self.goal_count:
+                        self.goal_count = 0
             self.goal_x = self.goal_set[self.goal_count][0] # + self.goal_random_disp
             self.goal_y = self.goal_set[self.goal_count][1] # + self.goal_random_disp
             rospy.loginfo("Goal (x, y): (%s, %s)\n", str(self.goal_x), str(self.goal_y))
@@ -269,6 +276,7 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
                 rospy.loginfo("Randomising goal for new episode.")
                 rospy.loginfo("Goal (x, y): (%s, %s)\n", str(self.goal_x), str(self.goal_y))
             ###
+        self.set_initial_orientation(yaw_center=0, yaw_random_spread=np.pi)
 
     def launch_move_base_node(self):
         ### Initialise navigation service
@@ -315,6 +323,10 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
         self.goal_pub.publish(local_goal)
 
     def set_initial_orientation(self, yaw_center, yaw_random_spread):
+        # update robot position in last episode
+        self.last_robot_position['last_pos'].append([self.odom_info[0], self.odom_info[1]])
+        del self.last_robot_position['last_pos'][0]
+
         if not self.random_yaw:
             yaw = yaw_center
         else:
@@ -322,14 +334,21 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
 
         position = [self.start_pos_x, self.start_pos_y, self.start_pos_z + 0.16]
         orientation = [0, 0, yaw]  # just face random direction, but stay straight otherwise
+        # if in a continuous training setup, do not send robot back to origin
         if self.continuous:
             robot_angle_wrt_origin = Quaternion(self.odom_info[6],self.odom_info[3],self.odom_info[4],self.odom_info[5]).to_euler()
             # check if robot roll and pitch is greater than 10 degrees
             if robot_angle_wrt_origin[0] > 10*3.14169/180 or robot_angle_wrt_origin[0] < -10*3.14169/180 or robot_angle_wrt_origin[1] > 10*3.14169/180 or robot_angle_wrt_origin[1] < -10*3.14169/180:
                 self.odom_info[3] = 0.0
                 self.odom_info[4] = 0.0
-            self.robot_body.reset_pose([self.odom_info[0],self.odom_info[1],self.odom_info[2]], 
-                                        tuple([self.odom_info[3],self.odom_info[4],self.odom_info[5],self.odom_info[6]]))
+            # condition checking if robot has been stuck (colliding) at the same position in two episodes,
+            # if yes, send robot back to last achieved goal location
+            if -0.10 <= self.last_robot_position['last_pos'][1][0] - self.last_robot_position['last_pos'][0][0] <= 0.10 and -0.10 <= self.last_robot_position['last_pos'][1][1] - self.last_robot_position['last_pos'][0][1] <= 0.10 and self.num_collision >= 99:
+                self.robot_body.reset_pose([self.last_robot_position['last_goal_pos'][0],self.last_robot_position['last_goal_pos'][1],self.odom_info[2]], 
+                                            tuple([self.odom_info[3],self.odom_info[4],self.odom_info[5],self.odom_info[6]]))
+            else:
+                self.robot_body.reset_pose([self.odom_info[0],self.odom_info[1],self.odom_info[2]], 
+                                            tuple([self.odom_info[3],self.odom_info[4],self.odom_info[5],self.odom_info[6]]))
         else:
             self.robot_body.reset_pose(position, p.getQuaternionFromEuler(orientation))
         self.initial_z = 1.5 # so the robot does not spawn in the ground? 
