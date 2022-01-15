@@ -343,7 +343,7 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
                 self.odom_info[4] = 0.0
             # condition checking if robot has been stuck (colliding) at the same position in two episodes,
             # if yes, send robot back to last achieved goal location
-            if -0.10 <= self.last_robot_position['last_pos'][1][0] - self.last_robot_position['last_pos'][0][0] <= 0.10 and -0.10 <= self.last_robot_position['last_pos'][1][1] - self.last_robot_position['last_pos'][0][1] <= 0.10 and self.num_collision >= 99:
+            if -0.10 <= abs(self.last_robot_position['last_pos'][1][0]) - abs(self.last_robot_position['last_pos'][0][0]) <= 0.10 and -0.10 <= abs(self.last_robot_position['last_pos'][1][1]) - abs(self.last_robot_position['last_pos'][0][1]) <= 0.10 and self.num_collision >= 500:
                 self.robot_body.reset_pose([self.last_robot_position['last_goal_pos'][0],self.last_robot_position['last_goal_pos'][1],self.odom_info[2]], 
                                             tuple([self.odom_info[3],self.odom_info[4],self.odom_info[5],self.odom_info[6]]))
             else:
@@ -362,6 +362,8 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
 
         # geometry_msgs/Vector3 linear
         # geometry_msgs/Vector3 angular
+
+        print(self.num_collision)
 
         # Vector3 (float): x, y, z
         vel_cmd = Twist()
