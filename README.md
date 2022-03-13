@@ -63,6 +63,19 @@ To install Pybullet-Gym, clone repository into any desired location and install 
         cd pybullet-gym
         pip install -e .
 
+
+## Installation of imitation
+
+```
+pip install imitation
+```
+
+```
+git clone http://github.com/HumanCompatibleAI/imitation
+cd imitation
+pip install -e .
+```
+
 Then do the following:
 
 - Move the directory, ros_pybullet_rl2/common/additions_into_pybullet-gym/yc, into pybullet-gym/pybulletgym/envs. 
@@ -79,6 +92,10 @@ Then do the following:
 
 - Move the file, ros_pybullet_rl2/common/additions_into_imitation/rl.py, into imitation/src/imitation/scripts/common. Replace.
 
+- Move the file, ros_pybullet_rl2/common/additions_into_cartographer/configuration_files/revo_lds.lua, into cartographer_workspace_ws/src/cartographer_ros/cartographer_ros/configuration_files. Replace.
+
+- Move the file, ros_pybullet_rl2/common/additions_into_cartographer/launch/demo_revo_lds.launch, into cartographer_workspace_ws/src/cartographer_ros/cartographer_ros/launch. Replace.
+
 Navigate to your_workspace_ws and build the package:
  
         catkin_make
@@ -92,20 +109,7 @@ To ensure safe loading of configuration file parameters to avoid potential error
 /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/loader.py
 ```
 
-## Installation of imitation
-
-```
-pip install imitation
-```
-
-```
-git clone http://github.com/HumanCompatibleAI/imitation
-cd imitation
-pip install -e .
-```
-
-
-## Run the RL and GAIL training
+## Run the RL, GAIL, and AIRL training
 
 - To edit the configuration files for training:
 
@@ -125,6 +129,10 @@ Run the RL training:
 Run the GAIL training:
 
         roslaunch ros_pybullet_rl2 nav_train_gail.launch
+
+Run the AIRL training:
+
+        roslaunch ros_pybullet_rl2 nav_train_airl.launch
 
 - To monitor the training of your robot at any instance in time (Note this is not real-time), navigate to *src/ros_pybullet_rl2* and run:
 
