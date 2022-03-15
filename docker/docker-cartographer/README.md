@@ -44,7 +44,6 @@ Run GAIL training
 roslaunch ros_pybullet_rl2 nav_train_gail.launch
 ```
 
-
 ## Docker
 Do the following steps to get into the container subsequently once it has been created
 
