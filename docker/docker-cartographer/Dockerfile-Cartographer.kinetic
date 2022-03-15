@@ -133,6 +133,12 @@ RUN conda init bash && \
     conda create --name py3.7 python=3.7
 ENV PATH /opt/conda/envs/py3.7/bin:$PATH
 
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
+
+# The code to run when container is started:
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
+
 RUN python -V
 RUN pip -V
 
