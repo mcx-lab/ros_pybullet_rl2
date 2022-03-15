@@ -25,6 +25,12 @@ docker/docker-cartographer/run_nvidia.bash
 ```
 
 ## Within container
+Rebuild cartographer_ros
+```
+cd catkin_ws
+catkin_make_isolated
+```
+
 Activate the conda environment
 ```
 conda activate py3.7

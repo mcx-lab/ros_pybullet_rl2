@@ -79,6 +79,15 @@ RUN cartographer_ros/scripts/install_debs.sh
 RUN /catkin_ws/src/cartographer/scripts/install_abseil.sh
 RUN /catkin_ws/src/cartographer/scripts/install_proto3.sh
 
+
+# ROS PyBullet RL2
+COPY . root/gail_ws/src/ros_pybullet_rl2
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* root/pybullet-gym/pybulletgym/envs
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/
+
+
 # Build, install, and test all packages individually to allow caching. The
 # ordering of these steps must match the topological package ordering as
 # determined by Catkin.
@@ -95,6 +104,9 @@ RUN cartographer_ros/scripts/install.sh --pkg cartographer_ros_msgs && \
     cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_ros_msgs
 
 COPY docker/docker-cartographer/cartographer_ros catkin_ws/src/cartographer_ros/cartographer_ros/
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/configuration_files/revo_lds.lua catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/launch/demo_revo_lds.launch catkin_ws/src/cartographer_ros/cartographer_ros/launch
+
 RUN cartographer_ros/scripts/install.sh --pkg cartographer_ros && \
     cartographer_ros/scripts/install.sh --pkg cartographer_ros \
         --catkin-make-args run_tests && \
@@ -158,11 +170,3 @@ RUN pip install imitation
 RUN cd /root && git clone http://github.com/HumanCompatibleAI/imitation
 RUN cd root/imitation && pip install -e .
 
-# ROS PyBullet RL2
-COPY . root/gail_ws/src/ros_pybullet_rl2
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* root/pybullet-gym/pybulletgym/envs
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/configuration_files/revo_lds.lua catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/launch/demo_revo_lds.launch catkin_ws/src/cartographer_ros/cartographer_ros/launch
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/
