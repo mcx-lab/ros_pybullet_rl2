@@ -104,3 +104,39 @@ RUN cartographer_ros/scripts/install.sh --pkg cartographer_rviz && \
     cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_rviz
 
 COPY docker/docker-cartographer/scripts/ros_entrypoint.sh /
+
+
+# GAIL
+RUN apt-get update -y && apt-get dist-upgrade -y && apt-get install -y sudo gedit nemo terminator
+
+# Install ROS Kinetic dependencies
+RUN sudo apt install -y ros-kinetic-cv-bridge ros-kinetic-navigation ros-kinetic-eband-local-planner ros-kinetic-hector-slam
+RUN sudo apt install -y make gcc libgtk-3-dev libwebkitgtk-dev libwebkitgtk-3.0-dev freeglut3 freeglut3-dev python-gst-1.0 python3-gst-1.0 libglib2.0-dev ubuntu-restricted-extras libgstreamer-plugins-base1.0-dev
+
+# Install Anaconda 
+RUN wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+RUN bash Anaconda3-5.0.1-Linux-x86_64.sh -b
+RUN rm Anaconda3-5.0.1-Linux-x86_64.sh
+
+# Set path to conda
+ENV PATH /root/anaconda3/bin:$PATH
+
+# Updating Anaconda packages
+RUN conda update conda
+
+# Create conda env
+RUN conda init bash && \
+    . ~/.bashrc && \
+    conda create --name py3.7 python=3.7
+ENV PATH /opt/conda/envs/py3.7/bin:$PATH
+
+RUN python -V
+RUN pip -V
+
+# Install pybullet-gym
+# RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
+# RUN cd root/pybullet-gym && pip install -e .
+
+# Install Python dependencies
+# RUN pip install stable-baselines3[extra]
+#    pip install -r requirements.txt
