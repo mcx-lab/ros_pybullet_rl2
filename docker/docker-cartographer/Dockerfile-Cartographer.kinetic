@@ -60,7 +60,7 @@ ADD https://api.github.com/repos/cartographer-project/cartographer/git/refs/head
     cartographer_ros/cartographer_version.json
 
 # wstool needs the updated rosinstall file to clone the correct repos.
-COPY cartographer_ros.rosinstall cartographer_ros/
+COPY docker/docker-cartographer/cartographer_ros.rosinstall cartographer_ros/
 COPY docker/docker-cartographer/scripts/prepare_catkin_workspace.sh cartographer_ros/scripts/
 RUN CARTOGRAPHER_VERSION=$CARTOGRAPHER_VERSION \
     cartographer_ros/scripts/prepare_catkin_workspace.sh
