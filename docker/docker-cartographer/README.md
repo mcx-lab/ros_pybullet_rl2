@@ -21,7 +21,7 @@ Build the Docker image from the Dockerfile
 cd ros_pybullet_rl2
 docker build -t cartographer-gail:latest -f docker/docker-cartographer/Dockerfile-Cartographer.kinetic .
 chmod a+x docker/docker-cartographer/run_nvidia.bash
-docker/run_nvidia.bash
+docker/docker-cartographer/run_nvidia.bash
 ```
 
 ## Test
