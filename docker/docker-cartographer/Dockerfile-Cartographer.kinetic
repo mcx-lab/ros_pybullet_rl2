@@ -160,12 +160,8 @@ RUN cd root/imitation && pip install -e .
 
 # ROS PyBullet RL2
 COPY . root/gail_ws/src/ros_pybullet_rl2
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/yc root/pybullet-gym/pybulletgym/envs
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/init.py root/pybullet-gym/pybulletgym/envs
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/ira_laser_tools root/gail_ws/src
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/omnirobot_v3 root/gail_ws/src
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/semantic_layers root/gail_ws/src
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/assets root/pybullet-gym/pybulletgym/envs
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* root/pybullet-gym/pybulletgym/envs
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/configuration_files/revo_lds.lua catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/launch/demo_revo_lds.launch catkin_ws/src/cartographer_ros/cartographer_ros/launch
