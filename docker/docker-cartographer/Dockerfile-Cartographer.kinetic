@@ -110,7 +110,7 @@ COPY docker/docker-cartographer/scripts/ros_entrypoint.sh /
 
 
 # GAIL
-RUN apt-get update -y && apt-get dist-upgrade -y 
+RUN ACCEPT_EULA=yes apt-get update -y && apt-get dist-upgrade -y 
 
 # Install ROS Kinetic dependencies
 RUN sudo apt install -y ros-kinetic-cv-bridge ros-kinetic-navigation ros-kinetic-eband-local-planner ros-kinetic-hector-slam
