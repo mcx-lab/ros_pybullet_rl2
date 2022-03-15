@@ -159,7 +159,7 @@ RUN cd /root && git clone http://github.com/HumanCompatibleAI/imitation
 RUN cd root/imitation && pip install -e .
 
 # ROS PyBullet RL2
-COPY . root/gail_ws/src/ros_pybulletrl2
+COPY . root/gail_ws/src/ros_pybullet_rl2
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/yc root/pybullet-gym/pybulletgym/envs
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/init.py root/pybullet-gym/pybulletgym/envs
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/ira_laser_tools root/gail_ws/src
