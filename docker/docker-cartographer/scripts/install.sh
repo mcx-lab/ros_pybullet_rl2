@@ -19,7 +19,7 @@ set -o verbose
 
 . /opt/ros/${ROS_DISTRO}/setup.sh
 
-cd catkin_ws
+cd root/catkin_ws
 
 # Build, install, and test.
 #
