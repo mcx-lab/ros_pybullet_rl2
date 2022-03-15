@@ -82,10 +82,6 @@ RUN /catkin_ws/src/cartographer/scripts/install_proto3.sh
 
 # ROS PyBullet RL2
 COPY . root/gail_ws/src/ros_pybullet_rl2
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* root/pybullet-gym/pybulletgym/envs
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
-RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/
 
 
 # Build, install, and test all packages individually to allow caching. The
@@ -169,4 +165,10 @@ RUN pip install -r root/requirements.txt
 RUN pip install imitation
 RUN cd /root && git clone http://github.com/HumanCompatibleAI/imitation
 RUN cd root/imitation && pip install -e .
+
+# Copy files
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* root/pybullet-gym/pybulletgym/envs
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/
 
