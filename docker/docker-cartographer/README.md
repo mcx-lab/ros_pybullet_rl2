@@ -24,11 +24,26 @@ chmod a+x docker/docker-cartographer/run_nvidia.bash
 docker/docker-cartographer/run_nvidia.bash
 ```
 
-## Test
-Run the playback script with existing test data
+## Within container
+Activate the conda environment
 ```
-python3 mcx_legged_gym/legged_gym/scripts/play.py --task=a1
+conda activate py3.7
 ```
+
+Navigate to root/gail_ws and build the package
+```
+catkin_make
+```
+Then source it
+```
+source devel/setup.bash
+```
+
+Run GAIL training
+```
+roslaunch ros_pybullet_rl2 nav_train_gail.launch
+```
+
 
 ## Docker
 Do the following steps to get into the container subsequently once it has been created
@@ -40,12 +55,12 @@ xhost +local:docker
 ```
 Then start the container and enter it
 ```
-docker start mcx_legged_gym
-docker exec -it mcx_legged_gym bash
+docker start cartographer-gail
+docker exec -it cartographer-gail bash
 ```
 
 ## Clean Slate
 To delete the container, run
 ```
-docker rm -f mcx_legged_gym
+docker rm -f cartographer-gail
 ```
