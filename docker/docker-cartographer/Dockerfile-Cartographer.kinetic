@@ -17,6 +17,9 @@ FROM osrf/ros:kinetic-desktop
 ARG ROS_DISTRO=kinetic
 ARG CARTOGRAPHER_VERSION=master
 
+ARG DEBIAN_FRONTEND=noninteractive
+
+
 # Open nvidia-docker2 GL support
 # From https://github.com/osrf/rocker/blob/main/src/rocker/templates/nvidia_snippet.Dockerfile.em
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -107,7 +110,7 @@ COPY docker/docker-cartographer/scripts/ros_entrypoint.sh /
 
 
 # GAIL
-RUN apt-get update -y && apt-get dist-upgrade -y && apt-get install -y sudo gedit nemo terminator
+RUN apt-get update -y && apt-get dist-upgrade -y 
 
 # Install ROS Kinetic dependencies
 RUN sudo apt install -y ros-kinetic-cv-bridge ros-kinetic-navigation ros-kinetic-eband-local-planner ros-kinetic-hector-slam
