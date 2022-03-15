@@ -60,47 +60,47 @@ ADD https://api.github.com/repos/cartographer-project/cartographer/git/refs/head
     cartographer_ros/cartographer_version.json
 
 # wstool needs the updated rosinstall file to clone the correct repos.
-COPY docker/docker-cartographer/cartographer_ros.rosinstall root/cartographer_ros/
-COPY docker/docker-cartographer/scripts/prepare_catkin_workspace.sh root/cartographer_ros/scripts/
+COPY docker/docker-cartographer/cartographer_ros.rosinstall cartographer_ros/
+COPY docker/docker-cartographer/scripts/prepare_catkin_workspace.sh cartographer_ros/scripts/
 RUN CARTOGRAPHER_VERSION=$CARTOGRAPHER_VERSION \
-    root/cartographer_ros/scripts/prepare_catkin_workspace.sh
+    cartographer_ros/scripts/prepare_catkin_workspace.sh
 
 # rosdep needs the updated package.xml files to install the correct debs.
-COPY docker/docker-cartographer/cartographer_ros/package.xml root/catkin_ws/src/cartographer_ros/cartographer_ros/
-COPY docker/docker-cartographer/cartographer_ros_msgs/package.xml root/catkin_ws/src/cartographer_ros/cartographer_ros_msgs/
-COPY docker/docker-cartographer/cartographer_rviz/package.xml root/catkin_ws/src/cartographer_ros/cartographer_rviz/
-COPY docker/docker-cartographer/scripts/install_debs.sh root/cartographer_ros/scripts/
-RUN root/cartographer_ros/scripts/install_debs.sh
+COPY docker/docker-cartographer/cartographer_ros/package.xml catkin_ws/src/cartographer_ros/cartographer_ros/
+COPY docker/docker-cartographer/cartographer_ros_msgs/package.xml catkin_ws/src/cartographer_ros/cartographer_ros_msgs/
+COPY docker/docker-cartographer/cartographer_rviz/package.xml catkin_ws/src/cartographer_ros/cartographer_rviz/
+COPY docker/docker-cartographer/scripts/install_debs.sh cartographer_ros/scripts/
+RUN cartographer_ros/scripts/install_debs.sh
 
 # Install Abseil and proto3.
-RUN root/catkin_ws/src/cartographer/scripts/install_abseil.sh
-RUN root/catkin_ws/src/cartographer/scripts/install_proto3.sh
+RUN /catkin_ws/src/cartographer/scripts/install_abseil.sh
+RUN /catkin_ws/src/cartographer/scripts/install_proto3.sh
 
 # Build, install, and test all packages individually to allow caching. The
 # ordering of these steps must match the topological package ordering as
 # determined by Catkin.
-COPY docker/docker-cartographer/scripts/install.sh root/cartographer_ros/scripts/
-COPY docker/docker-cartographer/scripts/catkin_test_results.sh root/cartographer_ros/scripts/
+COPY docker/docker-cartographer/scripts/install.sh cartographer_ros/scripts/
+COPY docker/docker-cartographer/scripts/catkin_test_results.sh cartographer_ros/scripts/
 
-RUN root/cartographer_ros/scripts/install.sh --pkg cartographer && \
-    root/cartographer_ros/scripts/install.sh --pkg cartographer --make-args test
+RUN cartographer_ros/scripts/install.sh --pkg cartographer && \
+    cartographer_ros/scripts/install.sh --pkg cartographer --make-args test
 
-COPY docker/docker-cartographer/cartographer_ros_msgs root/catkin_ws/src/cartographer_ros/cartographer_ros_msgs/
-RUN root/cartographer_ros/scripts/install.sh --pkg cartographer_ros_msgs && \
-    root/cartographer_ros/scripts/install.sh --pkg cartographer_ros_msgs \
+COPY docker/docker-cartographer/cartographer_ros_msgs catkin_ws/src/cartographer_ros/cartographer_ros_msgs/
+RUN cartographer_ros/scripts/install.sh --pkg cartographer_ros_msgs && \
+    cartographer_ros/scripts/install.sh --pkg cartographer_ros_msgs \
         --catkin-make-args run_tests && \
-    root/cartographer_ros/scripts/catkin_test_results.sh root/build_isolated/cartographer_ros_msgs
+    cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_ros_msgs
 
-COPY docker/docker-cartographer/cartographer_ros root/catkin_ws/src/cartographer_ros/cartographer_ros/
-RUN root/cartographer_ros/scripts/install.sh --pkg cartographer_ros && \
-    root/cartographer_ros/scripts/install.sh --pkg cartographer_ros \
+COPY docker/docker-cartographer/cartographer_ros catkin_ws/src/cartographer_ros/cartographer_ros/
+RUN cartographer_ros/scripts/install.sh --pkg cartographer_ros && \
+    cartographer_ros/scripts/install.sh --pkg cartographer_ros \
         --catkin-make-args run_tests && \
-    root/cartographer_ros/scripts/catkin_test_results.sh root/build_isolated/cartographer_ros
+    cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_ros
 
-COPY docker/docker-cartographer/cartographer_rviz root/catkin_ws/src/cartographer_ros/cartographer_rviz/
-RUN root/cartographer_ros/scripts/install.sh --pkg cartographer_rviz && \
-    root/cartographer_ros/scripts/install.sh --pkg cartographer_rviz \
+COPY docker/docker-cartographer/cartographer_rviz catkin_ws/src/cartographer_ros/cartographer_rviz/
+RUN cartographer_ros/scripts/install.sh --pkg cartographer_rviz && \
+    cartographer_ros/scripts/install.sh --pkg cartographer_rviz \
         --catkin-make-args run_tests && \
-    root/cartographer_ros/scripts/catkin_test_results.sh root/build_isolated/cartographer_rviz
+    cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_rviz
 
 COPY docker/docker-cartographer/scripts/ros_entrypoint.sh /

@@ -19,5 +19,5 @@ set -o verbose
 
 . /opt/ros/${ROS_DISTRO}/setup.sh
 
-cd root/catkin_ws
+cd catkin_ws
 catkin_test_results $@
