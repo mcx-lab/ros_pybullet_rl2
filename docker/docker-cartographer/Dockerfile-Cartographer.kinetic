@@ -136,16 +136,37 @@ ENV PATH /opt/conda/envs/py3.7/bin:$PATH
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
 
-# The code to run when container is started:
-ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
-
+# Test that the SHELL has been updated
 RUN python -V
 RUN pip -V
 
+# The code to run when container is started: 
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
+# Above doesn't seem to work with ROS
+
 # Install pybullet-gym
-# RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
-# RUN cd root/pybullet-gym && pip install -e .
+RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
+RUN cd root/pybullet-gym && pip install -e .
 
 # Install Python dependencies
-# RUN pip install stable-baselines3[extra]
-#    pip install -r requirements.txt
+COPY requirements.txt /root
+RUN pip install stable-baselines3[extra]
+RUN pip install -r root/requirements.txt
+
+# Install imitation
+RUN pip install imitation
+RUN cd /root && git clone http://github.com/HumanCompatibleAI/imitation
+RUN cd root/imitation && pip install -e .
+
+# ROS PyBullet RL2
+COPY . root/gail_ws/src/ros_pybulletrl2
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/yc root/pybullet-gym/pybulletgym/envs.
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/init.py root/pybullet-gym/pybulletgym/envs.
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/ira_laser_tools root/gail_ws/src.
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/omnirobot_v3 root/gail_ws/src.
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/semantic_layers root/gail_ws/src.
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/assets root/pybullet-gym/pybulletgym/envs
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/configuration_files/revo_lds.lua catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/launch/demo_revo_lds.launch catkin_ws/src/cartographer_ros/cartographer_ros/launch
+
