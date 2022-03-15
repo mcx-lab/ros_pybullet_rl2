@@ -114,7 +114,7 @@ RUN apt-get update -y && apt-get dist-upgrade -y
 
 # Install ROS Kinetic dependencies
 RUN sudo apt install -y ros-kinetic-cv-bridge ros-kinetic-navigation ros-kinetic-eband-local-planner ros-kinetic-hector-slam
-RUN sudo apt install -y make gcc libgtk-3-dev libwebkitgtk-dev libwebkitgtk-3.0-dev freeglut3 freeglut3-dev python-gst-1.0 python3-gst-1.0 libglib2.0-dev libgstreamer-plugins-base1.0-dev
+RUN sudo apt install -y wget make gcc libgtk-3-dev libwebkitgtk-dev libwebkitgtk-3.0-dev freeglut3 freeglut3-dev python-gst-1.0 python3-gst-1.0 libglib2.0-dev libgstreamer-plugins-base1.0-dev
 
 # Install Anaconda 
 RUN wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
