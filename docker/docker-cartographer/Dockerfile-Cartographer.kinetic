@@ -1,0 +1,174 @@
+# Copyright 2016 The Cartographer Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+FROM osrf/ros:kinetic-desktop
+
+ARG ROS_DISTRO=kinetic
+ARG CARTOGRAPHER_VERSION=master
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+
+# Open nvidia-docker2 GL support
+# From https://github.com/osrf/rocker/blob/main/src/rocker/templates/nvidia_snippet.Dockerfile.em
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        pkg-config \
+        libxau-dev \
+        libxdmcp-dev \
+        libxcb1-dev \
+        libxext-dev \
+        libx11-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 \
+  /usr/local/lib/x86_64-linux-gnu \
+  /usr/local/lib/x86_64-linux-gnu
+
+COPY --from=nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 \
+  /usr/local/share/glvnd/egl_vendor.d/10_nvidia.json \
+  /usr/local/share/glvnd/egl_vendor.d/10_nvidia.json
+
+RUN echo '/usr/local/lib/x86_64-linux-gnu' >> /etc/ld.so.conf.d/glvnd.conf && \
+    ldconfig && \
+    echo '/usr/local/$LIB/libGL.so.1' >> /etc/ld.so.preload && \
+    echo '/usr/local/$LIB/libEGL.so.1' >> /etc/ld.so.preload
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# We require a GitHub access token to be passed.
+ARG github_token
+
+# Xenial's base image doesn't ship with sudo.
+RUN apt-get update && apt-get install -y sudo
+
+# First, we invalidate the entire cache if cartographer-project/cartographer has
+# changed. This file's content changes whenever master changes. See:
+# http://stackoverflow.com/questions/36996046/how-to-prevent-dockerfile-caching-git-clone
+ADD https://api.github.com/repos/cartographer-project/cartographer/git/refs/heads/master?access_token=$github_token \
+    cartographer_ros/cartographer_version.json
+
+# wstool needs the updated rosinstall file to clone the correct repos.
+COPY docker/docker-cartographer/cartographer_ros.rosinstall cartographer_ros/
+COPY docker/docker-cartographer/scripts/prepare_catkin_workspace.sh cartographer_ros/scripts/
+RUN CARTOGRAPHER_VERSION=$CARTOGRAPHER_VERSION \
+    cartographer_ros/scripts/prepare_catkin_workspace.sh
+
+# rosdep needs the updated package.xml files to install the correct debs.
+COPY docker/docker-cartographer/cartographer_ros/package.xml catkin_ws/src/cartographer_ros/cartographer_ros/
+COPY docker/docker-cartographer/cartographer_ros_msgs/package.xml catkin_ws/src/cartographer_ros/cartographer_ros_msgs/
+COPY docker/docker-cartographer/cartographer_rviz/package.xml catkin_ws/src/cartographer_ros/cartographer_rviz/
+COPY docker/docker-cartographer/scripts/install_debs.sh cartographer_ros/scripts/
+RUN cartographer_ros/scripts/install_debs.sh
+
+# Install Abseil and proto3.
+RUN /catkin_ws/src/cartographer/scripts/install_abseil.sh
+RUN /catkin_ws/src/cartographer/scripts/install_proto3.sh
+
+
+# ROS PyBullet RL2
+COPY . root/gail_ws/src/ros_pybullet_rl2
+
+
+# Build, install, and test all packages individually to allow caching. The
+# ordering of these steps must match the topological package ordering as
+# determined by Catkin.
+COPY docker/docker-cartographer/scripts/install.sh cartographer_ros/scripts/
+COPY docker/docker-cartographer/scripts/catkin_test_results.sh cartographer_ros/scripts/
+
+RUN cartographer_ros/scripts/install.sh --pkg cartographer && \
+    cartographer_ros/scripts/install.sh --pkg cartographer --make-args test
+
+COPY docker/docker-cartographer/cartographer_ros_msgs catkin_ws/src/cartographer_ros/cartographer_ros_msgs/
+RUN cartographer_ros/scripts/install.sh --pkg cartographer_ros_msgs && \
+    cartographer_ros/scripts/install.sh --pkg cartographer_ros_msgs \
+        --catkin-make-args run_tests && \
+    cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_ros_msgs
+
+COPY docker/docker-cartographer/cartographer_ros catkin_ws/src/cartographer_ros/cartographer_ros/
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/configuration_files/revo_lds.lua catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_cartographer/launch/demo_revo_lds.launch catkin_ws/src/cartographer_ros/cartographer_ros/launch
+
+RUN cartographer_ros/scripts/install.sh --pkg cartographer_ros && \
+    cartographer_ros/scripts/install.sh --pkg cartographer_ros \
+        --catkin-make-args run_tests && \
+    cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_ros
+
+COPY docker/docker-cartographer/cartographer_rviz catkin_ws/src/cartographer_ros/cartographer_rviz/
+RUN cartographer_ros/scripts/install.sh --pkg cartographer_rviz && \
+    cartographer_ros/scripts/install.sh --pkg cartographer_rviz \
+        --catkin-make-args run_tests && \
+    cartographer_ros/scripts/catkin_test_results.sh build_isolated/cartographer_rviz
+
+COPY docker/docker-cartographer/scripts/ros_entrypoint.sh /
+
+
+# GAIL
+RUN apt-get update -y && apt-get dist-upgrade -y 
+
+# Install ROS Kinetic dependencies
+RUN sudo apt install -y ros-kinetic-cv-bridge ros-kinetic-navigation ros-kinetic-eband-local-planner ros-kinetic-hector-slam
+RUN sudo apt install -y wget make gcc libgtk-3-dev libwebkitgtk-dev libwebkitgtk-3.0-dev freeglut3 freeglut3-dev python-gst-1.0 python3-gst-1.0 libglib2.0-dev libgstreamer-plugins-base1.0-dev
+
+# Install Anaconda 
+RUN wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+RUN bash Anaconda3-5.0.1-Linux-x86_64.sh -b
+RUN rm Anaconda3-5.0.1-Linux-x86_64.sh
+
+# Set path to conda
+ENV PATH /root/anaconda3/bin:$PATH
+
+# Updating Anaconda packages
+RUN conda update conda
+
+# Create conda env
+RUN conda init bash && \
+    . ~/.bashrc && \
+    conda create --name py3.7 python=3.7
+ENV PATH /opt/conda/envs/py3.7/bin:$PATH
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
+
+# Test that the SHELL has been updated
+RUN python -V
+RUN pip -V
+
+# The code to run when container is started: 
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
+# Above doesn't seem to work with ROS
+
+# Install pybullet-gym
+RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
+RUN cd root/pybullet-gym && pip install -e .
+
+# Install Python dependencies
+COPY requirements.txt /root
+RUN pip install stable-baselines3[extra]
+RUN pip install -r root/requirements.txt
+
+# Install imitation
+RUN pip install imitation
+RUN cd /root && git clone http://github.com/HumanCompatibleAI/imitation
+RUN cd root/imitation && pip install -e .
+
+# Copy files
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* root/pybullet-gym/pybulletgym/envs
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/
+
