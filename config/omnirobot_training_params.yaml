@@ -6,10 +6,10 @@ env:                        NavOmnibase-v1
 # environment ID
 tensorboard_log:            /root/rl_ws/test_train_models/ 
 # Tensorboard log dir
-trained_agent:              logs/ppo/NavOmnibase-v1_8/NavOmnibase-v1/checkpoints/final/gen_policy/model.zip
+trained_agent:              ""
 # logs/ppo/NavOmnibase-v1_1/best_model.zip / Default: "" / Path to a pretrained agent to continue training
 # for GAIL, logs/ppo/NavOmnibase-v1_1/NavOmnibase-v1/checkpoints/final/gen_policy/model.zip
-expert_data:                logs/ppo/NavOmnibase-v1_8/final_env10.pkl
+expert_data:                logs/ppo/expert_data/final_env13_expertdata_16032022.pkl
 # logs/ppo/NavOmnibase-v1_1/final.pkl / If running gail training, use expert_data as the input to load corresponding .pkl file. 
 algo:                       ppo
 # RL Algorithm, choices=list(ALGOS.keys())
@@ -50,7 +50,7 @@ obs_input_type:             array
 max_ram_usage:              95.0
 # Checks percentage (out of 100.0%) of RAM used by computer and trigger program save & shutdown. (DO NOT SET AT 99.0 AND ABOVE)
 # If disable usage, set to -1
-continuous:                 False
+continuous:                 True
 # If True, upon episode reset, robot will not begin at origin position but continue from last position in previous timestep
 
 ### Hyperparameter Optimization Params
@@ -104,7 +104,7 @@ truncate_last_trajectory:   False
 ### Simulation Environment Params
 render:                     True
 # Show simulation environment
-select_env:                 4
+select_env:                 13
 # Environment labelling after 'env_obj' in env_pybullet_params.yaml
 # 0: Stadium maze environment
 # 1: Simple straight line
