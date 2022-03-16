@@ -114,7 +114,7 @@ RUN /bin/bash -c 'echo -e "conda activate py3.7" >> /root/.bashrc && source /roo
 #     mv cv2.so cv2_renamed.so && \
 #     cd /root/rl_ws && \
 #     catkin_make && \
-#     echo -e "\nsource /root/rl_ws/devel/setup.bash" >> /root/.bashrc'
+#     echo -e "\nsource /root/devel/setup.bash" >> /root/.bashrc'
 
 # copy dependencies
 COPY docker/config/install_dependencies.sh /root/install.sh
