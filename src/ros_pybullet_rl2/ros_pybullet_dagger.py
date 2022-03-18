@@ -21,6 +21,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module='gym')
 
 from stable_baselines3.common.utils import set_random_seed
+from stable_baselines3.common.policies import ActorCriticPolicy
 
 # Register custom envs
 import ros_pybullet_rl2.utils.import_envs
@@ -35,7 +36,8 @@ import sacred
 
 import stable_baselines3 as sb3
 
-from imitation.algorithms.adversarial import airl
+from imitation.algorithms import bc
+from imitation.algorithms import dagger
 from imitation.data import rollout
 from imitation.util import logger, util
 from imitation.policies import serialize
@@ -66,7 +68,7 @@ class inputArguments():
         self.n_eval_envs = rospy.get_param('~n_eval_envs')
         self.save_freq = rospy.get_param('~save_freq')
         self.save_replay_buffer = rospy.get_param('~save_replay_buffer')
-        # self.normalise_obs = rospy.get_param('~normalise_obs')
+        self.normalise_obs = rospy.get_param('~normalise_obs')
         self.log_folder = rospy.get_param('~log_folder')
         self.seed = rospy.get_param('~seed')
         self.vec_env = rospy.get_param('~vec_env')
@@ -222,31 +224,60 @@ def run():
         train={'policy_cls':sb3.common.policies.ActorCriticPolicy, 'policy_kwargs':policy_kwargs, 
         'n_episodes_eval':args.eval_episodes, 'algorithm_specific': {}}, trained_agent = trained_agent)
 
+
     if args.tensorboard_log is not "":
         init_tensorboard = True
         init_tensorboard_graph = True
+
+    # obs_dim = 32
+    # if self.normalise:
+    #     high = np.ones([obs_dim]) # * np.inf
+    # else:
+    #     high = np.ones([obs_dim]) * np.inf
+    # observation_space = gym.spaces.Box(-high, high) # the range of input values
+
+    # action_space = gym.spaces.Box(low=np.array([-1,-1,-2]), high=np.array([1,1,2]), dtype=np.float32)
 
     # Normal training
     if args.expert_data is not "":
         # exp_manager.learn(model)
         # exp_manager.save_trained_model(model)
 
-        airl_trainer = airl.AIRL(
-            venv=venv,
+        bc_trainer = bc.BC(
+            observation_space=venv.observation_space,
+            action_space=venv.action_space,
             demonstrations=expert_trajs,
-            demo_batch_size=32,
-            # gen_algo=sb3.PPO(venv, verbose=1, **_hyperparams),
-            gen_algo=gen_algo,
+            batch_size=32,
+            optimizer_cls=th.optim.Adam,
+            ent_weight=1e-3,
+            l2_weight=0.0,
+            device="auto",
             custom_logger=custom_logger,
-            log_dir=args.tensorboard_log,
-            init_tensorboard=init_tensorboard,
-            init_tensorboard_graph=init_tensorboard_graph,
-            allow_variable_horizon=True,
         )
-        airl_trainer.train(total_timesteps=args.n_timesteps)
 
-        save(airl_trainer, os.path.join(monitor_path, "final"))
+        dagger_trainer = dagger.SimpleDAggerTrainer(
+            venv=venv,
+            scratch_dir=os.path.join(monitor_path, "final"),
+            expert_policy=gen_algo.policy,
+            bc_trainer=bc_trainer,
+            # demonstrations=expert_trajs,
+            # batch_size=32,
+            # optimizer_cls=th.optim.Adam,
+            # ent_weight=1e-3,
+            # l2_weight=0.0,
+            # device="auto", 
+            # # gen_algo=sb3.PPO(venv, verbose=1, **_hyperparams),
+            # gen_algo=gen_algo,
+            custom_logger=custom_logger,
+            # log_dir=args.tensorboard_log,
+            # init_tensorboard=init_tensorboard,
+            # init_tensorboard_graph=init_tensorboard_graph,
+            # allow_variable_horizon=True,
+        )
+        dagger_trainer.train(total_timesteps=args.n_timesteps, rollout_round_min_episodes=args.rollout_save_n_episodes, rollout_round_min_timesteps=args.rollout_save_n_timesteps)
+
+        dagger_trainer.save_policy(os.path.join(monitor_path, "final"))
     else:
-        print("There is no expert data to run AIRL training, please check the expert_data parameter!")
+        print("There is no expert data to run DAgger training, please check the expert_data parameter!")
 
     rospy.signal_shutdown('Training complete. Shutting down.\n________________________________')
