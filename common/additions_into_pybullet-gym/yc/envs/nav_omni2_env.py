@@ -42,7 +42,7 @@ class NavOmniBase2BulletEnv(BaseBulletEnv):
     self.declared_dyn_bodies = 0
 
     # Stop episode condition to avoid bad samples
-    self.num_collision = 0
+    self.robot.num_collision = 0
 
 
   def create_single_player_scene(self, bullet_client):
@@ -69,7 +69,7 @@ class NavOmniBase2BulletEnv(BaseBulletEnv):
       self.stateId = self._p.saveState()
     self.dynamic_obj = {}
     self.declared_dyn_bodies = 0
-    self.num_collision = 0
+    self.robot.num_collision = 0
 
     return r # need to return r? This r refers to observation. 
 
@@ -136,15 +136,14 @@ class NavOmniBase2BulletEnv(BaseBulletEnv):
 
     collision_cost = 0.0
     if max(state[3]) != 0:
-      collision_cost -= self.kf_lower * max(state[3])
-      if max(state[3]) >= 3.0:
-        self.num_collision += 1
-      if self.num_collision == 100:
+      # collision_cost -= self.kf_lower * max(state[3])
+      collision_cost -= self.kf_lower * 5.0
+      # if max(state[3]) >= 0.5:
+      self.robot.num_collision += 1
+      rospy.logwarn("Robot experiencing collision!") 
+      if self.robot.num_collision == 500:
         done = True # stop episode
     # There is no exponent, it's just a scaling factor.
-
-    if collision_cost != 0.0:
-      rospy.logwarn("Robot experiencing collision!") 
 
     current_goal_dist = state[0][0] # Check if relative distance towards goal is shorter with every step. 
     displacement = current_goal_dist - self.prev_goal_dist
