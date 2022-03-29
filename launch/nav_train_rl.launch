@@ -20,6 +20,8 @@
     <param name="robot_description"
            command="$(find xacro)/xacro --inorder $(arg robot_urdf_path)" /> 
 
+
+
     <!--train.py node-->
     <node pkg="ros_pybullet_rl2" type="ros_pybullet_train_node" name="training" output="screen" required="true">
         <rosparam file="$(arg config_file_train)" command="load" />
@@ -46,7 +48,17 @@
 
     <!--run navigation, do not need to run here because queried to run in nav_omnirobot.py script-->
     <!--include file="$(find ros_pybullet_rl2)/launch/navigation/nav.launch" /-->
-   <!-- Initial RVIZ -->
-   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ros_pybullet_rl2)/rviz/navigation.rviz" />
+    <!-- Initial RVIZ -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ros_pybullet_rl2)/rviz/navigation.rviz" />
+
+    <!-- map server -->
+    <include file="$(find ros_pybullet_rl2)/launch/navigation/localization.launch">
+    </include>
+
+   <!-- Run the map server -->
+   <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(find ros_pybullet_rl2)/map/$(arg map).yaml" output="screen"/> -->
+
+   <!--- Run AMCL -->
+   <!-- <include file="$(find omni_navigation)/launch/amcl.launch" /> -->
 
 </launch>
