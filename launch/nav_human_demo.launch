@@ -52,4 +52,9 @@
    <!-- Initial RVIZ -->
    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ros_pybullet_rl2)/rviz/navigation.rviz" />
 
+   <include file="$(find ros_pybullet_rl2)/launch/navigation/localization.launch">
+    </include>
+
+
+
 </launch>
