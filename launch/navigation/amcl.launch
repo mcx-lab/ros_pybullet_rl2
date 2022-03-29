@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+  <!--Translational movement required before performing a filter update.--> 
+  <param name="update_min_d" value="0.1"/>
+  <!--Rotational movement required before performing a filter update. -->
+  <param name="update_min_a" value="0.1"/> 
+  <!--Number of filter updates required before resampling. -->
+  <param name="resample_interval" value="1"/>
+  <!--Number of filter updates required before resampling. -->
+  <param name="transform_tolerance" value="0.1" />
+ 
+  <!--Initial pose covariance (x*x), used to initialize filter with Gaussian distribution. -->
+  <param name="initial_cov_xx" value="0.02"/> 
+  <!--Initial pose covariance (y*y), used to initialize filter with Gaussian distribution. -->
+  <param name="initial_cov_yy" value="0.02"/>
+  <!--Initial pose covariance (yaw*yaw), used to initialize filter with Gaussian distribution. -->
+  <param name="initial_cov_aa" value="0.02"/>
+  <!--When set to true, AMCL will subscribe to the map topic rather than making a service call to receive its map. New in navigation XXXX-->
+  <param name="use_map_topic" value="true"/>
+
+
+  <!--Laser model parameters-->
+  <remap from="scan" to="/scan"/>
+  <param name="laser_model_type" value="likelihood_field"/>
+  <!--How many evenly-spaced beams in each scan to be used when updating the filter. -->
+  <param name="laser_max_beams" value="90"/>
+  <!--Mixture weight for the z_hit part of the model. -->
+  <param name="laser_z_hit" value="0.7"/>
+  <!--Mixture weight for the z_rand part of the model. -->
+  <param name="laser_z_rand" value="0.3"/>
+  <!--Standard deviation for Gaussian model used in z_hit part of the model. -->
+  <param name="laser_sigma_hit" value="0.02"/>  
+  <!-- Maximum distance to do obstacle inflation on map, for use in likelihood_field model. -->
+  <param name="laser_likelihood_max_dist" value="1.0"/>
+
+
+  <!-- Odometery model parameters -->
+  <!--Which model to use, either "diff" or "omni". -->
+    <param name="odom_model_type"               value="omni-corrected"/>
+    <param name="odom_alpha1"               value="0.1"/>
+    <param name="odom_alpha2"               value="0.1"/>
+    <param name="odom_alpha3"               value="0.1"/>
+    <param name="odom_alpha4"               value="0.1"/>
+    <param name="odom_alpha5"               value="0.05"/>  
+    <!--param name="odom_alpha1"               value="0.005"/>
+    <param name="odom_alpha2"               value="0.005"/>
+    <param name="odom_alpha3"               value="0.010"/>
+    <param name="odom_alpha4"               value="0.005"/>
+    <param name="odom_alpha5"               value="0.003"/-->  
+  <param name="odom_frame_id" value="odom" />
+  <param name="base_frame_id" value="base_link" />
+  <param name="global_frame_id" value="map" />
+
+</node>
+</launch>

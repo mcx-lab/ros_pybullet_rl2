@@ -1,14 +1,16 @@
 <?xml version="1.0" ?>
 <launch>
 
+   <arg name="map" default="env13"/>
+
    <!-- Run the map server -->
-   <!--node name="map_server" pkg="map_server" type="map_server" args="$(find omni_navigation)/map/$(arg map).yaml" output="screen"/-->
+   <node name="map_server" pkg="map_server" type="map_server" args="$(find ros_pybullet_rl2)/map/$(arg map).yaml" output="screen"/>
 
-   <include file="$(find ros_pybullet_rl2)/launch/navigation/hector_mapping.launch"/>
+   <!-- <include file="$(find ros_pybullet_rl2)/launch/navigation/hector_mapping.launch"/> -->
 
-   <!-- <include file="$(find cartographer_ros)/launch/demo_revo_lds.launch"/> --><!--the map server--><!--This includes localisation, therefore does not require amcl-->
+   <!--include file="$(find cartographer_ros)/launch/demo_revo_lds.launch"/--><!--the map server--><!--This includes localisation, therefore does not require amcl-->
 
    <!--- Run AMCL -->
-   <!--include file="$(find pybullet_ros)/ros/launch/omni_navigation/amcl.launch" /-->
+   <include file="$(find ros_pybullet_rl2)/launch/navigation/amcl.launch" />
 
 </launch>
