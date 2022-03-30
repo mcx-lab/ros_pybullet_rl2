@@ -37,7 +37,7 @@ normalise_obs:              True
 # normalise observation inputs (env must have normalise feature)
 obs_input_type:             array
 # how input data is prepared for neural network model intake (choice: ['default','array', 'multi_input']) (Note, the env must support this function, else no affect)
-continuous:                 False
+continuous:                 True
 # If True, upon episode reset, robot will not begin at origin position but continue from last position in previous timestep
 seed:                       0
 # Random generator seed, default: 0
@@ -51,7 +51,7 @@ env_kwargs:                 None
 # In: args1:0.0 args2:"dict(a=1)"
 # Out: {'args1': 0.0, arg2: dict(a=1)}
 
-select_env:                 1 # the labelling after 'env_obj'
+select_env:                 13 # the labelling after 'env_obj'
 # 0: Stadium maze environment
 # 1: Simple straight line
 # 2: Curvy corridor
