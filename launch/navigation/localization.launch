@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <launch>
 
-   <arg name="map" default="env13"/>
+   <arg name="map" default="env13_NoDynamicObstacles"/>
 
    <!-- Run the map server -->
    <node name="map_server" pkg="map_server" type="map_server" args="$(find ros_pybullet_rl2)/map/$(arg map).yaml" output="screen"/>
