@@ -96,4 +96,4 @@ RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/*
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
 RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/
-
+RUN mv /opt/ros/kinetic/lib/python2.7/dist-packages/cv2.so /opt/ros/kinetic/lib/python2.7/dist-packages/cv2_old.so
