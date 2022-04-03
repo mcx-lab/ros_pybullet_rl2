@@ -1,69 +1,58 @@
-# Docker support for ros_pybullet_rl2
+# Docker support for GAIL
 
-## Build docker image
+ ## Github
+Clone the repository
+```
+git clone -b gail https://github.com/mcx-lab/ros_pybullet_rl2.git
+```
 
-This custom image installs:
- 
-- ros kinetic
-- all dependencies installed via apt-get
-- anaconda3 and creates python3.7 env (env name=py3.7)
-- sublime text (optional, line 44-48)
-- terminator (optional, line 51)
+## Dockerfile
+Build the Docker image from the Dockerfile
 
-Build command for nvidia gpu:
+### For Nvidia GPUs
+```
+cd ros_pybullet_rl2
+docker build -t pybulletrl2-gail:latest -f docker/Dockerfile.kinetic .
+chmod a+x docker/run_nvidia.bash
+docker/run_nvidia.bash
+```
 
-    docker build -t rl_pybullet2_gpu:latest \
-        -f docker/Dockerfile-rl2-gpu . 
+## Within container
+Activate the conda environment
+```
+conda activate py3.7
+```
 
-Build command for integrated graphics:
+Navigate to root/gail_ws and build the package
+```
+catkin_make
+```
+Then source it
+```
+source devel/setup.bash
+```
 
-    docker build -t rl_pybullet2:latest \
-        -f docker/Dockerfile-rl2 .
+Run GAIL training
+```
+roslaunch ros_pybullet_rl2 nav_train_gail.launch
+```
 
-Note: 
+## Docker
+Do the following steps to get into the container subsequently once it has been created
 
-* Build from ros_pybullet_rl2 dir so that docker can copy this package into the image.
+Run this to allow for GUI once per session (i.e. after every reboot)
+```
+xhost +si:localuser:$USER
+xhost +local:docker
+```
+Then start the container and enter it
+```
+docker start pybulletrl2-gail
+docker exec -it pybulletrl2-gail bash
+```
 
-## Make docker container 
-
-Nvidia Gpu:
-
-	docker run -it --privileged --net=host --ipc=host \
-         --name=pybullet_rl2 \
-         --env="DISPLAY=$DISPLAY" \
-         --env="QT_X11_NO_MITSHM=1" \
-         --runtime=nvidia \
-         --gpus all \
-         rl_pybullet2_gpu:latest \
-         terminator
-
-Integrated graphics:
-
-    docker run -it --privileged --net=host --ipc=host \
-         --name=pybullet_rl2 \
-         --env="DISPLAY=$DISPLAY" \
-         --env="QT_X11_NO_MITSHM=1" \
-         rl_pybullet2:latest \
-         terminator
-
-Note: if not using terminator, replace `terminator` with `bash`
-
-## Running container
-
-Run,
-
-    ./docker/run.sh pybullet_rl2
-
-## Install pip dependencies
-
-Couldn't install these pip stuffs within the conda env and virtualenv in dockerfile. Have to do it after creating the container. I put all the stuffs in bash script in the container.
-
-Run,
-
-    ./root/install.sh
-    
-## Remove container
-
-Run,
-
-	docker rm -f pybullet_rl2
+## Clean Slate
+To delete the container, run
+```
+docker rm -f pybulletrl2-gail
+```
