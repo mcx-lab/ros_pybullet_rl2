@@ -1,0 +1,99 @@
+FROM osrf/ros:kinetic-desktop
+
+ARG ROS_DISTRO=kinetic
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Open nvidia-docker2 GL support
+# From https://github.com/osrf/rocker/blob/main/src/rocker/templates/nvidia_snippet.Dockerfile.em
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        pkg-config \
+        libxau-dev \
+        libxdmcp-dev \
+        libxcb1-dev \
+        libxext-dev \
+        libx11-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 \
+  /usr/local/lib/x86_64-linux-gnu \
+  /usr/local/lib/x86_64-linux-gnu
+
+COPY --from=nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 \
+  /usr/local/share/glvnd/egl_vendor.d/10_nvidia.json \
+  /usr/local/share/glvnd/egl_vendor.d/10_nvidia.json
+
+RUN echo '/usr/local/lib/x86_64-linux-gnu' >> /etc/ld.so.conf.d/glvnd.conf && \
+    ldconfig && \
+    echo '/usr/local/$LIB/libGL.so.1' >> /etc/ld.so.preload && \
+    echo '/usr/local/$LIB/libEGL.so.1' >> /etc/ld.so.preload
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# Xenial's base image doesn't ship with sudo.
+RUN apt-get update -y && apt-get dist-upgrade -y 
+RUN apt-get install -y sudo
+
+# GAIL
+
+# Install ROS Kinetic dependencies
+RUN sudo apt install -y ros-kinetic-cv-bridge ros-kinetic-navigation ros-kinetic-eband-local-planner ros-kinetic-hector-slam
+RUN sudo apt install -y wget make gcc libgtk-3-dev libwebkitgtk-dev libwebkitgtk-3.0-dev freeglut3 freeglut3-dev python-gst-1.0 python3-gst-1.0 libglib2.0-dev libgstreamer-plugins-base1.0-dev
+
+# Install Anaconda 
+RUN wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+RUN bash Anaconda3-5.0.1-Linux-x86_64.sh -b
+RUN rm Anaconda3-5.0.1-Linux-x86_64.sh
+
+# Set path to conda
+ENV PATH /root/anaconda3/bin:$PATH
+
+# Updating Anaconda packages
+RUN conda update conda
+
+# Create conda env
+RUN conda init bash && \
+    . ~/.bashrc && \
+    conda create --name py3.7 python=3.7
+ENV PATH /opt/conda/envs/py3.7/bin:$PATH
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
+
+# Test that the SHELL has been updated
+RUN python -V
+RUN pip -V
+
+# The code to run when container is started: 
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "py3.7", "/bin/bash", "-c"]
+# Above doesn't seem to work with ROS
+
+# Install Python dependencies
+COPY requirements.txt /root
+RUN pip install stable-baselines3[extra]
+RUN pip install -r root/requirements.txt
+
+# Install pybullet-gym
+RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
+RUN cd root/pybullet-gym && pip install -e .
+
+# Install imitation
+RUN pip install imitation
+RUN cd /root && git clone http://github.com/HumanCompatibleAI/imitation
+RUN cd root/imitation && git checkout 47abd983dc4879b148d8b574226cab7ba0ea92ab && pip install -e .
+# Above is to use the version of imitation where reward_net is still optional 
+# https://github.com/HumanCompatibleAI/imitation/tree/47abd983dc4879b148d8b574226cab7ba0ea92ab
+
+# ROS PyBullet RL2
+COPY . root/gail_ws/src/ros_pybullet_rl2
+
+# Copy files
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* root/pybullet-gym/pybulletgym/envs
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/* root/gail_ws/src
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/additions_into_imitation/rl.py root/imitation/src/imitation/scripts/common
+RUN cp -R root/gail_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/
+RUN mv /opt/ros/kinetic/lib/python2.7/dist-packages/cv2.so /opt/ros/kinetic/lib/python2.7/dist-packages/cv2_old.so
