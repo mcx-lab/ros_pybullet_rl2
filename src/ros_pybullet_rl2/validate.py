@@ -63,7 +63,7 @@ def main():
 
     ros_pybullet_rl2_dir = rospy.get_param('~ros_pybullet_rl2_dir')
     log_path = "{}/{}/{}/".format(ros_pybullet_rl2_dir, args.log_folder, args.algo)
-
+    
     if args.exp_id == 0:
         args.exp_id = get_latest_run_id(log_path, env_id)
         print('Loading latest experiment, id={}'.format(args.exp_id))

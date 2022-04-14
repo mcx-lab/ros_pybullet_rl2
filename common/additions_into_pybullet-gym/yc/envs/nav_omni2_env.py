@@ -140,7 +140,8 @@ class NavOmniBase2BulletEnv(BaseBulletEnv):
       collision_cost -= self.kf_lower * 5.0
       # if max(state[3]) >= 0.5:
       self.robot.num_collision += 1
-      rospy.logwarn("Robot experiencing collision!") 
+      # rospy.logwarn("Robot experiencing collision!") 
+    if not self.robot.continuous:
       if self.robot.num_collision == 500:
         done = True # stop episode
     # There is no exponent, it's just a scaling factor.

@@ -274,9 +274,9 @@ def run():
             # init_tensorboard_graph=init_tensorboard_graph,
             # allow_variable_horizon=True,
         )
-        dagger_trainer.train(total_timesteps=args.n_timesteps, rollout_round_min_episodes=args.rollout_save_n_episodes, rollout_round_min_timesteps=args.rollout_save_n_timesteps)
+        dagger_trainer.train(total_timesteps=args.n_timesteps, rollout_round_min_episodes=args.rollout_save_n_episodes, rollout_round_min_timesteps=args.rollout_save_n_timesteps, bc_train_kwargs={"n_epochs": _hyperparams['n_epochs']})
 
-        dagger_trainer.save_policy(os.path.join(monitor_path, "final"))
+        dagger_trainer.save_policy(os.path.join(monitor_path, "model.zip")) # "final"))
     else:
         print("There is no expert data to run DAgger training, please check the expert_data parameter!")
 

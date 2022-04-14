@@ -1,0 +1,79 @@
+!!python/object/apply:collections.OrderedDict
+- - - algo
+    - ppo
+  - - env
+    - NavOmnibase-v1
+  - - env_kwargs
+    - null
+  - - eval_episodes
+    - 3
+  - - eval_freq
+    - 10000
+  - - gym_packages
+    - []
+  - - hyperparams
+    - policy: MlpPolicy
+      policy_kwargs: dict(log_std_init=-2, ortho_init=False, activation_fn=nn.ReLU,
+        net_arch=[dict(pi=[64, 64, 64, 64], vf=[64, 64, 64, 64])] )
+  - - log_folder
+    - logs
+  - - log_interval
+    - -1
+  - - max_ram_usage
+    - 95.0
+  - - n_eval_envs
+    - 1
+  - - n_evaluations
+    - 20
+  - - n_jobs
+    - 1
+  - - n_startup_trials
+    - 10
+  - - n_timesteps
+    - 1000000.0
+  - - n_trials
+    - 10
+  - - no_optim_plots
+    - false
+  - - num_threads
+    - -1
+  - - optimization_log_path
+    - /rl_ws/hyperparam_tuning_logs/
+  - - optimize_hyperparameters
+    - false
+  - - pruner
+    - median
+  - - render
+    - false
+  - - rollout_save_n_episodes
+    - 1
+  - - rollout_save_n_timesteps
+    - 1
+  - - sampler
+    - tpe
+  - - save_freq
+    - 50000
+  - - save_replay_buffer
+    - false
+  - - save_timesteps
+    - 100000.0
+  - - seed
+    - 0
+  - - select_env
+    - 1
+  - - storage
+    - None
+  - - study_name
+    - None
+  - - tensorboard_log
+    - /root/rl_ws/test_train_models/
+  - - trained_agent
+    - ''
+  - - truncate_last_trajectory
+    - false
+  - - uuid
+    - false
+  - - vec_env
+    - dummy
+  - - verbose
+    - 1

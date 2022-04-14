@@ -4,7 +4,7 @@ from pybulletgym.envs.yc.robots.robot_bases2 import MJCFBasedRobot # like other 
 import gym
 import numpy as np
 import pybullet as p
-from geometry_msgs.msg import Twist, Vector3Stamped, Pose, Vector3, PoseStamped, Point
+from geometry_msgs.msg import Twist, Vector3Stamped, Pose, Vector3, PoseStamped, Point, PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry, Path
 from sensor_msgs.msg import LaserScan, Image
 from visualization_msgs.msg import Marker
@@ -56,6 +56,9 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
         # self.plan_sub = rospy.Subscriber('move_base/NavfnROS/plan', Path, self.path_callback)
 
         self.ori_lidar_pub = rospy.Publisher('/original_lidar',LaserScan, queue_size=5)
+        
+        # for amcl to work well
+        self.initialpose_pub = rospy.Publisher('/initialpose', PoseWithCovarianceStamped, queue_size=1)
 
         # For specific goal change
         self.goal_x = 0
@@ -176,6 +179,19 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
             odom_data.twist.twist.linear.y,odom_data.twist.twist.linear.z,\
             odom_data.twist.twist.angular.x,odom_data.twist.twist.angular.y,\
             odom_data.twist.twist.angular.z], dtype=np.float32)
+
+        # for amcl to work well
+        initial_pose_msg = PoseWithCovarianceStamped()
+        initial_pose_msg.header.stamp = rospy.Time.now()
+        initial_pose_msg.header.frame_id = "map"
+        initial_pose_msg.pose.pose.position.x = odom_data.pose.pose.position.x
+        initial_pose_msg.pose.pose.position.y = odom_data.pose.pose.position.y
+        initial_pose_msg.pose.pose.position.z = odom_data.pose.pose.position.z
+        initial_pose_msg.pose.pose.orientation.x = odom_data.pose.pose.orientation.x
+        initial_pose_msg.pose.pose.orientation.y = odom_data.pose.pose.orientation.y
+        initial_pose_msg.pose.pose.orientation.z = odom_data.pose.pose.orientation.z
+        initial_pose_msg.pose.pose.orientation.w = odom_data.pose.pose.orientation.w
+        # self.initialpose_pub.publish(initial_pose_msg)
 
     def laser_callback(self, laser_data):
         # self.laser_info = np.array(laser_data.ranges, dtype=np.float32) # list
@@ -343,7 +359,7 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
                 self.odom_info[4] = 0.0
             # condition checking if robot has been stuck (colliding) at the same position in two episodes,
             # if yes, send robot back to last achieved goal location
-            if -0.10 <= abs(self.last_robot_position['last_pos'][1][0]) - abs(self.last_robot_position['last_pos'][0][0]) <= 0.10 and -0.10 <= abs(self.last_robot_position['last_pos'][1][1]) - abs(self.last_robot_position['last_pos'][0][1]) <= 0.10 and self.num_collision >= 500:
+            if -0.10 <= abs(self.last_robot_position['last_pos'][1][0]) - abs(self.last_robot_position['last_pos'][0][0]) <= 0.10 and -0.10 <= abs(self.last_robot_position['last_pos'][1][1]) - abs(self.last_robot_position['last_pos'][0][1]) <= 0.10: # and self.num_collision >= 500:
                 self.robot_body.reset_pose([self.last_robot_position['last_goal_pos'][0],self.last_robot_position['last_goal_pos'][1],self.odom_info[2]], 
                                             tuple([self.odom_info[3],self.odom_info[4],self.odom_info[5],self.odom_info[6]]))
             else:
@@ -362,8 +378,6 @@ class NavOmnirobot2(OmniBase, URDFBasedRobot):
 
         # geometry_msgs/Vector3 linear
         # geometry_msgs/Vector3 angular
-
-        print(self.num_collision)
 
         # Vector3 (float): x, y, z
         vel_cmd = Twist()

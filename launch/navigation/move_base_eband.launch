@@ -3,10 +3,10 @@
    <arg name="config_folder" default="navigation"/>
 
    <!--- Localization -->
-   <!-- <include file="$(find ros_pybullet_rl2)/launch/navigation/localization.launch"> -->
+   <include file="$(find ros_pybullet_rl2)/launch/navigation/localization.launch">
     <!--no need map, do live hector mapping-->
     <!--arg name="map" value="$(arg map)" /-->
-   <!-- </include> -->
+   </include>
 
 
    <!--- Run move_base with parameters -->

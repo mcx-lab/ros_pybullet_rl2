@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <launch>
 
-  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+  <node pkg="amcl" type="amcl" name="amcl" output="log">
   <!--Translational movement required before performing a filter update.--> 
   <param name="update_min_d" value="0.1"/>
   <!--Rotational movement required before performing a filter update. -->

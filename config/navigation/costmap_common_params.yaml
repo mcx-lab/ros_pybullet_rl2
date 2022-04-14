@@ -10,7 +10,7 @@ robot_radius: 0.25 # 0.2
 
 resolution: 0.02 #The resolution of the map in meters/cell. 
 cost_scaling_factor: 10.0 #A scaling factor to apply to cost values during inflation. 
-transform_tolerance: 0.6
+transform_tolerance: 0.8 # 0.6
 #observation_source: A list of observation source names separated by spaces
 #	/sensor_frame: The frame of the origin of the sensor
 #	/topic		 : The topic on which sensor data comes in for this source.
