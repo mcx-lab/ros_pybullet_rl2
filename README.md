@@ -1,6 +1,6 @@
 # ros_pybullet_rl2
 
-An integration between [ROS](www.ros.org) and [PyBullet](https://github.com/bulletphysics/bullet3) and [OpenAI Gym Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) for doing reinforcement learning on a ROS robot in a Pybullet simulation. 
+An integration between [ROS](www.ros.org) and [PyBullet](https://github.com/bulletphysics/bullet3) and [OpenAI Gym Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) for doing reinforcement and imitation learning on a ROS robot in a Pybullet simulation. 
 
 <img src="https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/common/sample_run.png" alt="show" />
 
@@ -24,9 +24,16 @@ This project is an upgrade of the original ros_pybullet_rl package at (https://g
 
 - Limitation:
 
-        - Training can only be done in 1 environment (thread) at a time because of the nature of ROS. 
+        - Training can only be done in 1 environment (thread) at a time because of the nature of ROS.
+
+- Future Work:
+
+        - DAgger training is still unready as we are unsure that how we should input the n_timesteps variable in *ros_pybullet_rl2/config/omnirobot_training_params.yaml*. As of now, DAgger training will not complete with all the n_timesteps value we have tried. We found out that DAgger training is outputing expert data instead of trained model and we can not validate the performance at the end of this FYP. We can put more focus on studying how to conduct a proper DAgger training with the correct variable in the future.
+
+        - Video of Teacher Student networks that can be implemented with this framework in the future: https://youtu.be/TWx7LmiOyzA?t=1896
 
 The main Reinforcement Learning training code is [here](https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/src/ros_pybullet_rl2/ros_pybullet_rl2.py)
+The main Imitation Learning code is [here](https://github.com/mcx-lab/ros_pybullet_rl2/tree/gail/src/ros_pybullet_rl2)
 
 
 ## Installation of ros_pybullet_rl2
@@ -109,7 +116,7 @@ To ensure safe loading of configuration file parameters to avoid potential error
 /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/loader.py
 ```
 
-## Run the RL, GAIL, and AIRL training
+## Run the RL, Record of expert data for Imitation Learning, GAIL, AIRL, and DAgger training
 
 - To edit the configuration files for training:
 
@@ -126,6 +133,10 @@ Run the RL training:
 
         roslaunch ros_pybullet_rl2 nav_train_rl.launch
 
+Record of expert data:
+
+        roslaunch ros_pybullet_rl2 nav_human_demo.launch
+
 Run the GAIL training:
 
         roslaunch ros_pybullet_rl2 nav_train_gail.launch
@@ -133,6 +144,10 @@ Run the GAIL training:
 Run the AIRL training:
 
         roslaunch ros_pybullet_rl2 nav_train_airl.launch
+
+Run the DAgger training:
+
+        roslaunch ros_pybullet_rl2 nav_train_dagger.launch
 
 - To monitor the training of your robot at any instance in time (Note this is not real-time), navigate to *src/ros_pybullet_rl2* and run:
 
@@ -191,6 +206,7 @@ Navigate to *config/omnirobot_training_params.yaml*. Edit the **select_env** par
 10. Lab
 11. Lab (Dynamic)
 12. Doorway
+13. Large continuos environment
 
 As of now, the average rate at which the relevant sensors and output command are published for use in reinforcement learning are recorded as follows:
 
@@ -243,6 +259,7 @@ Navigate to config/omnirobot_validation_params.yaml. Edit **select_env** paramet
 10. Lab
 11. Lab (Dynamic)
 12. Doorway
+13. Large continuos environment
 
 - To fix the set of goals to be achieved by the robot agent in each environment:
 

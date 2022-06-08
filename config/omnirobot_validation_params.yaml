@@ -64,3 +64,5 @@ select_env:                 13 # the labelling after 'env_obj'
 # 9: Dynamic obstacles environment without static obstacles
 # 10: Lab
 # 11: Lab with dynamic obstacles
+# 12: Doorway
+# 13: Large continuos environment
