@@ -1,0 +1,9 @@
+<launch>
+    <!-- x vel plots -->
+    <node name="x_lin_vel_plot" pkg="rqt_plot" type="rqt_plot" args="/cmd_vel/linear/x /nav/cmd_vel/linear/x" />
+
+    <node name="y_lin_vel_plot" pkg="rqt_plot" type="rqt_plot" args="/cmd_vel/linear/y /nav/cmd_vel/linear/y" />
+
+    <node name="z_ang_vel_plot" pkg="rqt_plot" type="rqt_plot" args="/cmd_vel/angular/z /nav/cmd_vel/angular/z" />
+
+</launch>

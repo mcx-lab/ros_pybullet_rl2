@@ -1,0 +1,166 @@
+# Dockerfile to build custom image for melodic with nvidia gpu
+# ARG ros_distro=melodic
+
+FROM nvidia/cudagl:11.4.2-base-ubuntu18.04
+# FROM osrf/ros:melodic-desktop-full
+
+ARG ros_distro=melodic
+ENV ROS_DISTRO=$ros_distro
+ARG cuda_ver=11.4
+ARG UID
+ARG GID
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Singapore
+
+# remove for integrated graphics
+# allow nvidia container toolkit
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics,compute,utility,display
+
+# Env for cuda
+ENV LD_LIBRARY_PATH /usr/local/cuda-${cuda_ver}/lib64:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda-${cuda_ver}/lib64
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/lib
+ENV PATH=/usr/local/cuda-${cuda_ver}/bin:$PATH
+ENV CUDA_ROOT /usr/local/cuda-${cuda_ver}
+
+RUN rm /etc/apt/sources.list.d/cuda.list
+
+# # enable auto completion for apt install
+COPY docker/config_${ros_distro}/docker-clean /root/docker-clean
+RUN cp /root/docker-clean /etc/apt/apt.conf.d/docker-clean && \
+    rm /root/docker-clean
+
+# setup locale (removed sudo from apt-get, locale and update lines)
+RUN apt-get update && apt-get upgrade -y && apt-get -y install locales && \
+    locale-gen en_US en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
+    export LANG=en_US.UTF-8
+
+# Install packages
+RUN apt-get update && apt-get upgrade -y && apt-get install -q -y --no-install-recommends sudo \
+    python-pip \
+    curl \
+    wget \
+    cmake \
+    openssh-server \
+    htop \
+    git \
+    libopenmpi-dev \
+    python3-dev \
+    zlib1g-dev \
+    make \
+    gcc \
+    libgtk-3-dev \
+    libwebkitgtk-dev \
+    libwebkitgtk-3.0-dev \
+    lsb-release \
+    tmux \
+    freeglut3 \
+    freeglut3-dev \
+    python-gst-1.0 \
+    python3-gst-1.0 \
+    libglib2.0-dev \
+    ubuntu-restricted-extras \
+    libgstreamer-plugins-base1.0-dev \
+    nmap \
+    dbus-x11 \
+    xdg-utils \
+    virtualenv \
+    mesa-utils
+
+# Install ROS
+# setup keys and source.list
+RUN echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+
+# install ros packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-$ros_distro-desktop-full
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    python-rosdep \
+    python-rosinstall \
+    python-vcstools
+    
+
+RUN rosdep init && rosdep update --rosdistro $ros_distro
+RUN apt-get update && apt-get -y install -y \
+    python-rosinstall \
+    ros-$ros_distro-qt-ros \
+    ros-$ros_distro-navigation \
+    ros-$ros_distro-eband-local-planner \
+    ros-$ros_distro-hector-slam \
+    ros-$ros_distro-cv-bridge
+    
+
+# Install sublime & terminator
+RUN apt-get install -y software-properties-common apt-transport-https
+RUN wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+RUN echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+RUN apt-get update && apt-get install -y sublime-text terminator nautilus 
+
+# Force Install of missing dependencies
+RUN apt-get -y -f install && rm -rf /var/lib/apt/lists/*
+
+# Copy bashrc
+COPY docker/config_${ros_distro}/bashrc /root/.bashrc
+
+# add user ID to docker container
+RUN /bin/bash -c 'echo -e "export USER='root'" >> /root/.bashrc && source /root/.bashrc'
+
+# install virtualenv and create venv
+RUN /bin/bash -c 'mkdir /root/venv && cd /root/venv && \
+                virtualenv --python=python3 py3 && \
+                source /root/venv/py3/bin/activate'
+
+# Set path to virtualenv
+ENV PATH /root/venv/py3:$PATH
+
+# Install pybullet-gym
+RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
+
+# copy files to container
+COPY . /root/rl_ws/src/ros_pybullet_rl2/
+RUN /bin/bash -c 'cp -r /root/rl_ws/src/ros_pybullet_rl2/common/other_packages/* /root/rl_ws/src/ && \
+    cp -r /root/rl_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* /root/pybullet-gym/pybulletgym/envs/'
+
+# make workspace & install dependencies
+RUN /bin/bash -c 'echo -e "source /root/venv/py3/bin/activate\nsource /opt/ros/melodic/setup.bash" >> /root/.bashrc && source /root/.bashrc'
+#     pip install --upgrade pip && \
+#     cd /root/pybullet-gym && pip install -e . && \
+#     pip install stable-baselines3[extra] && \
+#     pip install -r /root/rl_ws/src/ros_pybullet_rl2/requirements.txt && \
+#     cd /opt/ros/kinetic/lib/python2.7/dist-packages && \
+#     mv cv2.so cv2_renamed.so && \
+#     cd /root/rl_ws && \
+#     catkin_make && \
+#     echo -e "\nsource /root/devel/setup.bash" >> /root/.bashrc'
+
+# copy dependencies installer script
+COPY docker/config_${ros_distro}/install_dependencies.sh /root/install.sh
+
+# setup for terminator
+COPY docker/config_${ros_distro}/terminator_config /root/.config/terminator/config
+
+# Make SSH available
+EXPOSE 22
+
+# copy entrypoint
+COPY docker/config_${ros_distro}/ros_entrypoint_$ROS_DISTRO.sh /ros_entrypoint.sh 
+
+# setup entrypoint for docker 
+WORKDIR /root/rl_ws
+ENTRYPOINT ["/ros_entrypoint.sh"]
+# CMD ["bash"]
+# SHELL ["/bin/bash", "-c"]
+CMD [". ~/.bashrc"]
+
+# # tmux
+# RUN /bin/bash -c 'git clone https://github.com/tmux-plugins/tpm /home/$USERNAME/.tmux/plugins/tpm'
+# COPY docker/config/tmux.conf /home/$USERNAME/.tmux.conf 
+# CMD [". ~/.bashrc"]

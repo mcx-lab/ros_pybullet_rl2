@@ -26,7 +26,7 @@ This project is an upgrade of the original ros_pybullet_rl package at (https://g
 
         - Training can only be done in 1 environment (thread) at a time because of the nature of ROS. 
 
-The main Reinforcement Learning training code is [here](https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/src/ros_pybullet_rl2/ros_pybullet_rl2.py)
+The main overarching training code starts [here](https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/src/ros_pybullet_rl2/ros_pybullet_rl2.py)
 
 
 ## Installation

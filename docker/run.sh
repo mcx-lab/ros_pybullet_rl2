@@ -13,6 +13,7 @@ fi
 # Allow X server host
 export id=$(docker ps -aqf "name=${name}")
 xhost -local:root
+xhost +si:localuser:$USER
 xhost +local:`docker inspect --format='{{ .Config.Hostname }}' $id`
 
 # check if container started

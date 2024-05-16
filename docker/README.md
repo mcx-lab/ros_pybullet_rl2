@@ -4,7 +4,7 @@
 
 This custom image installs:
  
-- ros kinetic
+- ROS Kinetic / Melodic
 - all dependencies installed via apt-get
 - anaconda3 and creates python3.7 env (env name=py3.7)
 - sublime text (optional, line 44-48)
@@ -12,8 +12,10 @@ This custom image installs:
 
 Build command for nvidia gpu:
 
-    docker build -t rl_pybullet2_gpu:latest \
-        -f docker/Dockerfile-rl2-gpu . 
+    docker build -t rl_pybullet2_gpu_melodic:latest \
+        --build-arg UID="$(id -u)" \
+        --build-arg GID="$(id -g)" \
+        -f docker/Dockerfile-rl2-gpu_melodic . 
 
 Build command for integrated graphics:
 
@@ -24,20 +26,23 @@ Note:
 
 * Build from ros_pybullet_rl2 dir so that docker can copy this package into the image.
 
+* Ensure all config_${ros_distro}/ros_entrypoint_${ros_distro}.sh, bashrc, and install_dependencies.sh are executable files. 
+
 ## Make docker container 
 
-Nvidia Gpu:
+Nvidia Gpu (supports both Melodic and Kinetic):
 
 	docker run -it --privileged --net=host --ipc=host \
          --name=pybullet_rl2 \
+         --rm
          --env="DISPLAY=$DISPLAY" \
          --env="QT_X11_NO_MITSHM=1" \
          --runtime=nvidia \
          --gpus all \
-         rl_pybullet2_gpu:latest \
+         rl_pybullet2_gpu_melodic:latest \
          terminator
 
-Integrated graphics:
+Integrated graphics (supports ROS Kinetic):
 
     docker run -it --privileged --net=host --ipc=host \
          --name=pybullet_rl2 \
@@ -53,6 +58,13 @@ Note: if not using terminator, replace `terminator` with `bash`
 Run,
 
     ./docker/run.sh pybullet_rl2
+
+Alternatively,
+```
+xhost +si:localuser:$USER
+xhost +local:docker
+sudo docker start pybullet_rl2
+```
 
 ## Install pip dependencies
 

@@ -42,29 +42,20 @@ RUN apt-get update && apt-get install -y sublime-text
 # Install terminator
 RUN apt-get install -y terminator 
 
-# Force Install of missing dependencies
+# Force install of missing dependencies
 RUN apt-get -y -f install && \
     rm -rf /var/lib/apt/lists/
 
 # Copy bashrc
 COPY docker/config/bashrc /root/.bashrc
 
-# Install Anaconda 
-RUN wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
-RUN bash Anaconda3-5.0.1-Linux-x86_64.sh -b
-RUN rm Anaconda3-5.0.1-Linux-x86_64.sh
+#Install virtualenv and create venv
+RUN /bin/bash -c 'mkdir /root/venv && cd /root/venv && \
+                virtualenv --python=python3 py3 && \
+                source /root/venv/py3/bin/activate'
 
-# Set path to conda
-ENV PATH /root/anaconda3/bin:$PATH
-
-# Updating Anaconda packages
-RUN conda update conda
-
-# Create conda env
-RUN conda init bash && \
-    . ~/.bashrc && \
-    conda create --name py3.7 python=3.7
-ENV PATH /opt/conda/envs/py3.7/bin:$PATH
+# Set path to virtualenv
+ENV PATH /root/venv/py3:$PATH
 
 # Install pybullet-gym
 RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
@@ -75,16 +66,7 @@ RUN /bin/bash -c 'cp -r /root/rl_ws/src/ros_pybullet_rl2/common/other_packages/*
     cp -r /root/rl_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* /root/pybullet-gym/pybulletgym/envs/'
 
 # make workspace & install dependencies
-RUN /bin/bash -c 'echo -e "conda activate py3.7" >> /root/.bashrc && source /root/.bashrc'
-#     pip install --upgrade pip && \
-#     cd /root/pybullet-gym && pip install -e . && \
-#     pip install stable-baselines3[extra] && \
-#     pip install -r /root/rl_ws/src/ros_pybullet_rl2/requirements.txt && \
-#     cd /opt/ros/kinetic/lib/python2.7/dist-packages && \
-#     mv cv2.so cv2_renamed.so && \
-#     cd /root/rl_ws && \
-#     catkin_make && \
-#     echo -e "\nsource /root/rl_ws/devel/setup.bash" >> /root/.bashrc'
+RUN /bin/bash -c 'echo -e "source /root/venv/py3/bin/activate" >> /root/.bashrc && source /root/.bashrc'
 
 # copy dependencies
 COPY docker/config/install_dependencies.sh /root/install.sh
