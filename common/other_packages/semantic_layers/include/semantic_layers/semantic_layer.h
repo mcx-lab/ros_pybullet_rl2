@@ -35,8 +35,8 @@
  * Author: Eitan Marder-Eppstein
  *         David V. Lu!!
  *********************************************************************/
-#ifndef COSTMAP_2D_SEMANTIC_OBSTACLE_LAYER_H_
-#define COSTMAP_2D_SEMANTIC_OBSTACLE_LAYER_H_
+#ifndef COSTMAP_2D_SEMANTIC_LAYER_H_
+#define COSTMAP_2D_SEMANTIC_LAYER_H_
 
 #include <ros/ros.h>
 #include <costmap_2d/costmap_layer.h>
@@ -53,24 +53,20 @@
 #include <tf2_ros/message_filter.h>
 #include <message_filters/subscriber.h>
 #include <dynamic_reconfigure/server.h>
-#include <costmap_2d/ObstaclePluginConfig.h>
 #include <costmap_2d/footprint.h>
-
+#include <semantic_layers/SemanticLayerPluginConfig.h>
 #include <semantic_layers/semantic_cost_values.h>
+#include <costmap_2d/inflation_layer.h>
 
 namespace costmap_2d
 {
 
-class SemanticObstacleLayer : public CostmapLayer
+class SemanticLayer : public CostmapLayer
 {
 public:
-  SemanticObstacleLayer()
-  {
-    costmap_ = NULL;  // this is the unsigned char* member of parent class Costmap2D.
-    cost_ = LETHAL_OBSTACLE;
-  }
+  SemanticLayer();
 
-  virtual ~SemanticObstacleLayer();
+  virtual ~SemanticLayer();
   virtual void onInitialize();
   virtual void updateBounds(double robot_x, double robot_y, double robot_yaw, double* min_x, double* min_y,
                             double* max_x, double* max_y);
@@ -80,6 +76,8 @@ public:
   virtual void deactivate();
   virtual void reset();
 
+  virtual void matchSize();
+  
   /**
    * @brief  A callback to handle buffering LaserScan messages
    * @param message The message returned from a message notifier
@@ -146,7 +144,7 @@ protected:
 
   void updateRaytraceBounds(double ox, double oy, double wx, double wy, double range, double* min_x, double* min_y,
                             double* max_x, double* max_y);
-
+  
   std::vector<geometry_msgs::Point> transformed_footprint_;
   bool footprint_clearing_enabled_;
   void updateFootprint(double robot_x, double robot_y, double robot_yaw, double* min_x, double* min_y, 
@@ -167,14 +165,105 @@ protected:
   std::vector<costmap_2d::Observation> static_clearing_observations_, static_marking_observations_;
 
   bool rolling_window_;
-  dynamic_reconfigure::Server<costmap_2d::ObstaclePluginConfig> *dsrv_;
+  dynamic_reconfigure::Server<semantic_layers::SemanticLayerPluginConfig> *dsrv_;
 
   int combination_method_;
   
   int cost_;
 
 private:
-  void reconfigureCB(costmap_2d::ObstaclePluginConfig &config, uint32_t level);
+  void reconfigureCB(semantic_layers::SemanticLayerPluginConfig &config, uint32_t level);
+  
+  /// add for inflation
+  
+  /**
+   * @brief  Lookup pre-computed distances
+   * @param mx The x coordinate of the current cell
+   * @param my The y coordinate of the current cell
+   * @param src_x The x coordinate of the source cell
+   * @param src_y The y coordinate of the source cell
+   * @return
+   */
+  inline double distanceLookup(int mx, int my, int src_x, int src_y)
+  {
+    unsigned int dx = abs(mx - src_x);
+    unsigned int dy = abs(my - src_y);
+    return cached_distances_[dx][dy];
+  }
+
+  /**
+   * @brief  Lookup pre-computed costs
+   * @param mx The x coordinate of the current cell
+   * @param my The y coordinate of the current cell
+   * @param src_x The x coordinate of the source cell
+   * @param src_y The y coordinate of the source cell
+   * @return
+   */
+  inline unsigned char costLookup(int mx, int my, int src_x, int src_y)
+  {
+    unsigned int dx = abs(mx - src_x);
+    unsigned int dy = abs(my - src_y);
+    return cached_costs_[dx][dy];
+  }
+  
+  void computeCaches();
+  void deleteKernels();
+  
+  /** @brief  Given a distance, compute a cost.
+   * @param  distance The distance from an obstacle in cells
+   * @return A cost value for the distance */
+  inline unsigned char computeCost(double distance, int obstacle_cost=LETHAL_OBSTACLE) const
+  {
+    unsigned char cost = 0;
+    if (distance == 0)
+      cost = obstacle_cost; // LETHAL_OBSTACLE;
+    else if (distance * resolution_ <= inscribed_radius_)
+      cost = obstacle_cost -1; // INSCRIBED_INFLATED_OBSTACLE;
+    else
+    {
+      // make sure cost falls off by Euclidean distance
+      double euclidean_distance = distance * resolution_;
+      double factor = exp(-1.0 * weight_ * (euclidean_distance - inscribed_radius_));
+//       cost = (unsigned char)((INSCRIBED_INFLATED_OBSTACLE - 1) * factor);
+      cost = (unsigned char)((obstacle_cost - 2) * factor);
+    }
+    return cost;
+  }
+
+  inline void enqueue(unsigned int index, unsigned int mx, unsigned int my,
+                      unsigned int src_x, unsigned int src_y);
+
+  virtual void updateCostsInflation(costmap_2d::Costmap2D& master_grid, unsigned char* cost_map, int min_i, int min_j, int max_i, int max_j);
+  
+  /**
+   * @brief Change the values of the inflation radius parameters
+   * @param inflation_radius The new inflation radius
+   * @param cost_scaling_factor The new weight
+   */
+  void setInflationParameters(double inflation_radius, double cost_scaling_factor);
+  
+  virtual void onFootprintChanged();
+  
+  boost::recursive_mutex* inflation_access_;
+  
+  double inflation_radius_, inscribed_radius_, weight_;
+  bool inflate_unknown_;
+  unsigned int cell_inflation_radius_;
+  unsigned int cached_cell_inflation_radius_;
+  std::map<double, std::vector<CellData> > inflation_cells_;
+
+  double resolution_;
+
+  bool* seen_;
+  int seen_size_;
+
+  unsigned char** cached_costs_;
+  unsigned char** cached_costs_human_;
+  double** cached_distances_;
+  double last_min_x_, last_min_y_, last_max_x_, last_max_y_;
+
+  bool need_reinflation_;  ///< Indicates that the entire costmap should be reinflated next time around.
+  /// end for inflation
 };
 
 }  // namespace costmap_2d

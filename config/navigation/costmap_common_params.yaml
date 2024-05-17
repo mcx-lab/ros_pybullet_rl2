@@ -31,12 +31,12 @@ plugins:
 
 undefined_obstacle_layer:
    observation_sources: scan
-   scan: {sensor_frame: base_link, topic: /tracking/masked_targets_scan, data_type: LaserScan, clearing: true, marking: true, obstacle_range: 5, raytrace_range: 5}
+   scan: {sensor_frame: base_link, topic: tracking/masked_targets_scan, data_type: LaserScan, clearing: true, marking: true, obstacle_range: 5, raytrace_range: 5}
    cost: 254 # cost value between 0~254: 0-FREE_SPACE, 254-LETHAL_OBSTACLE
 
 human_obstacle_layer:
    observation_sources: scan #/tracking/targets_scan
-   scan: {sensor_frame: base_link, topic: /scan, data_type: LaserScan, clearing: true, marking: true, obstacle_range: 5, raytrace_range: 5}
+   scan: {sensor_frame: base_link, topic: scan, data_type: LaserScan, clearing: true, marking: true, obstacle_range: 5, raytrace_range: 5}
    cost: 254 # cost value between 0~254: 0-FREE_SPACE, 254-LETHAL_OBSTACLE
 
 semantic_inflation_layer:

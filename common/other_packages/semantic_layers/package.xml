@@ -50,13 +50,22 @@
   <build_depend>costmap_2d</build_depend>
   <build_depend>dynamic_reconfigure</build_depend>
   <build_depend>roscpp</build_depend>
+  <build_depend>message_generation</build_depend>
+  <depend>people_msgs</depend>
+  <depend>angles</depend>
+  <depend>geometry_msgs</depend>
+  <depend>pluginlib</depend>
+  <depend>std_msgs</depend>
   <build_export_depend>costmap_2d</build_export_depend>
   <build_export_depend>dynamic_reconfigure</build_export_depend>
   <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>message_runtime</build_export_depend>
+  <exec_depend>message_runtime</exec_depend>
   <exec_depend>costmap_2d</exec_depend>
   <exec_depend>dynamic_reconfigure</exec_depend>
   <exec_depend>roscpp</exec_depend>
 
+  <depend>tf2_ros</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -6,5 +6,11 @@
     <class type="costmap_2d::SemanticInflationLayer" base_class_type="costmap_2d::Layer">
       <description>Segment out different objects and do corresponding inflation around</description>
     </class>
+    <class type="costmap_2d::SemanticLayer" base_class_type="costmap_2d::Layer">
+      <description>Segment out different objects</description>
+    </class>
+    <class type="semantic_layers::SemanticProxemicLayer" base_class_type="costmap_2d::Layer">
+    <description>Uses people information to change the costmap</description>
+    </class>
   </library>
 </class_libraries>

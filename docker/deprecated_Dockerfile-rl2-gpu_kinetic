@@ -81,13 +81,22 @@ RUN apt-get -y -f install
 # Copy bashrc
 COPY docker/config/bashrc /root/.bashrc
 
+# install python3.7
+RUN /bin/bash -c 'mkdir /root/AltPythonVersions && cd /root/AltPythonVersions && \
+                wget https://www.python.org/ftp/python/3.7.16/Python-3.7.16.tgz && \
+                tar xzf Python-3.7.16.tgz && \
+                rm Python-3.7.16.tgz && \
+                cd Python-3.7.16 && \
+                sudo ./configure --enable-optimizations && \
+                sudo make altinstall'
+
 #Install virtualenv and create venv
 RUN /bin/bash -c 'mkdir /root/venv && cd /root/venv && \
-                virtualenv --python=python3 py3 && \
-                source /root/venv/py3/bin/activate'
+                virtualenv --python=python3 py3.7 && \
+                source /root/venv/py3.7/bin/activate'
 
 # Set path to virtualenv
-ENV PATH /root/venv/py3:$PATH
+ENV PATH /root/venv/py3.7:$PATH
 
 # Install pybullet-gym
 RUN cd /root && git clone https://github.com/benelot/pybullet-gym.git
@@ -98,7 +107,7 @@ RUN /bin/bash -c 'cp -r /root/rl_ws/src/ros_pybullet_rl2/common/other_packages/*
     cp -r /root/rl_ws/src/ros_pybullet_rl2/common/additions_into_pybullet-gym/* /root/pybullet-gym/pybulletgym/envs/'
 
 # make workspace & install dependencies
-RUN /bin/bash -c 'echo -e "source /root/venv/py3/bin/activate" >> /root/.bashrc && source /root/.bashrc'
+RUN /bin/bash -c 'echo -e "source /root/venv/py3.7/bin/activate" >> /root/.bashrc && source /root/.bashrc'
 
 # copy dependencies
 COPY docker/config/install_dependencies.sh /root/install.sh
@@ -112,6 +121,4 @@ EXPOSE 22
 # setup entrypoint
 COPY docker/config/ros_entrypoint_$ROS_DISTRO.sh /ros_entrypoint.sh 
 ENTRYPOINT ["/ros_entrypoint.sh"]
-CMD ["bash"]
-SHELL ["/bin/bash", "-c"]
 CMD /bin/bash -c "source ~/.bashrc"

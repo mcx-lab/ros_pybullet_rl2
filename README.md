@@ -29,6 +29,11 @@ This project is an upgrade of the original ros_pybullet_rl package at (https://g
 The main overarching training code starts [here](https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/src/ros_pybullet_rl2/ros_pybullet_rl2.py)
 
 
+## Docker
+
+This repository can be installed in its entirety and be ready for use in Docker container by following the instructions in this Docker [readme](https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/src/ros_pybullet_rl2/docker/README.md).
+
+
 ## Installation
 
 The following instructions have been tested under **Ubuntu 16.04** with **ROS Kinetic distribution** and **Ubuntu 18.04** with **ROS Melodic distribution**. 
@@ -55,7 +60,7 @@ Install the following dependencies in your setup/environment:
         sudo apt install ros-melodic-eband-local-planner
         sudo apt install ros-melodic-hector-slam
 
-Check that **ros-melodic-cv-bridge** is installed and **rospkg** installed in python3.6 environment.
+Check that **ros-melodic-cv-bridge** is installed and **rospkg** installed in python3.6 environment. ***TO VERIFY***
 
 To install Pybullet-Gym, clone repository into any desired location and install locally:
 

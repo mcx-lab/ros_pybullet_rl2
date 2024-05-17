@@ -1,0 +1,5 @@
+*~
+*.csv
+*.kdev4
+doxygen/
+.vscode/

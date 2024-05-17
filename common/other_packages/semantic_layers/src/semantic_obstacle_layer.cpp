@@ -39,6 +39,9 @@
 #include <pluginlib/class_list_macros.h>
 #include <semantic_layers/semantic_obstacle_layer.h>
 
+#include <sensor_msgs/point_cloud2_iterator.h>
+#include <tf2_ros/message_filter.h>
+
 PLUGINLIB_EXPORT_CLASS(costmap_2d::SemanticObstacleLayer, costmap_2d::Layer)
 
 using costmap_2d::NO_INFORMATION;
@@ -77,10 +80,6 @@ void SemanticObstacleLayer::onInitialize()
   ROS_INFO("    Subscribed to Topics: %s", topics_string.c_str());
 
   nh.param ("cost", cost_, int( LETHAL_OBSTACLE ));
-    
-  // get our tf prefix
-  ros::NodeHandle prefix_nh;
-  const std::string tf_prefix = tf::getPrefixParam(prefix_nh);
 
   // now we need to split the topics based on whitespace which we can use a stringstream for
   std::stringstream ss(topics_string);
@@ -105,11 +104,6 @@ void SemanticObstacleLayer::onInitialize()
     source_node.param("inf_is_valid", inf_is_valid, false);
     source_node.param("clearing", clearing, false);
     source_node.param("marking", marking, true);
-
-    if (!sensor_frame.empty())
-    {
-      sensor_frame = tf::resolve(tf_prefix, sensor_frame);
-    }
 
     if (!(data_type == "PointCloud2" || data_type == "PointCloud" || data_type == "LaserScan"))
     {
@@ -162,18 +156,17 @@ void SemanticObstacleLayer::onInitialize()
       boost::shared_ptr < message_filters::Subscriber<sensor_msgs::LaserScan>
           > sub(new message_filters::Subscriber<sensor_msgs::LaserScan>(g_nh, topic, 50));
 
-      boost::shared_ptr < tf::MessageFilter<sensor_msgs::LaserScan>
-          > filter(new tf::MessageFilter<sensor_msgs::LaserScan>(*sub, *tf_, global_frame_, 50));
+      boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::LaserScan> > filter(
+        new tf2_ros::MessageFilter<sensor_msgs::LaserScan>(*sub, *tf_, global_frame_, 50, g_nh));
 
       if (inf_is_valid)
       {
-        filter->registerCallback(
-            boost::bind(&SemanticObstacleLayer::laserScanValidInfCallback, this, _1, observation_buffers_.back()));
+        filter->registerCallback(boost::bind(&SemanticObstacleLayer::laserScanValidInfCallback, this, _1,
+                                            observation_buffers_.back()));
       }
       else
       {
-        filter->registerCallback(
-            boost::bind(&SemanticObstacleLayer::laserScanCallback, this, _1, observation_buffers_.back()));
+        filter->registerCallback(boost::bind(&SemanticObstacleLayer::laserScanCallback, this, _1, observation_buffers_.back()));
       }
 
       observation_subscribers_.push_back(sub);
@@ -191,9 +184,9 @@ void SemanticObstacleLayer::onInitialize()
        ROS_WARN("obstacle_layer: inf_is_valid option is not applicable to PointCloud observations.");
       }
 
-      boost::shared_ptr < tf::MessageFilter<sensor_msgs::PointCloud>
-          > filter(new tf::MessageFilter<sensor_msgs::PointCloud>(*sub, *tf_, global_frame_, 50));
-      filter->registerCallback(
+        boost::shared_ptr < tf2_ros::MessageFilter<sensor_msgs::PointCloud>
+        > filter(new tf2_ros::MessageFilter<sensor_msgs::PointCloud>(*sub, *tf_, global_frame_, 50, g_nh));
+        filter->registerCallback(
           boost::bind(&SemanticObstacleLayer::pointCloudCallback, this, _1, observation_buffers_.back()));
 
       observation_subscribers_.push_back(sub);
@@ -209,8 +202,8 @@ void SemanticObstacleLayer::onInitialize()
        ROS_WARN("obstacle_layer: inf_is_valid option is not applicable to PointCloud observations.");
       }
 
-      boost::shared_ptr < tf::MessageFilter<sensor_msgs::PointCloud2>
-          > filter(new tf::MessageFilter<sensor_msgs::PointCloud2>(*sub, *tf_, global_frame_, 50));
+      boost::shared_ptr < tf2_ros::MessageFilter<sensor_msgs::PointCloud2>
+      > filter(new tf2_ros::MessageFilter<sensor_msgs::PointCloud2>(*sub, *tf_, global_frame_, 50, g_nh));
       filter->registerCallback(
           boost::bind(&SemanticObstacleLayer::pointCloud2Callback, this, _1, observation_buffers_.back()));
 
@@ -372,13 +365,17 @@ void SemanticObstacleLayer::updateBounds(double robot_x, double robot_y, double 
   {
     const Observation& obs = *it;
 
-    const pcl::PointCloud<pcl::PointXYZ>& cloud = *(obs.cloud_);
+    const sensor_msgs::PointCloud2& cloud = *(obs.cloud_);
+
+    sensor_msgs::PointCloud2ConstIterator<float> iter_x(cloud, "x");
+    sensor_msgs::PointCloud2ConstIterator<float> iter_y(cloud, "y");
+    sensor_msgs::PointCloud2ConstIterator<float> iter_z(cloud, "z");
 
     double sq_obstacle_range = obs.obstacle_range_ * obs.obstacle_range_;
 
-    for (unsigned int i = 0; i < cloud.points.size(); ++i)
+    for (; iter_x !=iter_x.end(); ++iter_x, ++iter_y, ++iter_z)
     {
-      double px = cloud.points[i].x, py = cloud.points[i].y, pz = cloud.points[i].z;
+       double px = *iter_x, py = *iter_y, pz = *iter_z;
 
       // if the obstacle is too high or too far away from the robot we won't add it
       if (pz > max_obstacle_height_)
@@ -503,7 +500,7 @@ void SemanticObstacleLayer::raytraceFreespace(const Observation& clearing_observ
 {
   double ox = clearing_observation.origin_.x;
   double oy = clearing_observation.origin_.y;
-  pcl::PointCloud < pcl::PointXYZ > cloud = *(clearing_observation.cloud_);
+  const sensor_msgs::PointCloud2 &cloud = *(clearing_observation.cloud_);
 
   // get the map coordinates of the origin of the sensor
   unsigned int x0, y0;
@@ -524,10 +521,13 @@ void SemanticObstacleLayer::raytraceFreespace(const Observation& clearing_observ
   touch(ox, oy, min_x, min_y, max_x, max_y);
 
   // for each point in the cloud, we want to trace a line from the origin and clear obstacles along it
-  for (unsigned int i = 0; i < cloud.points.size(); ++i)
+  sensor_msgs::PointCloud2ConstIterator<float> iter_x(cloud, "x");
+  sensor_msgs::PointCloud2ConstIterator<float> iter_y(cloud, "y");
+
+  for (; iter_x != iter_x.end(); ++iter_x, ++iter_y)
   {
-    double wx = cloud.points[i].x;
-    double wy = cloud.points[i].y;
+    double wx = *iter_x;
+    double wy = *iter_y;
 
     // now we also need to make sure that the enpoint we're raytracing
     // to isn't off the costmap and scale if necessary

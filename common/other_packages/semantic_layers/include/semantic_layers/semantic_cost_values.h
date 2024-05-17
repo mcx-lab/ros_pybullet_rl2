@@ -39,7 +39,7 @@
 /** Provides a mapping for often used cost values */
 namespace costmap_2d
 {
-static const unsigned char HUMAN = 254; // 127; //250; //127;
+static const unsigned char HUMAN = 250; // 127; //250; //127;
 }
 #endif  // COSTMAP_2D_SEMANTIC_COST_VALUES_H_
 

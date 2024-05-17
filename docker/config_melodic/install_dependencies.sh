@@ -4,7 +4,7 @@
 
 set -e
 echo "Installing dependencies for $ROS_DISTRO"
-echo "Make sure u are in virtualenv"
+echo "Make sure you are in a virtualenv"
 
 # #  pip stuffs
 pip install --upgrade pip
@@ -13,9 +13,9 @@ pip install stable-baselines3[extra]
 pip install -r /root/rl_ws/src/ros_pybullet_rl2/requirements.txt
 
 #  rename ros cv2 
-cd /opt/ros/kinetic/lib/python2.7/dist-packages && \
-mv cv2.so cv2_renamed.so
-sudo cp /root/rl_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/kinetic/lib/python2.7/dist-packages/roslaunch/loader.py
+# cd /opt/ros/melodic/lib/python2.7/dist-packages && \
+# mv cv2.so cv2_renamed.so ### don't need as long as cv2.so not found
+sudo cp /root/rl_ws/src/ros_pybullet_rl2/common/other_packages/roslaunch/loader.py /opt/ros/melodic/lib/python2.7/dist-packages/roslaunch/loader.py
 
 # make workspace
 cd /root/rl_ws

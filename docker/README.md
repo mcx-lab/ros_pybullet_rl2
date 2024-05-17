@@ -4,11 +4,11 @@
 
 This custom image installs:
  
-- ROS Kinetic / Melodic
+- ROS Melodic (no longer supporting Kinetic)
 - all dependencies installed via apt-get
-- anaconda3 and creates python3.7 env (env name=py3.7)
-- sublime text (optional, line 44-48)
-- terminator (optional, line 51)
+- virtualenv and creates python3.7 env (env name=py3.7)
+- sublime text
+- terminator
 
 Build command for nvidia gpu:
 
@@ -34,7 +34,6 @@ Nvidia Gpu (supports both Melodic and Kinetic):
 
 	docker run -it --privileged --net=host --ipc=host \
          --name=pybullet_rl2 \
-         --rm
          --env="DISPLAY=$DISPLAY" \
          --env="QT_X11_NO_MITSHM=1" \
          --runtime=nvidia \
@@ -51,7 +50,7 @@ Integrated graphics (supports ROS Kinetic):
          rl_pybullet2:latest \
          terminator
 
-Note: if not using terminator, replace `terminator` with `bash`
+Note: if do not want to use terminator, replace `terminator` with `bash`
 
 ## Running container
 
@@ -63,16 +62,16 @@ Alternatively,
 ```
 xhost +si:localuser:$USER
 xhost +local:docker
-sudo docker start pybullet_rl2
+docker start pybullet_rl2
 ```
 
 ## Install pip dependencies
 
-Couldn't install these pip stuffs within the conda env and virtualenv in dockerfile. Have to do it after creating the container. I put all the stuffs in bash script in the container.
+Enter the container to install the remaining pip dependencies within the virtualenv.
 
 Run,
 
-    ./root/install.sh
+    . /root/install.sh
     
 ## Remove container
 

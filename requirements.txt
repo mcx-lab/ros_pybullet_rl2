@@ -31,6 +31,10 @@ google-auth==1.35.0
 google-auth-oauthlib==0.4.5
 greenlet==1.1.1
 grpcio==1.39.0
+setuptools==65.5.0
+pip==21
+wheel==0.38.0
+opencv-python==4.5.3.56
 gym==0.19.0
 gym-minigrid==1.0.2
 idna==3.2
@@ -58,7 +62,6 @@ ninja==1.10.2
 numba==0.54.0
 numpy==1.20.3
 oauthlib==3.1.1
-opencv-python==4.5.3.56
 optuna==2.9.1
 packaging==21.0
 panda-gym==1.1.0
