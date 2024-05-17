@@ -7,7 +7,7 @@ from threading import Thread
 from typing import Optional
 
 import optuna
-from sb3_contrib import TQC
+# from sb3_contrib import TQC
 from stable_baselines3 import SAC
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback
 from stable_baselines3.common.vec_env import VecEnv
@@ -130,7 +130,8 @@ class ParallelTrainCallback(BaseCallback):
         self.model.save(temp_file)
 
         # TODO: add support for other algorithms
-        for model_class in [SAC, TQC]:
+        # for model_class in [SAC, TQC]:
+        for model_class in [SAC]:
             if isinstance(self.model, model_class):
                 self.model_class = model_class
                 break

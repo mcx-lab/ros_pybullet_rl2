@@ -33,6 +33,8 @@ The main overarching training code starts [here](https://github.com/mcx-lab/ros_
 
 This repository can be installed in its entirety and be ready for use in Docker container by following the instructions in this Docker [readme](https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/src/ros_pybullet_rl2/docker/README.md).
 
+* if encounter issue with incompatible CUDA with GPU, see far section below.
+
 
 ## Installation
 
@@ -246,4 +248,25 @@ The Pybullet simulation environment is created based on the createMultiBody func
 Navigate to env_pybullet_params.yaml, imitating the format used to construct the existing standard environments, existing environments may be edited and new environments may be created. 
 
 
+## Incompatible Pytorch version with device GPU CUDA error
+
+<img src="https://github.com/mcx-lab/ros_pybullet_rl2/blob/master/common/error_incompatible_cuda_device.png" alt="show" />
+
+According to your computer GPU device, do the following steps (or refer to this [website](https://discuss.pytorch.org/t/nvidia-geforce-rtx-3090-with-cuda-capability-sm-86-is-not-compatible-with-the-current-pytorch-installation/141940/7}), but according to your own device GPU (this example uses NVIDIA GeForce RTX 3070 GPU):
+
+- On a python terminal, it originally showed:
+```
+        torch.cuda.get_arch_list()
+        [‘sm_37’, ‘sm_50’, ‘sm_60’, ‘sm_70’]
+        torch.version.cuda
+        ‘10.2’
+
+```
+But sm_86 is required for RTX3070, therefore, will require a version of Pytorch with i.e. cuda 11.4 wheel, doing the following installation should solve the issue: 
+
+```
+        pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu114
+```
+
+### Enjoy!
 
