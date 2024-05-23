@@ -254,18 +254,24 @@ Navigate to env_pybullet_params.yaml, imitating the format used to construct the
 
 According to your computer GPU device, do the following steps (or refer to this [website](https://discuss.pytorch.org/t/nvidia-geforce-rtx-3090-with-cuda-capability-sm-86-is-not-compatible-with-the-current-pytorch-installation/141940/7}), but according to your own device GPU (this example uses NVIDIA GeForce RTX 3070 GPU):
 
-- On a python terminal, it originally showed:
+On a python terminal, it originally showed:
 ```
-        torch.cuda.get_arch_list()
-        [‘sm_37’, ‘sm_50’, ‘sm_60’, ‘sm_70’]
-        torch.version.cuda
-        ‘10.2’
-
+torch.cuda.get_arch_list()
+[‘sm_37’, ‘sm_50’, ‘sm_60’, ‘sm_70’]
+torch.version.cuda
+‘10.2’
 ```
 But sm_86 is required for RTX3070, therefore, will require a version of Pytorch with i.e. cuda 11.4 wheel, doing the following installation should solve the issue: 
 
 ```
-        pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu114
+pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu114
+```
+Now, the python terminal, would show:
+```
+torch.cuda.get_arch_list()
+['sm_37', 'sm_50', 'sm_60', 'sm_70', 'sm_75', 'sm_80', 'sm_86']
+torch.version.cuda
+'11.7'
 ```
 
 ### Enjoy!
