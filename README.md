@@ -1,4 +1,4 @@
-# ros_pybullet_rl
+# ros_pybullet_rl2
 
 An integration between [ROS](www.ros.org) and [PyBullet](https://github.com/bulletphysics/bullet3) and [OpenAI Gym Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) for doing reinforcement learning on a ROS robot in a Pybullet simulation. 
 
